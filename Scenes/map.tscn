@@ -1,3 +1,12 @@
-[gd_scene format=3 uid="uid://db8yeocanp3on"]
+[gd_scene load_steps=3 format=3 uid="uid://db8yeocanp3on"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_58wgy"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ci6au"]
+material = SubResource("StandardMaterial3D_58wgy")
+size = Vector2(100, 100)
 
 [node name="Map" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_ci6au")
