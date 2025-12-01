@@ -14,3 +14,7 @@ config/name="Spy Clans"
 run/main_scene="uid://cmbgcmiyo06wo"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
+
+[filesystem]
+
+import/blender/enabled=false
