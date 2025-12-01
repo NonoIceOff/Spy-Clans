@@ -1,12 +1,50 @@
-[gd_scene load_steps=3 format=3 uid="uid://db8yeocanp3on"]
+[gd_scene load_steps=11 format=3 uid="uid://db8yeocanp3on"]
+
+[ext_resource type="Texture2D" uid="uid://b77ysohny20b5" path="res://Textures/Ground003_1K-PNG/Ground003_1K-PNG_Color.png" id="1_26yhd"]
+[ext_resource type="Texture2D" uid="uid://dse122hm6e3f7" path="res://Textures/Ground003_1K-PNG/Ground003_1K-PNG_Displacement.png" id="2_myvm1"]
+[ext_resource type="Texture2D" uid="uid://cp67017toyyf3" path="res://Textures/Ground003_1K-PNG/Ground003_1K-PNG_NormalDX.png" id="2_p3ir5"]
+[ext_resource type="Texture2D" uid="uid://b1yy0qlu8wpgd" path="res://Textures/Ground003_1K-PNG/Ground003_1K-PNG_Roughness.png" id="4_q0mm3"]
+[ext_resource type="Texture2D" uid="uid://dsc068o5fdawe" path="res://Textures/citrus_orchard_road_puresky.jpg" id="5_q0mm3"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_58wgy"]
+albedo_texture = ExtResource("1_26yhd")
+roughness_texture = ExtResource("4_q0mm3")
+roughness_texture_channel = 4
+normal_enabled = true
+normal_texture = ExtResource("2_p3ir5")
+bent_normal_enabled = true
+heightmap_enabled = true
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("2_myvm1")
+uv1_scale = Vector3(10, 10, 10)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_ci6au"]
 material = SubResource("StandardMaterial3D_58wgy")
 size = Vector2(100, 100)
 
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_np2xp"]
+panorama = ExtResource("5_q0mm3")
+
+[sub_resource type="Sky" id="Sky_w7jjh"]
+sky_material = SubResource("PanoramaSkyMaterial_np2xp")
+
+[sub_resource type="Environment" id="Environment_6q3n4"]
+background_mode = 2
+background_energy_multiplier = 2.5
+sky = SubResource("Sky_w7jjh")
+
 [node name="Map" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_ci6au")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3786411, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.72318417, 0.69065523, 0, -0.69065523, 0.72318417, 0, 11.044427, 0)
+visible = false
+light_energy = 0.547
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6q3n4")
