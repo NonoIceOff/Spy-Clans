@@ -1,10 +1,24 @@
-[gd_scene load_steps=11 format=3 uid="uid://db8yeocanp3on"]
+[gd_scene load_steps=26 format=3 uid="uid://db8yeocanp3on"]
 
 [ext_resource type="Texture2D" uid="uid://b77ysohny20b5" path="res://Textures/Ground003_1K-PNG/Ground003_1K-PNG_Color.png" id="1_26yhd"]
+[ext_resource type="Script" uid="uid://d1ak3yy7w4840" path="res://Scripts/map.gd" id="1_fls3e"]
 [ext_resource type="Texture2D" uid="uid://dse122hm6e3f7" path="res://Textures/Ground003_1K-PNG/Ground003_1K-PNG_Displacement.png" id="2_myvm1"]
 [ext_resource type="Texture2D" uid="uid://cp67017toyyf3" path="res://Textures/Ground003_1K-PNG/Ground003_1K-PNG_NormalDX.png" id="2_p3ir5"]
 [ext_resource type="Texture2D" uid="uid://b1yy0qlu8wpgd" path="res://Textures/Ground003_1K-PNG/Ground003_1K-PNG_Roughness.png" id="4_q0mm3"]
 [ext_resource type="Texture2D" uid="uid://dsc068o5fdawe" path="res://Textures/citrus_orchard_road_puresky.jpg" id="5_q0mm3"]
+[ext_resource type="Script" uid="uid://im0tw4bqk24k" path="res://Scripts/player.gd" id="6_w7jjh"]
+[ext_resource type="Script" uid="uid://coejkohtlug7o" path="res://Scripts/character_body_3d.gd" id="7_w7jjh"]
+[ext_resource type="Texture2D" uid="uid://cpl8cs8mo1iea" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Color.jpg" id="8_q6lx1"]
+[ext_resource type="Texture2D" uid="uid://boose573pkfvl" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Metalness.jpg" id="9_5qtum"]
+[ext_resource type="Texture2D" uid="uid://bgmwmkvpvdro6" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_NormalGL.jpg" id="9_ie368"]
+[ext_resource type="Texture2D" uid="uid://dwa2oimbfr3h5" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_NormalDX.jpg" id="10_ie368"]
+[ext_resource type="Texture2D" uid="uid://bissj563bfkcp" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Displacement.jpg" id="11_x5dfk"]
+[ext_resource type="Texture2D" uid="uid://d33ot8rhh7dss" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Roughness.jpg" id="12_fls3e"]
+[ext_resource type="PackedScene" uid="uid://vw60otvfw2xt" path="res://Scenes/pnj.tscn" id="14_ie368"]
+[ext_resource type="Script" uid="uid://b1e5oskre1y64" path="res://Scripts/ui.gd" id="15_x5dfk"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w7jjh"]
+size = Vector3(100, 0.1, 100)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_58wgy"]
 albedo_texture = ExtResource("1_26yhd")
@@ -32,19 +46,91 @@ sky_material = SubResource("PanoramaSkyMaterial_np2xp")
 background_mode = 2
 background_energy_multiplier = 2.5
 sky = SubResource("Sky_w7jjh")
+ambient_light_source = 1
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4c2oa"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k63oc"]
+albedo_texture = ExtResource("8_q6lx1")
+metallic = 1.0
+metallic_specular = 1.0
+metallic_texture = ExtResource("9_5qtum")
+metallic_texture_channel = 4
+roughness_texture = ExtResource("12_fls3e")
+normal_enabled = true
+normal_texture = ExtResource("10_ie368")
+bent_normal_enabled = true
+bent_normal_texture = ExtResource("9_ie368")
+heightmap_enabled = true
+heightmap_texture = ExtResource("11_x5dfk")
+refraction_texture = ExtResource("11_x5dfk")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_olcgw"]
+material = SubResource("StandardMaterial3D_k63oc")
 
 [node name="Map" type="Node3D"]
+script = ExtResource("1_fls3e")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.8999023)
+shape = SubResource("BoxShape3D_w7jjh")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
 mesh = SubResource("PlaneMesh_ci6au")
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3786411, 0)
+skeleton = NodePath("../..")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.72318417, 0.69065523, 0, -0.69065523, 0.72318417, 0, 11.044427, 0)
-visible = false
-light_energy = 0.547
+transform = Transform3D(1, 0, 0, 0, -0.8148649, 0.57965094, 0, -0.57965094, -0.8148649, 0, 11.044427, 0)
+light_energy = 2.509
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_6q3n4")
+
+[node name="Player" type="Node3D" parent="."]
+script = ExtResource("6_w7jjh")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3703325, 0)
+script = ExtResource("7_w7jjh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_4c2oa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/CharacterBody3D"]
+mesh = SubResource("CapsuleMesh_olcgw")
+
+[node name="Pivot" type="Node3D" parent="Player/CharacterBody3D"]
+
+[node name="Camera3D" type="Camera3D" parent="Player/CharacterBody3D/Pivot"]
+
+[node name="PNJ" parent="." instance=ExtResource("14_ie368")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.1238375, 0, 0)
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("15_x5dfk")
+
+[node name="CurrentWeek" type="Label" parent="UI"]
+texture_filter = 1
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 96.0
+offset_bottom = 39.0
+text = "Semaine 1"
+
+[node name="Lives" type="Label" parent="UI"]
+texture_filter = 1
+offset_left = 16.0
+offset_top = 39.0
+offset_right = 96.0
+offset_bottom = 62.0
+text = "2 vies"
+
+[node name="TimeLeft" type="Label" parent="UI"]
+texture_filter = 1
+offset_left = 16.0
+offset_top = 62.0
+offset_right = 96.0
+offset_bottom = 85.0
+text = "10:00 restantes"
