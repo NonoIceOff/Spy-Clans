@@ -1,11 +1,12 @@
 extends Node
 
 @onready var http := HTTPRequest.new()
-
+var current 
 func _ready():
 	add_child(http)
 	http.request_completed.connect(_on_request_completed)
-	
+	current = Variable.write_game_state(2)
+
 
 func generate_round():
 	
@@ -17,7 +18,7 @@ func generate_round():
 	var headers = [
         "Content-Type: application/json"
 	]
-	print("test")
+	print(current)
 
 	var body := {
 	"generationConfig": {
@@ -29,7 +30,7 @@ func generate_round():
 		{
 			"role": "user",
 			"parts": [
-					{"text": Generate }
+				{ "text": Generate + "\n\nGAME_STATE_JSON:\n" + str(current)}
 		]}
 	]
 }
@@ -44,9 +45,11 @@ func _on_request_completed(result, response_code, headers, body):
 	if response_code == 200:
 		var data = JSON.parse_string(body.get_string_from_utf8())
 		var text = data["candidates"][0]["content"]["parts"][0]["text"]
-		print("Réponse Gemini :", text)
+		print(text)
 	else:
 		print("Erreur :", body.get_string_from_utf8())
+
+
 
 
 
