@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Global="*res://Scripts/Global.gd"
 Variable="*res://Scripts/Variable.gd"
+Prompt="*res://Scripts/Prompt.gd"
 
 [filesystem]
 
