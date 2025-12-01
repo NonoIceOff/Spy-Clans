@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://db8yeocanp3on"]
+[gd_scene load_steps=12 format=3 uid="uid://db8yeocanp3on"]
 
 [ext_resource type="Texture2D" uid="uid://b77ysohny20b5" path="res://Textures/Ground003_1K-PNG/Ground003_1K-PNG_Color.png" id="1_26yhd"]
 [ext_resource type="Texture2D" uid="uid://dse122hm6e3f7" path="res://Textures/Ground003_1K-PNG/Ground003_1K-PNG_Displacement.png" id="2_myvm1"]
 [ext_resource type="Texture2D" uid="uid://cp67017toyyf3" path="res://Textures/Ground003_1K-PNG/Ground003_1K-PNG_NormalDX.png" id="2_p3ir5"]
 [ext_resource type="Texture2D" uid="uid://b1yy0qlu8wpgd" path="res://Textures/Ground003_1K-PNG/Ground003_1K-PNG_Roughness.png" id="4_q0mm3"]
 [ext_resource type="Texture2D" uid="uid://dsc068o5fdawe" path="res://Textures/citrus_orchard_road_puresky.jpg" id="5_q0mm3"]
+[ext_resource type="PackedScene" uid="uid://p8ypaoumr3nn" path="res://Textures/tree/dead_tree_trunk_4k.fbx" id="6_np2xp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_58wgy"]
 albedo_texture = ExtResource("1_26yhd")
@@ -48,3 +49,18 @@ light_energy = 0.547
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_6q3n4")
+
+[node name="dead_tree_trunk_4k" parent="." instance=ExtResource("6_np2xp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46461403, 0, 0.053523064)
+
+[node name="dead_tree_trunk_4k2" parent="." instance=ExtResource("6_np2xp")]
+transform = Transform3D(0.81823003, 0, -0.574891, 0, 1, 0, 0.574891, 0, 0.81823003, -0.30844736, 0, 0.1684761)
+
+[node name="dead_tree_trunk_4k3" parent="." instance=ExtResource("6_np2xp")]
+transform = Transform3D(0.7581799, 0, 0.6520454, 0, 1, 0, -0.6520454, 0, 0.7581799, -0.30821943, -4.7683716e-07, 0.37161875)
+
+[node name="dead_tree_trunk_4k4" parent="." instance=ExtResource("6_np2xp")]
+transform = Transform3D(0.34397113, 0, -0.9389802, 0, 1, 0, 0.9389802, 0, 0.34397113, -0.07659459, 0, 0.16326046)
+
+[node name="dead_tree_trunk_4k5" parent="." instance=ExtResource("6_np2xp")]
+transform = Transform3D(0.16320537, 0, 0.9865921, 0, 1, 0, -0.9865921, 0, 0.16320537, -0.20513439, 0, 0.15642357)
