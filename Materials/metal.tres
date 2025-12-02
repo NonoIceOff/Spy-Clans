@@ -1,0 +1,23 @@
+[gd_resource type="StandardMaterial3D" load_steps=7 format=3 uid="uid://dinetn16vi11c"]
+
+[ext_resource type="Texture2D" uid="uid://cpl8cs8mo1iea" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Color.jpg" id="1_env23"]
+[ext_resource type="Texture2D" uid="uid://bgmwmkvpvdro6" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_NormalGL.jpg" id="2_gg3jk"]
+[ext_resource type="Texture2D" uid="uid://bissj563bfkcp" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Displacement.jpg" id="3_27don"]
+[ext_resource type="Texture2D" uid="uid://boose573pkfvl" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Metalness.jpg" id="4_6wogm"]
+[ext_resource type="Texture2D" uid="uid://dwa2oimbfr3h5" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_NormalDX.jpg" id="5_sqqeg"]
+[ext_resource type="Texture2D" uid="uid://d33ot8rhh7dss" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Roughness.jpg" id="6_nfo7w"]
+
+[resource]
+albedo_texture = ExtResource("1_env23")
+metallic = 1.0
+metallic_specular = 1.0
+metallic_texture = ExtResource("4_6wogm")
+metallic_texture_channel = 4
+roughness_texture = ExtResource("6_nfo7w")
+normal_enabled = true
+normal_texture = ExtResource("5_sqqeg")
+bent_normal_enabled = true
+bent_normal_texture = ExtResource("2_gg3jk")
+heightmap_enabled = true
+heightmap_texture = ExtResource("3_27don")
+refraction_texture = ExtResource("3_27don")

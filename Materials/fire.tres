@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" load_steps=7 format=3 uid="uid://cm4x65mbd8cja"]
+
+[ext_resource type="Texture2D" uid="uid://d4d13s2tfn3hg" path="res://Textures/Lava004_1K-JPG/Lava004_1K-JPG_Color.jpg" id="1_2ktbt"]
+[ext_resource type="Texture2D" uid="uid://bxlfbpxy717yb" path="res://Textures/Lava004_1K-JPG/Lava004_1K-JPG_NormalGL.jpg" id="2_eylpi"]
+[ext_resource type="Texture2D" uid="uid://blpu5bvan1tml" path="res://Textures/Lava004_1K-JPG/Lava004_1K-JPG_Emission.jpg" id="3_3dp7d"]
+[ext_resource type="Texture2D" uid="uid://boo151i2v1dqe" path="res://Textures/Lava004_1K-JPG/Lava004_1K-JPG_Displacement.jpg" id="4_7ojyt"]
+[ext_resource type="Texture2D" uid="uid://dgiynemjq4wga" path="res://Textures/Lava004_1K-JPG/Lava004_1K-JPG_NormalDX.jpg" id="5_sikim"]
+[ext_resource type="Texture2D" uid="uid://dp0pgwd8u8c0m" path="res://Textures/Lava004_1K-JPG/Lava004_1K-JPG_Roughness.jpg" id="6_oy3du"]
+
+[resource]
+albedo_texture = ExtResource("1_2ktbt")
+roughness_texture = ExtResource("6_oy3du")
+emission_enabled = true
+emission_texture = ExtResource("3_3dp7d")
+normal_enabled = true
+normal_texture = ExtResource("5_sikim")
+bent_normal_enabled = true
+bent_normal_texture = ExtResource("2_eylpi")
+heightmap_enabled = true
+heightmap_texture = ExtResource("4_7ojyt")
