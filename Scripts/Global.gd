@@ -6,6 +6,7 @@ var current
 var last_round_json = {}
 var person_index_by_name: Dictionary = {}
 var request_mode: String = "round"   # "round" ou "interrogatoire"
+var game_alive = false
 
 signal round_generated
 
