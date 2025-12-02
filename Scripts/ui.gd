@@ -26,6 +26,7 @@ func show_history_day() -> void:
 	# on affiche les infos
 	var history_day := get_node("StartHistoryDay")
 	var history_day_back := get_node("HistoryDayBack")
+	var history_day_skip_button := get_node("HistorySkipButton")
 	var full_text := "Jour %d\n%s" % [day_index, history]
 
 	# cinématique de début de journée
@@ -35,25 +36,33 @@ func show_history_day() -> void:
 	
 	history_day.visible = true
 	history_day_back.visible = true
+	history_day_skip_button.visible = true
+	history_day_back.modulate.a = 1.0
 	history_day.modulate.a = 1.0
+	history_day_skip_button.modulate.a = 0.0
 	history_day.text = ""
 	
-	# Calculer durée totale basée sur la longueur du texte
 	var total_duration := 30.0
 	var typing_duration := full_text.length() * typing_speed
 	var fade_duration := 1.0
 	var wait_before_fade := 2.0
 	
-	# Ajuster la durée totale si le texte est trop long
+	# on gère le temps minimum pour que tout rentre
 	var min_camera_time := typing_duration + wait_before_fade + fade_duration
 	if min_camera_time > total_duration:
 		total_duration = min_camera_time
 	
-	# Animation caméra
+	# la caméra va en haut
 	var tween = get_tree().create_tween()
 	tween.tween_property(cinematic_camera, "position:y", 10.0, total_duration)
 	
-	# Effet machine à écrire
+	
+	# on affiche le bouton après un moment
+	var tweenbut = get_tree().create_tween()
+	tweenbut.tween_property(history_day_skip_button, "modulate:a", 0, 1)
+	tweenbut.tween_property(history_day_skip_button, "modulate:a", 1, 2)
+	
+	# on affiche les lettres une par une
 	is_typing = true
 	for i in range(full_text.length()):
 		if not is_typing:
@@ -63,14 +72,17 @@ func show_history_day() -> void:
 	is_typing = false
 	history_day.text = full_text
 	
-	# Attendre un peu puis fondu
+	# on attend un peu puis fondu
 	await get_tree().create_timer(wait_before_fade).timeout
 	var tween2 = get_tree().create_tween()
 	tween2.tween_property(history_day, "modulate:a", 0.0, fade_duration)
 	tween2.tween_property(history_day_back, "modulate:a", 0.0, fade_duration)
+	tween2.tween_property(history_day_skip_button, "modulate:a", 0.0, fade_duration)
 	
 	await tween.finished
 	history_day.visible = false
+	history_day_back.visible = false
+	history_day_skip_button.visible = false
 	cinematic_camera.current = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
@@ -121,3 +133,17 @@ func _update_time_display() -> void:
 
 func _on_replay_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/menu.tscn")
+
+
+func _on_history_skip_button_pressed() -> void:
+	var history_day := get_node("StartHistoryDay")
+	var history_day_back := get_node("HistoryDayBack")
+	var history_day_skip_button := get_node("HistorySkipButton")
+	
+	var cinematic_camera := get_node("../CinematicCamera")
+
+	history_day.visible = false
+	history_day_back.visible = false
+	history_day_skip_button.visible = false
+	cinematic_camera.current = false
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
