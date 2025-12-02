@@ -1,0 +1,41 @@
+[gd_scene load_steps=11 format=3 uid="uid://vw60otvfw2xt"]
+
+[ext_resource type="Script" uid="uid://im0tw4bqk24k" path="res://Scripts/player.gd" id="1_0pnw5"]
+[ext_resource type="Texture2D" uid="uid://cpl8cs8mo1iea" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Color.jpg" id="2_gidp2"]
+[ext_resource type="Texture2D" uid="uid://bgmwmkvpvdro6" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_NormalGL.jpg" id="3_gmu5b"]
+[ext_resource type="Texture2D" uid="uid://bissj563bfkcp" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Displacement.jpg" id="4_haco6"]
+[ext_resource type="Texture2D" uid="uid://boose573pkfvl" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Metalness.jpg" id="5_18w6c"]
+[ext_resource type="Texture2D" uid="uid://dwa2oimbfr3h5" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_NormalDX.jpg" id="6_d6rf6"]
+[ext_resource type="Texture2D" uid="uid://d33ot8rhh7dss" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Roughness.jpg" id="7_aft3c"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4c2oa"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k63oc"]
+albedo_texture = ExtResource("2_gidp2")
+metallic = 1.0
+metallic_specular = 1.0
+metallic_texture = ExtResource("5_18w6c")
+metallic_texture_channel = 4
+roughness_texture = ExtResource("7_aft3c")
+normal_enabled = true
+normal_texture = ExtResource("6_d6rf6")
+bent_normal_enabled = true
+bent_normal_texture = ExtResource("3_gmu5b")
+heightmap_enabled = true
+heightmap_texture = ExtResource("4_haco6")
+refraction_texture = ExtResource("4_haco6")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_olcgw"]
+material = SubResource("StandardMaterial3D_k63oc")
+
+[node name="PNJ" type="Node3D"]
+script = ExtResource("1_0pnw5")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3703325, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_4c2oa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+mesh = SubResource("CapsuleMesh_olcgw")
