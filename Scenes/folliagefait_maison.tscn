@@ -1,0 +1,126 @@
+[gd_scene load_steps=9 format=4 uid="uid://cqa0kw438250m"]
+
+[ext_resource type="PackedScene" uid="uid://2lpflsckqmlu" path="res://Textures/fir_sapling_medium_1k/FolliagefaitMaison.glb" id="1_xwbyi"]
+[ext_resource type="Texture2D" uid="uid://r7frg1ylbfqu" path="res://Textures/fir_sapling_medium_1k/FolliagefaitMaison_folliage.png" id="2_j526k"]
+
+[sub_resource type="Shader" id="Shader_d6qwl"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.5.1.stable's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_disabled, diffuse_burley, specular_schlick_ggx, depth_prepass_alpha;
+
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color, filter_linear_mipmap, repeat_enable;
+uniform ivec2 albedo_texture_size;
+uniform float point_size : hint_range(0.1, 128.0, 0.1);
+
+uniform float roughness : hint_range(0.0, 1.0);
+uniform sampler2D texture_metallic : hint_default_white, filter_linear_mipmap, repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r, filter_linear_mipmap, repeat_enable;
+
+uniform float specular : hint_range(0.0, 1.0, 0.01);
+uniform float metallic : hint_range(0.0, 1.0, 0.01);
+
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+group_uniforms wind;
+uniform sampler2D noise_tex;
+uniform float wind_speed = .1;
+uniform float wind_strength = .01;
+
+void vertex() {
+	UV = UV * uv1_scale.xy + uv1_offset.xy;
+
+	vec3 GLOBAL_VERTEX = (MODEL_MATRIX * vec4(VERTEX, 1.)).xyz;
+
+	float offset = TIME * wind_speed;
+	float noise = texture(noise_tex, vec2(GLOBAL_VERTEX.x-offset)).r;
+	noise -= .5;
+	noise *= wind_strength;
+	VERTEX.xy += noise * length(VERTEX.y) * length(VERTEX.xz);
+}
+
+void fragment() {
+	vec2 base_uv = UV;
+
+	vec4 albedo_tex = texture(texture_albedo, base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+
+	float metallic_tex = dot(texture(texture_metallic, base_uv), metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	SPECULAR = specular;
+
+	vec4 roughness_texture_channel = vec4(1.0, 0.0, 0.0, 0.0);
+	float roughness_tex = dot(texture(texture_roughness, base_uv), roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+	ALPHA *= albedo.a * albedo_tex.a;
+}
+"
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_52vis"]
+frequency = 0.0087
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xxruo"]
+noise = SubResource("FastNoiseLite_52vis")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wcol0"]
+resource_name = "Folliage"
+render_priority = 0
+shader = SubResource("Shader_d6qwl")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/texture_albedo = ExtResource("2_j526k")
+shader_parameter/albedo_texture_size = Vector2i(32, 32)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 0.5
+shader_parameter/metallic_texture_channel = Vector4(1, 0, 0, 0)
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
+shader_parameter/noise_tex = SubResource("NoiseTexture2D_xxruo")
+shader_parameter/wind_speed = 0.425
+shader_parameter/wind_strength = 0.03
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_n50gk"]
+_surfaces = [{
+"aabb": AABB(-1, -0.9870799, -1, 2, 1.9741594, 2),
+"format": 34896613377,
+"index_count": 24,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0A"),
+"name": "Folliage",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("AAD/f///AAD///9/AAAAAP///3///wAAAAD/fwAAAADS3/jV//8AACwgBioAAAAALCAGKv//AADS3/jVAAAAAIGU///+/wAAfWsAAAAAAAB9awAA//8AAIGU/v8AAAAADSv/4P7/AADx1P8eAAAAAPHU/x7//wAADSv/4AAAAAA=")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_3585k"]
+resource_name = "FolliagefaitMaison_Plan_003"
+_surfaces = [{
+"aabb": AABB(-1, -0.9870799, -1, 2, 1.9741594, 2),
+"attribute_data": PackedByteArray("AAD/////AAD/////AAAAAAAA/////wAA/////wAAAAAAAP////8AAP////8AAAAAAAD/////AAD/////AAAAAA=="),
+"format": 34896613399,
+"index_count": 24,
+"index_data": PackedByteArray("AAABAAIAAAADAAEABAAFAAYABAAHAAUACAAJAAoACAALAAkADAANAA4ADAAPAA0A"),
+"material": SubResource("ShaderMaterial_wcol0"),
+"name": "Folliage",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray("AAD/f////7////9/AAD/v////3////+/AAD/fwAA/7/S3/jV//9Z6ywgBioAAFnrLCAGKv//WevS3/jVAABZ64GU///+/zXZfWsAAAAANdl9awAA//812YGU/v8AADXZDSv/4P7/4cbx1P8eAADhxvHU/x7//+HGDSv/4AAA4cb///9/////f////3////9/ZZQySmWUMkpllDJKZZQySjKmGVMyphlTMqYZUzKmGVNkw7JhZMOyYWTDsmFkw7Jh")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_n50gk")
+
+[node name="FolliagefaitMaison" instance=ExtResource("1_xwbyi")]
+
+[node name="Plan_003" parent="." index="0"]
+transform = Transform3D(-0.5318902, -0.4710332, 1.585156e-08, -2.1173902e-08, 0, -0.7104783, 0.4710332, -0.5318902, -1.4037881e-08, 0, 0.5, 0.19023705)
+mesh = SubResource("ArrayMesh_3585k")
