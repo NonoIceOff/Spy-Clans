@@ -10,15 +10,15 @@ var is_active: bool = false
 
 func _ready() -> void:
 	visible = false
-	await get_tree().create_timer(1.0).timeout
+	#await get_tree().create_timer(1.0).timeout
 
 	# petit exemple pour pouvoir ensuite intégrer
-	start_dialogue([
-		{"name": "Chef", "text": "Bienvenue, agent."},
-		{"name": "Chef", "text": "Votre mission : infiltrer la base ennemie."},
-		{"name": "Chef", "text": "Vous avez 10 minutes pour récupérer les documents."},
-		{"name": "Chef", "text": "Restez discret et bonne chance !"}
-	])
+	#start_dialogue([
+	#	{"name": "Chef", "text": "Bienvenue, agent."},
+	#	{"name": "Chef", "text": "Votre mission : infiltrer la base ennemie."},
+	#	{"name": "Chef", "text": "Vous avez 10 minutes pour récupérer les documents."},
+	#	{"name": "Chef", "text": "Restez discret et bonne chance !"}
+	#])
 
 
 func start_dialogue(lines: Array[Dictionary]) -> void:

@@ -28,6 +28,22 @@ func _ready() -> void:
 	pivot.position.y = 1
 	camera.position.z = camera_distance
 
+func _process(delta: float) -> void:
+	# Cacher tous les labels par défaut
+	var pnjs := get_tree().get_nodes_in_group("PNJ")
+	for pnj in pnjs:
+		if pnj.has_method("hide_name_label"):
+			pnj.hide_name_label()
+	
+	# trouver le body trouvé sur le RayCast3D
+	var raycast := get_node("RayCast3D") as RayCast3D
+	if raycast.is_colliding():
+		var collider := raycast.get_collider()
+		if collider is CharacterBody3D and collider != self:
+			var other_body := collider as CharacterBody3D
+			if other_body.has_method("show_name_label"):
+				other_body.show_name_label()
+
 
 func _input(event: InputEvent) -> void:
 	# ROTATION CAMÉRA

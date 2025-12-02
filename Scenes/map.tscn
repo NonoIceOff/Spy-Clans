@@ -1,12 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://db8yeocanp3on"]
+[gd_scene load_steps=14 format=3 uid="uid://db8yeocanp3on"]
 
 [ext_resource type="Script" uid="uid://d1ak3yy7w4840" path="res://Scripts/map.gd" id="1_fls3e"]
 [ext_resource type="Material" uid="uid://b88rucr6qcnhg" path="res://Materials/grass.tres" id="2_4c2oa"]
+[ext_resource type="PackedScene" uid="uid://dlgnwojhaerho" path="res://Scenes/player.tscn" id="5_6q3n4"]
 [ext_resource type="Texture2D" uid="uid://dsc068o5fdawe" path="res://Textures/citrus_orchard_road_puresky.jpg" id="5_q0mm3"]
-[ext_resource type="Script" uid="uid://im0tw4bqk24k" path="res://Scripts/player.gd" id="6_w7jjh"]
 [ext_resource type="PackedScene" uid="uid://c6yfxpna2baxr" path="res://Scenes/Components/camp_fire.tscn" id="7_k63oc"]
-[ext_resource type="Material" uid="uid://dinetn16vi11c" path="res://Materials/metal.tres" id="7_olcgw"]
-[ext_resource type="Script" uid="uid://coejkohtlug7o" path="res://Scripts/character_body_3d.gd" id="7_w7jjh"]
 [ext_resource type="FontFile" uid="uid://dm472n6vwgn6h" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="10_olcgw"]
 [ext_resource type="PackedScene" uid="uid://vw60otvfw2xt" path="res://Scenes/pnj.tscn" id="14_ie368"]
 [ext_resource type="Script" uid="uid://b1e5oskre1y64" path="res://Scripts/ui.gd" id="15_x5dfk"]
@@ -30,11 +28,6 @@ background_energy_multiplier = 2.5
 sky = SubResource("Sky_w7jjh")
 ambient_light_source = 1
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4c2oa"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_olcgw"]
-material = ExtResource("7_olcgw")
-
 [node name="Map" type="Node3D"]
 script = ExtResource("1_fls3e")
 
@@ -57,22 +50,7 @@ environment = SubResource("Environment_6q3n4")
 
 [node name="CampFire" parent="." instance=ExtResource("7_k63oc")]
 
-[node name="Player" type="Node3D" parent="."]
-script = ExtResource("6_w7jjh")
-
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3703325, 0)
-script = ExtResource("7_w7jjh")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/CharacterBody3D"]
-shape = SubResource("CapsuleShape3D_4c2oa")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/CharacterBody3D"]
-mesh = SubResource("CapsuleMesh_olcgw")
-
-[node name="Pivot" type="Node3D" parent="Player/CharacterBody3D"]
-
-[node name="Camera3D" type="Camera3D" parent="Player/CharacterBody3D/Pivot"]
+[node name="Player" parent="." instance=ExtResource("5_6q3n4")]
 
 [node name="PNJ" parent="." instance=ExtResource("14_ie368")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.1238375, 0, 0)

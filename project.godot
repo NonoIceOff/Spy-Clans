@@ -21,7 +21,13 @@ Global="*res://Scripts/Global.gd"
 Variable="*res://Scripts/Variable.gd"
 Prompt="*res://Scripts/Prompt.gd"
 ENV="*res://Scripts/ENV.gd"
+Dialogues="*res://Scenes/dialogues.tscn"
 
 [filesystem]
 
 import/blender/enabled=false
+
+[global_group]
+
+Player=""
+PNJ=""

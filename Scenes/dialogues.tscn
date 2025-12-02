@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://ckepjafmvxlko"]
+[gd_scene load_steps=3 format=3 uid="uid://ckepjafmvxlko"]
 
 [ext_resource type="Script" uid="uid://cjfgfhnrcf7x7" path="res://Scripts/dialogues.gd" id="1_uve4t"]
+[ext_resource type="FontFile" uid="uid://dm472n6vwgn6h" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="2_yfpkt"]
 
 [node name="Dialogues" type="Control"]
 layout_mode = 3
@@ -17,7 +18,11 @@ layout_mode = 0
 offset_left = 24.0
 offset_top = 432.0
 offset_right = 1120.0
-offset_bottom = 584.0
+offset_bottom = 592.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("2_yfpkt")
 theme_override_font_sizes/font_size = 24
 text = "test dialogue"
 vertical_alignment = 2
@@ -27,10 +32,12 @@ autowrap_mode = 3
 texture_filter = 1
 layout_mode = 0
 offset_left = 24.0
-offset_top = 584.0
+offset_top = 590.0
 offset_right = 296.0
 offset_bottom = 629.0
-theme_override_constants/outline_size = 3
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.39215687)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("2_yfpkt")
 theme_override_font_sizes/font_size = 32
 text = "NOM"
 vertical_alignment = 2
