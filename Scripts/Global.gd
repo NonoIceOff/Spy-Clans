@@ -66,7 +66,7 @@ func debug_person_data(person_index: int) -> void:
 func generate_round():
 	request_mode = "round"
 	
-	var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=AIzaSyBrZWseu98evMC0hlp89WjXgraJp9n0lCQ"
+	var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key="+ENV.APIKEY
 	var headers = ["Content-Type: application/json"]
 
 	print("Génération du jour...")
@@ -140,7 +140,7 @@ func generate_interrogation_for_person(person_index: int, player_journal: String
 	# 🔍 DEBUG COURT
 	print("[Interrogatoire] Envoi pour :", name)
 
-	var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=AIzaSyBrZWseu98evMC0hlp89WjXgraJp9n0lCQ"
+	var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key="+ENV.APIKEY
 	var headers = ["Content-Type: application/json"]
 
 	var user_text = Prompt.SYSTEM_PROMPT_INTERROGATION + "\n\nINTERROGATION_INPUT_JSON:\n" + JSON.stringify(interrogation_input)
