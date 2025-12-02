@@ -1,10 +1,10 @@
 [gd_scene load_steps=28 format=3 uid="uid://db8yeocanp3on"]
 
-[ext_resource type="Script" path="res://Scripts/map.gd" id="1_fls3e"]
+[ext_resource type="Script" uid="uid://d1ak3yy7w4840" path="res://Scripts/map.gd" id="1_fls3e"]
 [ext_resource type="Texture2D" uid="uid://c43wpnx4ohjw7" path="res://Textures/Ground003_1K-PNG/ground.png" id="2_j4oe2"]
+[ext_resource type="MeshLibrary" uid="uid://b6s28sscqgft8" path="res://folliage_mesh.tres" id="2_riaky"]
 [ext_resource type="Texture2D" uid="uid://pqm5i1ud2tp4" path="res://Textures/Ground003_1K-PNG/ground_n.png" id="3_k63oc"]
 [ext_resource type="Texture2D" uid="uid://dbi01n57xyi04" path="res://Textures/NightSkyHDRI003_1K/NightSkyHDRI003.png" id="5_j4oe2"]
-[ext_resource type="PackedScene" uid="uid://p8ypaoumr3nn" path="res://Textures/tree/dead_tree_trunk_4k.fbx" id="6_np2xp"]
 [ext_resource type="Script" path="res://Scripts/player.gd" id="6_w7jjh"]
 [ext_resource type="Script" path="res://Scripts/character_body_3d.gd" id="7_w7jjh"]
 [ext_resource type="Texture2D" uid="uid://cpl8cs8mo1iea" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Color.jpg" id="8_q6lx1"]
@@ -15,9 +15,9 @@
 [ext_resource type="Texture2D" uid="uid://d33ot8rhh7dss" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Roughness.jpg" id="12_fls3e"]
 [ext_resource type="PackedScene" path="res://Scenes/pnj.tscn" id="14_ie368"]
 [ext_resource type="Script" path="res://Scripts/ui.gd" id="15_x5dfk"]
-[ext_resource type="PackedScene" uid="uid://t7n26w32my4v" path="res://Scenes/treefait_maison.tscn" id="17_j4oe2"]
+[ext_resource type="MeshLibrary" uid="uid://cge05mtfk8c1h" path="res://treess_mesh.tres" id="17_k63oc"]
 [ext_resource type="PackedScene" uid="uid://dxvisy516q6f6" path="res://Scenes/seat_node.tscn" id="18_j4oe2"]
-[ext_resource type="PackedScene" uid="uid://cqa0kw438250m" path="res://Scenes/folliagefait_maison.tscn" id="18_riaky"]
+[ext_resource type="PackedScene" uid="uid://30vj554jixit" path="res://Scenes/fire.tscn" id="18_riaky"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_k63oc"]
 size = Vector3(1000, 0.1, 1000)
@@ -46,10 +46,18 @@ background_energy_multiplier = 2.5
 sky = SubResource("Sky_w7jjh")
 ambient_light_source = 1
 ambient_light_color = Color(1, 1, 1, 1)
-fog_light_energy = 0.6
+fog_light_color = Color(0.46930748, 0.504759, 0.5579392, 1)
+fog_light_energy = 0.95
+fog_sun_scatter = 0.08
+fog_density = 0.001
+fog_sky_affect = 0.72
+fog_height_density = -1.9131
 volumetric_fog_enabled = true
+volumetric_fog_density = 0.068
 volumetric_fog_albedo = Color(0.40069774, 0.40069774, 0.40069768, 1)
-volumetric_fog_sky_affect = 0.495
+volumetric_fog_emission_energy = 2.15
+volumetric_fog_length = 88.2
+volumetric_fog_sky_affect = 0.75
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4c2oa"]
 
@@ -74,6 +82,14 @@ material = SubResource("StandardMaterial3D_k63oc")
 [node name="Map" type="Node3D"]
 script = ExtResource("1_fls3e")
 
+[node name="folliage" type="GridMap" parent="."]
+mesh_library = ExtResource("2_riaky")
+cell_size = Vector3(1, 1.905, 1)
+cell_octant_size = 25
+data = {
+"cells": PackedInt32Array(1, 65527, 1507328, 65531, 65524, 1507328, 65531, 65514, 1507328, 9, 65514, 1507328, 19, 65524, 1507328, 21, 65532, 1507328, 65520, 65524, 1507328, 65514, 65532, 1507328, 65512, 5, 1507328, 65514, 12, 1507328, 65520, 14, 1507328, 65522, 3, 1507328, 65534, 10, 1507328, 7, 17, 1507328, 7, 16, 1507328, 18, 6, 1507328, 3, 7, 1507328, 10, 65528, 1507328, 10, 65529, 1507328, 65520, 65533, 1507328)
+}
+
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.84302044, 0)
 
@@ -81,36 +97,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.84302044, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57760596, 0)
 shape = SubResource("BoxShape3D_k63oc")
 
-[node name="TreefaitMaison" parent="StaticBody3D" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.364574, -0.7360914, 25.671062)
-
 [node name="Ground" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_vtkp8")
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.8148649, 0.57965094, 0, -0.57965094, -0.8148649, 0, 11.044427, 0)
-light_energy = 2.509
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_6q3n4")
 
-[node name="dead_tree_trunk_4k" parent="." instance=ExtResource("6_np2xp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46461403, 0, 0.053523064)
-
-[node name="dead_tree_trunk_4k2" parent="." instance=ExtResource("6_np2xp")]
-transform = Transform3D(0.81823003, 0, -0.574891, 0, 1, 0, 0.574891, 0, 0.81823003, -0.30844736, 0, 0.1684761)
-
-[node name="dead_tree_trunk_4k3" parent="." instance=ExtResource("6_np2xp")]
-transform = Transform3D(0.7581799, 0, 0.6520454, 0, 1, 0, -0.6520454, 0, 0.7581799, -0.30821943, -4.7683716e-07, 0.37161875)
-
-[node name="dead_tree_trunk_4k4" parent="." instance=ExtResource("6_np2xp")]
-transform = Transform3D(0.34397113, 0, -0.9389802, 0, 1, 0, 0.9389802, 0, 0.34397113, -0.07659459, 0, 0.16326046)
-
-[node name="dead_tree_trunk_4k5" parent="." instance=ExtResource("6_np2xp")]
-transform = Transform3D(0.16320537, 0, 0.9865921, 0, 1, 0, -0.9865921, 0, 0.16320537, -0.20513439, 0, 0.15642357)
-
 [node name="Player" type="Node3D" parent="."]
-transform = Transform3D(-0.05233594, 0, 0.9986295, 0, 1, 0, -0.9986295, 0, -0.05233594, 4.7784185, 0, -0.07489896)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.7784185, 0, -0.07489896)
 script = ExtResource("6_w7jjh")
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="Player"]
@@ -187,596 +181,20 @@ transform = Transform3D(0.7327787, 0, -1.2627885, 0, 1.4599999, 0, 1.2627885, 0,
 [node name="seatNode10" parent="." instance=ExtResource("18_j4oe2")]
 transform = Transform3D(-0.039033532, 0, -1.459478, 0, 1.4599999, 0, 1.459478, 0, -0.039033532, 5, 0, 0)
 
-[node name="TreefaitMaison2" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.8663, -1.5, 0.88363457)
-
-[node name="TreefaitMaison3" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.628281, -1.5, -23.155586)
-
-[node name="TreefaitMaison4" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.035078, -1.5, -34.948654)
-
-[node name="TreefaitMaison5" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.310497, -1.5, -11.057876)
-
-[node name="TreefaitMaison6" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.9037, -1.5, 0.73519707)
-
-[node name="TreefaitMaison7" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.2731, -1.5, 12.676706)
-
-[node name="TreefaitMaison26" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.571468, -1.5, 40.983604)
-
-[node name="TreefaitMaison27" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.933319, -1.5, 27.259523)
-
-[node name="TreefaitMaison28" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.340118, -1.5, 15.46645)
-
-[node name="TreefaitMaison29" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 21.615536, -1.5, 39.35723)
-
-[node name="TreefaitMaison30" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.739281, -1.5, 11.509838)
-
-[node name="TreefaitMaison31" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.332481, -1.5, 23.30292)
-
-[node name="TreefaitMaison8" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.039822, -1.5, -11.425474)
-
-[node name="TreefaitMaison10" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.590881, -1.5, 24.774418)
-
-[node name="TreefaitMaison9" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.9412, -1.5, 24.406818)
-
-[node name="TreefaitMaison13" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 37.27084, -1.5, 15.49559)
-
-[node name="TreefaitMaison14" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9205208, -1.5, 15.127991)
-
-[node name="TreefaitMaison15" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.86404, -1.5, 27.288662)
-
-[node name="TreefaitMaison17" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43.78456, -1.5, -38.537663)
-
-[node name="TreefaitMaison18" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.434242, -1.5, -38.905262)
-
-[node name="TreefaitMaison19" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.37776, -1.5, -26.74459)
-
-[node name="TreefaitMaison21" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.677971, -1.5, -25.149557)
-
-[node name="TreefaitMaison22" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17.271172, -1.5, -36.942627)
-
-[node name="TreefaitMaison23" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.9957542, -1.5, -13.051847)
-
-[node name="TreefaitMaison23" parent="TreefaitMaison23" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.465474, -0.21270299, -13.051847)
-
-[node name="TreefaitMaison24" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.872009, -1.5, -40.89924)
-
-[node name="TreefaitMaison25" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9.278809, -1.5, -29.106161)
-
-[node name="TreefaitMaison20" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.027443, -1.5, -27.11219)
-
-[node name="TreefaitMaison32" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.707527, -1.5, -11.589939)
-
-[node name="TreefaitMaison33" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.345676, -1.5, -25.314014)
-
-[node name="TreefaitMaison34" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.938877, -1.5, -37.10709)
-
-[node name="TreefaitMaison35" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.66346, -1.5, -13.216312)
-
-[node name="TreefaitMaison36" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.539715, -1.5, -41.06371)
-
-[node name="TreefaitMaison37" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.946514, -1.5, -29.270618)
-
-[node name="TreefaitMaison38" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -42.358475, -1.5, -37.445545)
-
-[node name="TreefaitMaison39" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.765274, -1.5, -25.652477)
-
-[node name="TreefaitMaison16" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5137215, -1.5, 26.921062)
-
-[node name="TreefaitMaison12" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.9976807, -1.5, 36.56749)
-
-[node name="TreefaitMaison11" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.348, -1.5, 36.19989)
-
-[node name="TreefaitMaison" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.446619, -1.5, 0.36759853)
-
-[node name="TreefaitMaison40" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -37.358803, -1.5, 32.47915)
-
-[node name="TreefaitMaison41" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.996952, -1.5, 18.755066)
-
-[node name="TreefaitMaison42" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.590153, -1.5, 6.9619923)
-
-[node name="TreefaitMaison43" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.314735, -1.5, 30.852774)
-
-[node name="TreefaitMaison44" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -32.19099, -1.5, 3.0053806)
-
-[node name="TreefaitMaison45" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.59779, -1.5, 14.798462)
-
-[node name="TreefaitMaison46" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.00975, -1.5, 6.6235332)
-
-[node name="TreefaitMaison47" parent="." instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.41655, -1.5, 18.416605)
-
-[node name="TreefaitMaison26" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.06348, -0.35921097, -30.119242)
-
-[node name="TreefaitMaison27" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.42533, -1.5, -43.843323)
-
-[node name="TreefaitMaison28" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.83213, -1.5, -55.63639)
-
-[node name="TreefaitMaison29" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.10755, -1.5, -31.745615)
-
-[node name="TreefaitMaison30" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71.23129, -1.5, -59.593002)
-
-[node name="TreefaitMaison31" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 74.82449, -1.5, -47.799927)
-
-[node name="TreefaitMaison14" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.412533, -1.5, -55.974854)
-
-[node name="TreefaitMaison16" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.005733, -1.5, -44.181778)
-
-[node name="TreefaitMaison2" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.04182, -0.87550545, -12.591314)
-
-[node name="TreefaitMaison3" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 46.536404, -0.87550545, -36.630535)
-
-[node name="TreefaitMaison4" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 42.943203, -0.87550545, -48.423603)
-
-[node name="TreefaitMaison5" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 54.21862, -0.87550545, -24.532825)
-
-[node name="TreefaitMaison6" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 57.81182, -0.87550545, -12.739752)
-
-[node name="TreefaitMaison7" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.635021, -0.87550545, -0.79824257)
-
-[node name="TreefaitMaison32" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.47959, -0.87550545, 27.508654)
-
-[node name="TreefaitMaison33" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.841442, -0.87550545, 13.7845745)
-
-[node name="TreefaitMaison34" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 48.24824, -0.87550545, 1.9915028)
-
-[node name="TreefaitMaison35" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.52366, -0.87550545, 25.88228)
-
-[node name="TreefaitMaison36" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52.647404, -0.87550545, -1.9651108)
-
-[node name="TreefaitMaison37" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 56.240604, -0.87550545, 9.8279705)
-
-[node name="TreefaitMaison8" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19.868301, -0.87550545, -24.900423)
-
-[node name="TreefaitMaison10" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.317242, -0.87550545, 11.299471)
-
-[node name="TreefaitMaison" parent="TreefaitMaison47/TreefaitMaison10" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.3881187, 0.61218286, -0.94551086)
-
-[node name="TreefaitMaison10" parent="TreefaitMaison47/TreefaitMaison10" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 45.293697, 0.47276878, -15.317101)
-
-[node name="TreefaitMaison9" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.0330772, -0.87550545, 10.931871)
-
-[node name="TreefaitMaison13" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 75.17896, -0.87550545, 2.0206394)
-
-[node name="TreefaitMaison15" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 40.828644, -0.87550545, 1.6530399)
-
-[node name="TreefaitMaison17" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.77216, -0.87550545, 13.813715)
-
-[node name="TreefaitMaison18" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 81.69269, -0.87550545, -52.01261)
-
-[node name="TreefaitMaison19" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 47.342365, -0.87550545, -52.38021)
-
-[node name="TreefaitMaison20" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 85.28589, -0.87550545, -40.21954)
-
-[node name="TreefaitMaison21" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.230152, -0.87550545, -38.624504)
-
-[node name="TreefaitMaison22" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20.636951, -0.87550545, -50.417572)
-
-[node name="TreefaitMaison23" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.912369, -0.87550545, -26.526796)
-
-[node name="TreefaitMaison24" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 25.036114, -0.87550545, -54.374184)
-
-[node name="TreefaitMaison25" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.629314, -0.87550545, -42.58111)
-
-[node name="TreefaitMaison38" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50.935566, -0.87550545, -40.58714)
-
-[node name="TreefaitMaison39" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.2005959, -0.87550545, -25.064888)
-
-[node name="TreefaitMaison40" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5624504, -0.87550545, -38.788963)
-
-[node name="TreefaitMaison41" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.9692497, -0.87550545, -50.58204)
-
-[node name="TreefaitMaison42" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.244663, -0.87550545, -26.691261)
-
-[node name="TreefaitMaison43" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.3684044, -0.87550545, -54.53866)
-
-[node name="TreefaitMaison44" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.961605, -0.87550545, -42.745567)
-
-[node name="TreefaitMaison45" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.4503517, -0.87550545, -50.920494)
-
-[node name="TreefaitMaison46" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.85715103, -0.87550545, -39.127426)
-
-[node name="TreefaitMaison47" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 44.421844, -0.87550545, 13.4461155)
-
-[node name="TreefaitMaison47" parent="TreefaitMaison47/TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10.1217, -0.87550545, -10.826166)
-
-[node name="TreefaitMaison12" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.910442, -0.87550545, 23.092539)
-
-[node name="TreefaitMaison11" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.4398766, -0.87550545, 22.72494)
-
-[node name="TreefaitMaison" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.461506, -0.87550545, -13.107351)
-
-[node name="TreefaitMaison48" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5493202, -0.87550545, 19.004198)
-
-[node name="TreefaitMaison49" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.911175, -0.87550545, 5.280115)
-
-[node name="TreefaitMaison50" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.3179741, -0.87550545, -6.5129566)
-
-[node name="TreefaitMaison51" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.593388, -0.87550545, 17.377825)
-
-[node name="TreefaitMaison52" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.7171288, -0.87550545, -10.469568)
-
-[node name="TreefaitMaison53" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.310329, -0.87550545, 1.3235111)
-
-[node name="TreefaitMaison54" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.1016273, -0.87550545, -6.8514156)
-
-[node name="TreefaitMaison55" parent="TreefaitMaison47" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.5084267, -0.87550545, 4.941656)
-
-[node name="TreefaitMaison26" parent="TreefaitMaison47/TreefaitMaison55" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.06348, 0.53168297, -30.119242)
-
-[node name="TreefaitMaison27" parent="TreefaitMaison47/TreefaitMaison55" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.42533, -1.5, -43.843323)
-
-[node name="TreefaitMaison28" parent="TreefaitMaison47/TreefaitMaison55" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 66.83213, -1.5, -55.63639)
-
-[node name="TreefaitMaison29" parent="TreefaitMaison47/TreefaitMaison55" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 78.10755, 0.3230772, -31.745615)
-
-[node name="TreefaitMaison30" parent="TreefaitMaison47/TreefaitMaison55" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 71.23129, -1.5, -59.593002)
-
-[node name="TreefaitMaison31" parent="TreefaitMaison47/TreefaitMaison55" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 74.82449, -1.5, -47.799927)
-
-[node name="TreefaitMaison14" parent="TreefaitMaison47/TreefaitMaison55" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59.412533, -1.5, -55.974854)
-
-[node name="TreefaitMaison16" parent="TreefaitMaison47/TreefaitMaison55" instance=ExtResource("17_j4oe2")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 63.005733, -1.5, -44.181778)
-
-[node name="FolliagefaitMaison5" parent="." instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.511292, 0, 10.1415825)
-
-[node name="FolliagefaitMaison6" parent="." instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.552467, 0, 7.204916)
-
-[node name="FolliagefaitMaison7" parent="." instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26.460823, 0, 5.009527)
-
-[node name="FolliagefaitMaison8" parent="." instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.381004, 0, 11.190406)
-
-[node name="FolliagefaitMaison2" parent="." instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27.985931, 0, 4.9183083)
-
-[node name="FolliagefaitMaison3" parent="." instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30.894287, 0, 2.7229195)
-
-[node name="FolliagefaitMaison4" parent="." instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 32.81447, 0, 8.903798)
-
-[node name="FolliagefaitMaison5" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.642212, 0, 5.737056)
-
-[node name="FolliagefaitMaison6" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6833878, 0, 2.8003912)
-
-[node name="FolliagefaitMaison7" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5917435, 0, 0.60500145)
-
-[node name="FolliagefaitMaison8" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5119247, 0, 6.78588)
-
-[node name="FolliagefaitMaison" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.075676, 0, 3.45045)
-
-[node name="FolliagefaitMaison3" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0252075, 0, -1.6816063)
-
-[node name="FolliagefaitMaison4" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.945389, 0, 4.4992723)
-
-[node name="FolliagefaitMaison9" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59.640175, 0, -23.887634)
-
-[node name="FolliagefaitMaison10" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60.599, 0, -26.824299)
-
-[node name="FolliagefaitMaison11" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.690643, 0, -29.019688)
-
-[node name="FolliagefaitMaison12" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.770462, 0, -22.83881)
-
-[node name="FolliagefaitMaison2" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56.165535, 0, -29.110909)
-
-[node name="FolliagefaitMaison13" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.25718, 0, -31.306297)
-
-[node name="FolliagefaitMaison14" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.336998, 0, -25.12542)
-
-[node name="FolliagefaitMaison5" parent="FolliagefaitMaison4/FolliagefaitMaison14" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.642212, 0, 5.737056)
-
-[node name="FolliagefaitMaison6" parent="FolliagefaitMaison4/FolliagefaitMaison14" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6833878, 0, 2.8003912)
-
-[node name="FolliagefaitMaison7" parent="FolliagefaitMaison4/FolliagefaitMaison14" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5917435, 0, 0.60500145)
-
-[node name="FolliagefaitMaison8" parent="FolliagefaitMaison4/FolliagefaitMaison14" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5119247, 0, 6.78588)
-
-[node name="FolliagefaitMaison" parent="FolliagefaitMaison4/FolliagefaitMaison14" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.075676, 0, 3.45045)
-
-[node name="FolliagefaitMaison3" parent="FolliagefaitMaison4/FolliagefaitMaison14" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0252075, 0, -1.6816063)
-
-[node name="FolliagefaitMaison4" parent="FolliagefaitMaison4/FolliagefaitMaison14" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.945389, 0, 4.4992723)
-
-[node name="FolliagefaitMaison5" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.553375, 0, 5.737056)
-
-[node name="FolliagefaitMaison6" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.594551, 0, 2.8003912)
-
-[node name="FolliagefaitMaison7" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.502907, 0, 0.60500145)
-
-[node name="FolliagefaitMaison8" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.423088, 0, 6.78588)
-
-[node name="FolliagefaitMaison" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.986839, 0, 3.45045)
-
-[node name="FolliagefaitMaison3" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.936371, 0, -1.6816063)
-
-[node name="FolliagefaitMaison4" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16.856552, 0, 4.4992723)
-
-[node name="FolliagefaitMaison5" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.978714, 0, 18.592617)
-
-[node name="FolliagefaitMaison6" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.937538, 0, 15.655953)
-
-[node name="FolliagefaitMaison7" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.0291824, 0, 13.460564)
-
-[node name="FolliagefaitMaison8" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.109001, 0, 19.641441)
-
-[node name="FolliagefaitMaison" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.54525, 0, 16.306011)
-
-[node name="FolliagefaitMaison3" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5957184, 0, 11.173956)
-
-[node name="FolliagefaitMaison4" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3244629, 0, 17.354836)
-
-[node name="FolliagefaitMaison5" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30.16048, 0, -3.047513)
-
-[node name="FolliagefaitMaison6" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.119305, 0, -5.9841776)
-
-[node name="FolliagefaitMaison7" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.210949, 0, -8.179567)
-
-[node name="FolliagefaitMaison8" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -26.290768, 0, -1.9986897)
-
-[node name="FolliagefaitMaison" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.727016, 0, -5.334119)
-
-[node name="FolliagefaitMaison3" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -23.777485, 0, -10.466175)
-
-[node name="FolliagefaitMaison4" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.857304, 0, -4.2852964)
-
-[node name="FolliagefaitMaison5" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5343132, 0, -22.229332)
-
-[node name="FolliagefaitMaison6" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.57548904, 0, -25.165997)
-
-[node name="FolliagefaitMaison7" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.4838448, 0, -27.361385)
-
-[node name="FolliagefaitMaison8" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.404026, 0, -21.180508)
-
-[node name="FolliagefaitMaison" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.9677773, 0, -24.515938)
-
-[node name="FolliagefaitMaison3" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.917309, 0, -29.647995)
-
-[node name="FolliagefaitMaison4" parent="FolliagefaitMaison4/FolliagefaitMaison14/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4/FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.83749, 0, -23.467113)
-
-[node name="FolliagefaitMaison15" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(-0.026176963, 0, 0.99965733, 0, 1, 0, -0.99965733, 0, -0.026176963, -26.126884, 0, -37.512432)
-
-[node name="FolliagefaitMaison16" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(-0.026176963, 0, 0.99965733, 0, 1, 0, -0.99965733, 0, -0.026176963, -27.085709, 0, -40.449097)
-
-[node name="FolliagefaitMaison17" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(-0.026176963, 0, 0.99965733, 0, 1, 0, -0.99965733, 0, -0.026176963, -24.177353, 0, -42.644485)
-
-[node name="FolliagefaitMaison18" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(-0.026176963, 0, 0.99965733, 0, 1, 0, -0.99965733, 0, -0.026176963, -22.257172, 0, -36.463608)
-
-[node name="FolliagefaitMaison19" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(-0.026176963, 0, 0.99965733, 0, 1, 0, -0.99965733, 0, -0.026176963, -22.652245, 0, -42.735706)
-
-[node name="FolliagefaitMaison20" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(-0.026176963, 0, 0.99965733, 0, 1, 0, -0.99965733, 0, -0.026176963, -19.743889, 0, -44.931095)
-
-[node name="FolliagefaitMaison21" parent="FolliagefaitMaison4" instance=ExtResource("18_riaky")]
-transform = Transform3D(-0.026176963, 0, 0.99965733, 0, 1, 0, -0.99965733, 0, -0.026176963, -17.823708, 0, -38.750217)
-
-[node name="FolliagefaitMaison5" parent="FolliagefaitMaison4/FolliagefaitMaison21" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.642212, 0, 5.737056)
-
-[node name="FolliagefaitMaison6" parent="FolliagefaitMaison4/FolliagefaitMaison21" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6833878, 0, 2.8003912)
-
-[node name="FolliagefaitMaison7" parent="FolliagefaitMaison4/FolliagefaitMaison21" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5917435, 0, 0.60500145)
-
-[node name="FolliagefaitMaison8" parent="FolliagefaitMaison4/FolliagefaitMaison21" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5119247, 0, 6.78588)
-
-[node name="FolliagefaitMaison" parent="FolliagefaitMaison4/FolliagefaitMaison21" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.075676, 0, 3.45045)
-
-[node name="FolliagefaitMaison3" parent="FolliagefaitMaison4/FolliagefaitMaison21" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0252075, 0, -1.6816063)
-
-[node name="FolliagefaitMaison4" parent="FolliagefaitMaison4/FolliagefaitMaison21" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.945389, 0, 4.4992723)
-
-[node name="FolliagefaitMaison9" parent="FolliagefaitMaison4/FolliagefaitMaison21" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -59.640175, 0, -23.887634)
-
-[node name="FolliagefaitMaison10" parent="FolliagefaitMaison4/FolliagefaitMaison21" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -60.599, 0, -26.824299)
-
-[node name="FolliagefaitMaison11" parent="FolliagefaitMaison4/FolliagefaitMaison21" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -57.690643, 0, -29.019688)
-
-[node name="FolliagefaitMaison12" parent="FolliagefaitMaison4/FolliagefaitMaison21" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55.770462, 0, -22.83881)
-
-[node name="FolliagefaitMaison2" parent="FolliagefaitMaison4/FolliagefaitMaison21" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -56.165535, 0, -29.110909)
-
-[node name="FolliagefaitMaison13" parent="FolliagefaitMaison4/FolliagefaitMaison21" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -53.25718, 0, -31.306297)
-
-[node name="FolliagefaitMaison14" parent="FolliagefaitMaison4/FolliagefaitMaison21" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -51.336998, 0, -25.12542)
-
-[node name="FolliagefaitMaison5" parent="FolliagefaitMaison4/FolliagefaitMaison21/FolliagefaitMaison14" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.642212, 0, 5.737056)
-
-[node name="FolliagefaitMaison6" parent="FolliagefaitMaison4/FolliagefaitMaison21/FolliagefaitMaison14" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6833878, 0, 2.8003912)
-
-[node name="FolliagefaitMaison7" parent="FolliagefaitMaison4/FolliagefaitMaison21/FolliagefaitMaison14" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5917435, 0, 0.60500145)
-
-[node name="FolliagefaitMaison8" parent="FolliagefaitMaison4/FolliagefaitMaison21/FolliagefaitMaison14" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5119247, 0, 6.78588)
-
-[node name="FolliagefaitMaison" parent="FolliagefaitMaison4/FolliagefaitMaison21/FolliagefaitMaison14" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.075676, 0, 3.45045)
-
-[node name="FolliagefaitMaison3" parent="FolliagefaitMaison4/FolliagefaitMaison21/FolliagefaitMaison14" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.0252075, 0, -1.6816063)
-
-[node name="FolliagefaitMaison4" parent="FolliagefaitMaison4/FolliagefaitMaison21/FolliagefaitMaison14" instance=ExtResource("18_riaky")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.945389, 0, 4.4992723)
+[node name="trees" type="GridMap" parent="."]
+mesh_library = ExtResource("17_k63oc")
+cell_size = Vector3(1, 20, 1)
+data = {
+"cells": PackedInt32Array(10, 65524, 0, 65524, 65528, 0, 65530, 13, 0, 10, 7, 0, 21, 65505, 0, 17, 65504, 0, 12, 65504, 0, 7, 65504, 0, 1, 65505, 0, 65532, 65507, 0, 65526, 65510, 0, 65521, 65513, 0, 65516, 65517, 0, 65511, 65523, 0, 65508, 65529, 0, 65512, 65519, 0, 65508, 65526, 0, 65506, 65534, 0, 65507, 3, 0, 65503, 65531, 0, 65504, 2, 0, 65507, 8, 0, 65509, 13, 0, 65512, 16, 0, 65515, 18, 0, 65519, 21, 0, 65524, 22, 0, 65530, 23, 0, 0, 23, 0, 6, 22, 0, 12, 21, 0, 17, 18, 0, 22, 14, 0, 25, 9, 0, 28, 3, 0, 28, 65533, 0, 28, 65527, 0, 29, 65521, 0, 27, 65515, 0, 26, 65508, 0, 6, 65507, 0, 11, 65507, 0, 16, 65509, 0, 20, 65512, 0, 23, 65516, 0, 26, 65519, 0, 65517, 65514, 0, 65522, 65510, 0, 65529, 65508, 0, 65534, 65504, 0, 3, 65505, 0, 31, 6, 0, 31, 65517, 0, 33, 65522, 0, 32, 65528, 0, 30, 65525, 0, 33, 65529, 0, 30, 0, 0, 28, 7, 0, 30, 65532, 0, 26, 13, 0, 20, 18, 0, 16, 22, 0, 9, 24, 0, 3, 25, 0, 65533, 26, 0, 65527, 26, 0, 65520, 25, 0, 65516, 21, 0, 65506, 11, 0, 65504, 6, 0, 65522, 28, 0, 1, 65515, 0, 65527, 65519, 0, 65517, 5, 0, 16, 65535, 0, 13, 65516, 0)
+}
+
+[node name="dead_tree_trunk_4k" parent="." instance=ExtResource("18_riaky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.026, -0.01987809, 0.142)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="dead_tree_trunk_4k"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62834597, 0)
+light_color = Color(0.83015203, 0.5735766, 1.540184e-06, 1)
+light_energy = 2.462
+omni_range = 40.0
+omni_attenuation = 0.575
+omni_shadow_mode = 0

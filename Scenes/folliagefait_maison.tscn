@@ -62,10 +62,13 @@ void fragment() {
 "
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_52vis"]
-frequency = 0.0087
+frequency = 0.005
+fractal_octaves = 1
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xxruo"]
 noise = SubResource("FastNoiseLite_52vis")
+seamless = true
+seamless_blend_skirt = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wcol0"]
 resource_name = "Folliage"
@@ -84,10 +87,10 @@ shader_parameter/uv1_offset = Vector3(0, 0, 0)
 shader_parameter/uv2_scale = Vector3(1, 1, 1)
 shader_parameter/uv2_offset = Vector3(0, 0, 0)
 shader_parameter/noise_tex = SubResource("NoiseTexture2D_xxruo")
-shader_parameter/wind_speed = 0.425
-shader_parameter/wind_strength = 0.03
+shader_parameter/wind_speed = 0.065
+shader_parameter/wind_strength = 0.215
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_n50gk"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_j526k"]
 _surfaces = [{
 "aabb": AABB(-1, -0.9870799, -1, 2, 1.9741594, 2),
 "format": 34896613377,
@@ -101,7 +104,7 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 
-[sub_resource type="ArrayMesh" id="ArrayMesh_3585k"]
+[sub_resource type="ArrayMesh" id="ArrayMesh_d6qwl"]
 resource_name = "FolliagefaitMaison_Plan_003"
 _surfaces = [{
 "aabb": AABB(-1, -0.9870799, -1, 2, 1.9741594, 2),
@@ -117,10 +120,10 @@ _surfaces = [{
 "vertex_data": PackedByteArray("AAD/f////7////9/AAD/v////3////+/AAD/fwAA/7/S3/jV//9Z6ywgBioAAFnrLCAGKv//WevS3/jVAABZ64GU///+/zXZfWsAAAAANdl9awAA//812YGU/v8AADXZDSv/4P7/4cbx1P8eAADhxvHU/x7//+HGDSv/4AAA4cb///9/////f////3////9/ZZQySmWUMkpllDJKZZQySjKmGVMyphlTMqYZUzKmGVNkw7JhZMOyYWTDsmFkw7Jh")
 }]
 blend_shape_mode = 0
-shadow_mesh = SubResource("ArrayMesh_n50gk")
+shadow_mesh = SubResource("ArrayMesh_j526k")
 
 [node name="FolliagefaitMaison" instance=ExtResource("1_xwbyi")]
 
 [node name="Plan_003" parent="." index="0"]
 transform = Transform3D(-0.5318902, -0.4710332, 1.585156e-08, -2.1173902e-08, 0, -0.7104783, 0.4710332, -0.5318902, -1.4037881e-08, 0, 0.5, 0.19023705)
-mesh = SubResource("ArrayMesh_3585k")
+mesh = SubResource("ArrayMesh_d6qwl")
