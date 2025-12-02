@@ -15,6 +15,12 @@ run/main_scene="uid://cmbgcmiyo06wo"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
+[autoload]
+
+Global="*res://Scripts/Global.gd"
+Variable="*res://Scripts/Variable.gd"
+Prompt="*res://Scripts/Prompt.gd"
+
 [filesystem]
 
 import/blender/enabled=false
