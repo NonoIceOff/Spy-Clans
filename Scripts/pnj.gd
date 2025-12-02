@@ -32,6 +32,9 @@ func _input(event) -> void:
 	if event is InputEventMouseButton and hover:
 		var mouse_event := event as InputEventMouseButton
 		if mouse_event.button_index == MOUSE_BUTTON_RIGHT and mouse_event.pressed:
+			if Global.dialogues_left <= 0:
+				print("Aucun dialogue restant pour aujourd'hui.")
+				return
 			var dialogue := get_tree().get_root().get_node("Dialogues") as Node
 			var player := get_tree().get_root().get_node("Map/Player/CharacterBody3D") as Node
 			if dialogue.has_method("start_dialogue"):

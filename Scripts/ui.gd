@@ -5,6 +5,7 @@ var is_typing := false
 var typing_speed := 0.02  # secondes entre chaque caractère
 
 @onready var time_label := $TimeLeft
+@onready var dialogues_left_label := $DialoguesLeft
 
 
 func _ready() -> void:
@@ -112,6 +113,10 @@ func _update_time_display() -> void:
 	var minutes := int(time_left) / 60
 	var seconds := int(time_left) % 60
 	time_label.text = "%02d:%02d" % [minutes, seconds] + " restantes"
+
+	dialogues_left_label.text = "Dialogues restants : %d" % Global.dialogues_left
+
+
 
 
 func _on_replay_pressed() -> void:

@@ -53,6 +53,7 @@ environment = SubResource("Environment_6q3n4")
 [node name="CampFire" parent="." instance=ExtResource("7_k63oc")]
 
 [node name="Player" parent="." instance=ExtResource("5_6q3n4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.009779692, 0, 4.8501263)
 
 [node name="PNJ" parent="." instance=ExtResource("14_ie368")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.1238375, 0, 0)
@@ -99,6 +100,19 @@ theme_override_fonts/font = ExtResource("10_olcgw")
 theme_override_font_sizes/font_size = 22
 text = "10:00 restantes"
 
+[node name="DialoguesLeft" type="Label" parent="UI"]
+texture_filter = 1
+offset_left = 16.0
+offset_top = 96.0
+offset_right = 280.0
+offset_bottom = 124.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_fonts/font = ExtResource("10_olcgw")
+theme_override_font_sizes/font_size = 22
+text = "3 discussions restantes"
+
 [node name="FadeBlack" type="ColorRect" parent="UI"]
 visible = false
 offset_right = 1152.0
@@ -138,11 +152,13 @@ theme_override_font_sizes/font_size = 32
 text = "Rejouer"
 
 [node name="HistoryDayBack" type="ColorRect" parent="UI"]
+visible = false
 offset_right = 1152.0
 offset_bottom = 648.0
 color = Color(0, 0, 0, 0.39215687)
 
 [node name="StartHistoryDay" type="Label" parent="UI"]
+visible = false
 texture_filter = 1
 anchors_preset = 8
 anchor_left = 0.5
