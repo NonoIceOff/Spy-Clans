@@ -19,6 +19,8 @@ var camera_max := 10.0
 var zoom_speed := 1.0
 var zoom_smoothness := 10.0
 
+var in_cinematic := false
+
 @onready var pivot := $Pivot
 @onready var camera := $Pivot/Camera3D
 
@@ -28,8 +30,28 @@ func _ready() -> void:
 	pivot.position.y = 1
 	camera.position.z = camera_distance
 
+func _process(delta: float) -> void:
+	if in_cinematic:
+		return
+	# Cacher tous les labels par défaut
+	var pnjs := get_tree().get_nodes_in_group("PNJ")
+	for pnj in pnjs:
+		if pnj.has_method("hide_name_label"):
+			pnj.hide_name_label()
+	
+	# trouver le body trouvé sur le RayCast3D
+	var raycast := get_node("RayCast3D") as RayCast3D
+	if raycast.is_colliding():
+		var collider := raycast.get_collider()
+		if collider is CharacterBody3D and collider != self:
+			var other_body := collider as CharacterBody3D
+			if other_body.has_method("show_name_label"):
+				other_body.show_name_label()
+
 
 func _input(event: InputEvent) -> void:
+	if in_cinematic:
+		return
 	# ROTATION CAMÉRA
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		camera_rotation.y -= event.relative.x * mouse_sensitivity
@@ -52,6 +74,8 @@ func _input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if in_cinematic:
+		return
 	# Zoom smooth
 	camera_distance = lerp(camera_distance, target_camera_distance, zoom_smoothness * delta)
 	camera.position.z = camera_distance

@@ -7,13 +7,25 @@ const PEOPLE_COUNT = 9
 const FIRST_NAMES = [
 	"Alex", "Lucie", "Thomas", "Nina", "Yanis",
 	"Chloe", "Jules", "Emma", "Maxime", "Sarah",
-	"Louis", "Camille", "Leo", "Maya", "Rayan"
+	"Louis", "Camille", "Leo", "Maya", "Rayan",
+	"Sophie", "Ethan", "Lina", "Gabriel", "Ines",
+	"Arthur", "Zoe", "Noah", "Julie", "Hugo",
+	"Manon", "Lucas", "Clara", "Mathis", "Eva",
+	"Julien", "Lena", "Nathan", "Anais", "Enzo",
+	"Laura", "Aaron", "Sarah", "Mila", "Adam",
+	"Marie", "Mohamed", "Alice", "Louis", "Lea"
 ]
 
 const LAST_NAMES = [
 	"Martin", "Bernard", "Leroy", "Dupont", "Moreau",
 	"Robert", "Garnier", "Laurent", "Renault", "Durand",
-	"Petit", "Rousseau", "Blanc", "Perrot", "Lambert"
+	"Petit", "Rousseau", "Blanc", "Perrot", "Lambert",
+	"Faure", "Girard", "Andre", "Mercier", "Dupuis",
+	"Fontaine", "Chevalier", "Bouchet", "Clement", "Guerin",
+	"Leclerc", "Vidal", "Benoit", "Remy", "Dumas",
+	"Barbier", "Brunet", "Gautier", "Marchand", "Lemoine",
+	"Colin", "Jacquet", "Leroux", "Perrin", "Noel",
+	"Masson", "Meunier", "Blanchard", "Arnaud", "Rolland"
 ]
 
 const PERSONALITY_TEMPLATES = [
