@@ -19,6 +19,8 @@ var camera_max := 10.0
 var zoom_speed := 1.0
 var zoom_smoothness := 10.0
 
+var in_cinematic := false
+
 @onready var pivot := $Pivot
 @onready var camera := $Pivot/Camera3D
 
@@ -29,6 +31,8 @@ func _ready() -> void:
 	camera.position.z = camera_distance
 
 func _process(delta: float) -> void:
+	if in_cinematic:
+		return
 	# Cacher tous les labels par défaut
 	var pnjs := get_tree().get_nodes_in_group("PNJ")
 	for pnj in pnjs:
@@ -46,6 +50,8 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if in_cinematic:
+		return
 	# ROTATION CAMÉRA
 	if event is InputEventMouseMotion and Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
 		camera_rotation.y -= event.relative.x * mouse_sensitivity
@@ -68,6 +74,8 @@ func _input(event: InputEvent) -> void:
 
 
 func _physics_process(delta: float) -> void:
+	if in_cinematic:
+		return
 	# Zoom smooth
 	camera_distance = lerp(camera_distance, target_camera_distance, zoom_smoothness * delta)
 	camera.position.z = camera_distance

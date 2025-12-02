@@ -1,6 +1,8 @@
 extends CanvasLayer
 
 var time_left := 600.0  # 10 minutes en secondes
+var is_typing := false
+var typing_speed := 0.02  # secondes entre chaque caractère
 
 @onready var time_label := $TimeLeft
 
@@ -10,17 +12,20 @@ func _ready() -> void:
 	show_history_day()
 
 func show_history_day() -> void:
+	
 	# on regarde si on a des infos à afficher
 	if Global.current == null:
 		return
-	
-	var killer_name_value = Global.current.get("killer_full_name", "Inconnu")
-	var killer_name: String = killer_name_value if killer_name_value != null else "Inconnu"
+
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	var history_value = Global.current.get("day_story", "Inconnu")
+	var history: String = history_value if history_value != null else "Inconnu"
 	var day_index: int = Global.current.get("day_index", 1)
 
 	# on affiche les infos
 	var history_day := get_node("StartHistoryDay")
-	history_day.text = "Jour %d\nLe meurtrier est %s" % [day_index, killer_name]
+	var history_day_back := get_node("HistoryDayBack")
+	var full_text := "Jour %d\n%s" % [day_index, history]
 
 	# cinématique de début de journée
 	var cinematic_camera := get_node("../CinematicCamera")
@@ -28,16 +33,45 @@ func show_history_day() -> void:
 	cinematic_camera.current = true
 	
 	history_day.visible = true
+	history_day_back.visible = true
 	history_day.modulate.a = 1.0
+	history_day.text = ""
+	
+	# Calculer durée totale basée sur la longueur du texte
+	var total_duration := 30.0
+	var typing_duration := full_text.length() * typing_speed
+	var fade_duration := 1.0
+	var wait_before_fade := 2.0
+	
+	# Ajuster la durée totale si le texte est trop long
+	var min_camera_time := typing_duration + wait_before_fade + fade_duration
+	if min_camera_time > total_duration:
+		total_duration = min_camera_time
+	
+	# Animation caméra
 	var tween = get_tree().create_tween()
-	tween.tween_property(cinematic_camera, "position:y", 10.0, 10.0)
+	tween.tween_property(cinematic_camera, "position:y", 10.0, total_duration)
+	
+	# Effet machine à écrire
+	is_typing = true
+	for i in range(full_text.length()):
+		if not is_typing:
+			break
+		history_day.text = full_text.substr(0, i + 1)
+		await get_tree().create_timer(typing_speed).timeout
+	is_typing = false
+	history_day.text = full_text
+	
+	# Attendre un peu puis fondu
+	await get_tree().create_timer(wait_before_fade).timeout
 	var tween2 = get_tree().create_tween()
-	tween2.tween_property(history_day, "modulate:a", 1.0, 8.0)
-	tween2.tween_property(history_day, "modulate:a", 0.0, 1.0)
+	tween2.tween_property(history_day, "modulate:a", 0.0, fade_duration)
+	tween2.tween_property(history_day_back, "modulate:a", 0.0, fade_duration)
 	
 	await tween.finished
 	history_day.visible = false
 	cinematic_camera.current = false
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _process(delta: float) -> void:
 	time_left -= delta
@@ -61,6 +95,17 @@ func _process(delta: float) -> void:
 		get_node("FadeBlack/DeadText").text = "Temps écoulé !\nLe maire est mort."
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	_update_time_display()
+
+	if Input.is_action_just_pressed("ui_j"):
+		# ouvrir ou fermer le journal, en faisant attention au curseur de souris
+		var journal = get_node("Journal")
+		journal.show_history_dialogues()
+		var new_visible = not journal.visible
+		journal.visible = new_visible
+		if new_visible:
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		else:
+			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 
 func _update_time_display() -> void:

@@ -1,10 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://db8yeocanp3on"]
+[gd_scene load_steps=16 format=3 uid="uid://db8yeocanp3on"]
 
 [ext_resource type="Script" uid="uid://d1ak3yy7w4840" path="res://Scripts/map.gd" id="1_fls3e"]
 [ext_resource type="Material" uid="uid://b88rucr6qcnhg" path="res://Materials/grass.tres" id="2_4c2oa"]
 [ext_resource type="PackedScene" uid="uid://dlgnwojhaerho" path="res://Scenes/player.tscn" id="5_6q3n4"]
 [ext_resource type="Texture2D" uid="uid://dsc068o5fdawe" path="res://Textures/citrus_orchard_road_puresky.jpg" id="5_q0mm3"]
 [ext_resource type="PackedScene" uid="uid://c6yfxpna2baxr" path="res://Scenes/Components/camp_fire.tscn" id="7_k63oc"]
+[ext_resource type="PackedScene" uid="uid://1oa26n5tdp2s" path="res://Scenes/journal.tscn" id="9_4c2oa"]
+[ext_resource type="Script" uid="uid://rw33bmqa2c7u" path="res://Scripts/initialize_pnj.gd" id="10_dlo4w"]
 [ext_resource type="FontFile" uid="uid://dm472n6vwgn6h" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="10_olcgw"]
 [ext_resource type="PackedScene" uid="uid://vw60otvfw2xt" path="res://Scenes/pnj.tscn" id="14_ie368"]
 [ext_resource type="Script" uid="uid://b1e5oskre1y64" path="res://Scripts/ui.gd" id="15_x5dfk"]
@@ -135,6 +137,11 @@ theme_override_fonts/font = ExtResource("10_olcgw")
 theme_override_font_sizes/font_size = 32
 text = "Rejouer"
 
+[node name="HistoryDayBack" type="ColorRect" parent="UI"]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0, 0, 0, 0.39215687)
+
 [node name="StartHistoryDay" type="Label" parent="UI"]
 texture_filter = 1
 anchors_preset = 8
@@ -156,9 +163,15 @@ theme_override_font_sizes/font_size = 32
 text = "Voici l'histoire du jour"
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Journal" parent="UI" instance=ExtResource("9_4c2oa")]
 
 [node name="CinematicCamera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3.6592622, 0)
 current = true
+
+[node name="InitializePNJ" type="Node3D" parent="."]
+script = ExtResource("10_dlo4w")
 
 [connection signal="pressed" from="UI/FadeBlack/ReplayButton" to="UI" method="_on_replay_pressed"]

@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://b0ylwstew72i1"]
+[gd_scene load_steps=7 format=3 uid="uid://b0ylwstew72i1"]
 
 [ext_resource type="Material" uid="uid://b88rucr6qcnhg" path="res://Materials/grass.tres" id="1_wm11n"]
 [ext_resource type="PackedScene" uid="uid://dlgnwojhaerho" path="res://Scenes/player.tscn" id="2_w0evw"]
 [ext_resource type="PackedScene" uid="uid://vw60otvfw2xt" path="res://Scenes/pnj.tscn" id="3_44blw"]
+[ext_resource type="Script" uid="uid://rw33bmqa2c7u" path="res://Scripts/initialize_pnj.gd" id="4_w0evw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dkm5l"]
 size = Vector3(100, 0.1, 100)
@@ -47,3 +48,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4454393, 0.050000668, 6.782
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -0.8148649, 0.57965094, 0, -0.57965094, -0.8148649, 0, 11.044427, 0)
 light_energy = 2.509
+
+[node name="InitializePNJ" type="Node3D" parent="."]
+script = ExtResource("4_w0evw")

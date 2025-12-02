@@ -21,7 +21,7 @@ func _on_round_generated() -> void:
 	# 2) Exemple : lancer un interrogatoire de la 2e personne (index 1)
 	# Tu pourras plus tard appeler ca depuis un autre endroit ou avec un vrai journal du joueur
 	var journal_test := "Je trouve ton comportement etrange par rapport a ce que tu as dit autour du feu."
-	Global.generate_interrogation_for_second(journal_test)
+	#Global.generate_interrogation_for_second(journal_test)
 
 	# 3) Une fois que le round est pret, on peut changer de scene vers la map
 	Global.game_alive = true
