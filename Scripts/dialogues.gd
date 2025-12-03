@@ -54,6 +54,7 @@ func end_dialogue() -> void:
 	dialogue_lines = []
 	current_line = 0
 	dialogue_ended.emit()
+	Global.dialogues_left -= 1
 
 
 func _show_current_line() -> void:

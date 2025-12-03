@@ -8,6 +8,7 @@ var person_index_by_name: Dictionary = {}
 var request_mode: String = "round"   # "round" ou "interrogatoire"
 var game_alive = false
 var dialogue_history: Array[Dictionary] = []
+var dialogues_left = 3
 
 # Système de retry
 var max_retries := 3

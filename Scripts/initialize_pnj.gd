@@ -13,6 +13,7 @@ func _ready() -> void:
 	print("PNJS INITIALISÉS :", pnjs.size())
 	for index in range(pnjs.size()):
 		var pnj = pnjs[index]
+		
 		if pnj.has_method("initialize_pnj"):
 			var name_pnj := "PNJ Inconnu"
 			var dialogue_lines: Array[Dictionary] = []
@@ -32,7 +33,7 @@ func _ready() -> void:
 							dialogue_lines.append(line)
 					break
 			
-			# Si pas de dialogue, en créer par défaut
+			# si pas de dialogue, en créer par défaut (n'arrive normalement pas)
 			if dialogue_lines.is_empty():
 				dialogue_lines = [
 					{"name": name_pnj, "text": "Bonjour."},
@@ -40,6 +41,11 @@ func _ready() -> void:
 				]
 			
 			pnj.initialize_pnj(name_pnj, dialogue_lines)
+
+			if Global.current["victims"][0]["full_name"] == name_pnj:
+				print("PNJ ", name_pnj, " est une victime, il se transforme en cadavre.")
+				pnj.get_node("../").rotation.x = -80.0
+				pnj.get_node("../").position = Vector3(0, 0.5, 0)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

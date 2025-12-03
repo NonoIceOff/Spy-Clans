@@ -5,6 +5,7 @@
 [ext_resource type="FontFile" uid="uid://dm472n6vwgn6h" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="3_okafp"]
 
 [node name="Journal" type="Control"]
+visible = false
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
