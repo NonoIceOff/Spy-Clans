@@ -1,3 +1,23 @@
+[gd_scene load_steps=28 format=3 uid="uid://db8yeocanp3on"]
+
+[ext_resource type="Script" uid="uid://d1ak3yy7w4840" path="res://Scripts/map.gd" id="1_fls3e"]
+[ext_resource type="Texture2D" uid="uid://c43wpnx4ohjw7" path="res://Textures/Ground003_1K-PNG/ground.png" id="2_j4oe2"]
+[ext_resource type="MeshLibrary" uid="uid://b6s28sscqgft8" path="res://folliage_mesh.tres" id="2_riaky"]
+[ext_resource type="Texture2D" uid="uid://pqm5i1ud2tp4" path="res://Textures/Ground003_1K-PNG/ground_n.png" id="3_k63oc"]
+[ext_resource type="Texture2D" uid="uid://dbi01n57xyi04" path="res://Textures/NightSkyHDRI003_1K/NightSkyHDRI003.png" id="5_j4oe2"]
+[ext_resource type="Script" path="res://Scripts/player.gd" id="6_w7jjh"]
+[ext_resource type="Script" path="res://Scripts/character_body_3d.gd" id="7_w7jjh"]
+[ext_resource type="Texture2D" uid="uid://cpl8cs8mo1iea" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Color.jpg" id="8_q6lx1"]
+[ext_resource type="Texture2D" uid="uid://boose573pkfvl" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Metalness.jpg" id="9_5qtum"]
+[ext_resource type="Texture2D" uid="uid://bgmwmkvpvdro6" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_NormalGL.jpg" id="9_ie368"]
+[ext_resource type="Texture2D" uid="uid://dwa2oimbfr3h5" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_NormalDX.jpg" id="10_ie368"]
+[ext_resource type="Texture2D" uid="uid://bissj563bfkcp" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Displacement.jpg" id="11_x5dfk"]
+[ext_resource type="Texture2D" uid="uid://d33ot8rhh7dss" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Roughness.jpg" id="12_fls3e"]
+[ext_resource type="PackedScene" path="res://Scenes/pnj.tscn" id="14_ie368"]
+[ext_resource type="Script" path="res://Scripts/ui.gd" id="15_x5dfk"]
+[ext_resource type="MeshLibrary" uid="uid://cge05mtfk8c1h" path="res://treess_mesh.tres" id="17_k63oc"]
+[ext_resource type="PackedScene" uid="uid://dxvisy516q6f6" path="res://Scenes/seat_node.tscn" id="18_j4oe2"]
+[ext_resource type="PackedScene" uid="uid://30vj554jixit" path="res://Scenes/fire.tscn" id="18_riaky"]
 [gd_scene load_steps=16 format=3 uid="uid://db8yeocanp3on"]
 
 [ext_resource type="Script" uid="uid://d1ak3yy7w4840" path="res://Scripts/map.gd" id="1_fls3e"]
@@ -11,15 +31,25 @@
 [ext_resource type="PackedScene" uid="uid://vw60otvfw2xt" path="res://Scenes/pnj.tscn" id="14_ie368"]
 [ext_resource type="Script" uid="uid://b1e5oskre1y64" path="res://Scripts/ui.gd" id="15_x5dfk"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_w7jjh"]
-size = Vector3(100, 0.1, 100)
+[sub_resource type="BoxShape3D" id="BoxShape3D_k63oc"]
+size = Vector3(1000, 0.1, 1000)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_riaky"]
+albedo_texture = ExtResource("2_j4oe2")
+normal_enabled = true
+normal_texture = ExtResource("3_k63oc")
+uv1_scale = Vector3(50, 50, 50)
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vtkp8"]
+material = SubResource("StandardMaterial3D_riaky")
 [sub_resource type="PlaneMesh" id="PlaneMesh_ci6au"]
 material = ExtResource("2_4c2oa")
 size = Vector2(100, 100)
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_np2xp"]
-panorama = ExtResource("5_q0mm3")
+panorama = ExtResource("5_j4oe2")
+energy_multiplier = 86.8
 
 [sub_resource type="Sky" id="Sky_w7jjh"]
 sky_material = SubResource("PanoramaSkyMaterial_np2xp")
@@ -29,27 +59,61 @@ background_mode = 2
 background_energy_multiplier = 2.5
 sky = SubResource("Sky_w7jjh")
 ambient_light_source = 1
+ambient_light_color = Color(1, 1, 1, 1)
+fog_light_color = Color(0.46930748, 0.504759, 0.5579392, 1)
+fog_light_energy = 0.95
+fog_sun_scatter = 0.08
+fog_density = 0.001
+fog_sky_affect = 0.72
+fog_height_density = -1.9131
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.068
+volumetric_fog_albedo = Color(0.40069774, 0.40069774, 0.40069768, 1)
+volumetric_fog_emission_energy = 2.15
+volumetric_fog_length = 88.2
+volumetric_fog_sky_affect = 0.75
 
 [node name="Map" type="Node3D"]
 script = ExtResource("1_fls3e")
 
-[node name="Ground" type="StaticBody3D" parent="."]
+[node name="folliage" type="GridMap" parent="."]
+mesh_library = ExtResource("2_riaky")
+cell_size = Vector3(1, 1.905, 1)
+cell_octant_size = 25
+data = {
+"cells": PackedInt32Array(1, 65527, 1507328, 65531, 65524, 1507328, 65531, 65514, 1507328, 9, 65514, 1507328, 19, 65524, 1507328, 21, 65532, 1507328, 65520, 65524, 1507328, 65514, 65532, 1507328, 65512, 5, 1507328, 65514, 12, 1507328, 65520, 14, 1507328, 65522, 3, 1507328, 65534, 10, 1507328, 7, 17, 1507328, 7, 16, 1507328, 18, 6, 1507328, 3, 7, 1507328, 10, 65528, 1507328, 10, 65529, 1507328, 65520, 65533, 1507328)
+}
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.8999023)
-shape = SubResource("BoxShape3D_w7jjh")
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.84302044, 0)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-mesh = SubResource("PlaneMesh_ci6au")
-skeleton = NodePath("../..")
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.57760596, 0)
+shape = SubResource("BoxShape3D_k63oc")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.8148649, 0.57965094, 0, -0.57965094, -0.8148649, 0, 11.044427, 0)
-light_energy = 2.509
+[node name="Ground" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_vtkp8")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_6q3n4")
 
+[node name="Player" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.7784185, 0, -0.07489896)
+script = ExtResource("6_w7jjh")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3703325, 0)
+script = ExtResource("7_w7jjh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/CharacterBody3D"]
+shape = SubResource("CapsuleShape3D_4c2oa")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/CharacterBody3D"]
+mesh = SubResource("CapsuleMesh_olcgw")
+
+[node name="Pivot" type="Node3D" parent="Player/CharacterBody3D"]
+
+[node name="Camera3D" type="Camera3D" parent="Player/CharacterBody3D/Pivot"]
 [node name="CampFire" parent="." instance=ExtResource("7_k63oc")]
 
 [node name="Player" parent="." instance=ExtResource("5_6q3n4")]
@@ -100,6 +164,53 @@ theme_override_fonts/font = ExtResource("10_olcgw")
 theme_override_font_sizes/font_size = 22
 text = "10:00 restantes"
 
+[node name="seatNode" parent="." instance=ExtResource("18_j4oe2")]
+transform = Transform3D(1.46, 0, 0, 0, 1.46, 0, 0, 0, 1.46, 1.545, 0, 4.755)
+
+[node name="seatNode2" parent="." instance=ExtResource("18_j4oe2")]
+transform = Transform3D(1.1582803, 0, 0.8888118, 0, 1.4599999, 0, -0.8888118, 0, 1.1582803, -1.545, 0.05, 4.755)
+
+[node name="seatNode3" parent="." instance=ExtResource("18_j4oe2")]
+transform = Transform3D(0.30215505, 0, 1.4283915, 0, 1.4599999, 0, -1.4283915, 0, 0.30215505, 4.045, 0.05, 2.939)
+
+[node name="seatNode4" parent="." instance=ExtResource("18_j4oe2")]
+transform = Transform3D(0.86222255, 0, -1.178207, 0, 1.4599998, 0, 1.178207, 0, 0.86222255, 1.545, 0.05, -4.755)
+
+[node name="seatNode5" parent="." instance=ExtResource("18_j4oe2")]
+transform = Transform3D(1.3394152, 0, -0.581005, 0, 1.4599999, 0, 0.581005, 0, 1.3394152, -1.545, 0.05, -4.755)
+
+[node name="seatNode6" parent="." instance=ExtResource("18_j4oe2")]
+transform = Transform3D(1.3742633, 0, 0.49295065, 0, 1.4599999, 0, -0.49295065, 0, 1.3742633, 4.045, 0, -2.939)
+
+[node name="seatNode7" parent="." instance=ExtResource("18_j4oe2")]
+transform = Transform3D(0.43842286, 0, 1.3926182, 0, 1.4599999, 0, -1.3926182, 0, 0.43842286, -4.045, 0.05, -2.939)
+
+[node name="seatNode8" parent="." instance=ExtResource("18_j4oe2")]
+transform = Transform3D(0.1614024, 0, -1.451051, 0, 1.4599999, 0, 1.451051, 0, 0.1614024, -5, 0.05, 0)
+
+[node name="seatNode9" parent="." instance=ExtResource("18_j4oe2")]
+transform = Transform3D(0.7327787, 0, -1.2627885, 0, 1.4599999, 0, 1.2627885, 0, 0.7327787, -4.045, 0.05, 2.939)
+
+[node name="seatNode10" parent="." instance=ExtResource("18_j4oe2")]
+transform = Transform3D(-0.039033532, 0, -1.459478, 0, 1.4599999, 0, 1.459478, 0, -0.039033532, 5, 0, 0)
+
+[node name="trees" type="GridMap" parent="."]
+mesh_library = ExtResource("17_k63oc")
+cell_size = Vector3(1, 20, 1)
+data = {
+"cells": PackedInt32Array(10, 65524, 0, 65524, 65528, 0, 65530, 13, 0, 10, 7, 0, 21, 65505, 0, 17, 65504, 0, 12, 65504, 0, 7, 65504, 0, 1, 65505, 0, 65532, 65507, 0, 65526, 65510, 0, 65521, 65513, 0, 65516, 65517, 0, 65511, 65523, 0, 65508, 65529, 0, 65512, 65519, 0, 65508, 65526, 0, 65506, 65534, 0, 65507, 3, 0, 65503, 65531, 0, 65504, 2, 0, 65507, 8, 0, 65509, 13, 0, 65512, 16, 0, 65515, 18, 0, 65519, 21, 0, 65524, 22, 0, 65530, 23, 0, 0, 23, 0, 6, 22, 0, 12, 21, 0, 17, 18, 0, 22, 14, 0, 25, 9, 0, 28, 3, 0, 28, 65533, 0, 28, 65527, 0, 29, 65521, 0, 27, 65515, 0, 26, 65508, 0, 6, 65507, 0, 11, 65507, 0, 16, 65509, 0, 20, 65512, 0, 23, 65516, 0, 26, 65519, 0, 65517, 65514, 0, 65522, 65510, 0, 65529, 65508, 0, 65534, 65504, 0, 3, 65505, 0, 31, 6, 0, 31, 65517, 0, 33, 65522, 0, 32, 65528, 0, 30, 65525, 0, 33, 65529, 0, 30, 0, 0, 28, 7, 0, 30, 65532, 0, 26, 13, 0, 20, 18, 0, 16, 22, 0, 9, 24, 0, 3, 25, 0, 65533, 26, 0, 65527, 26, 0, 65520, 25, 0, 65516, 21, 0, 65506, 11, 0, 65504, 6, 0, 65522, 28, 0, 1, 65515, 0, 65527, 65519, 0, 65517, 5, 0, 16, 65535, 0, 13, 65516, 0)
+}
+
+[node name="dead_tree_trunk_4k" parent="." instance=ExtResource("18_riaky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.026, -0.01987809, 0.142)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="dead_tree_trunk_4k"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62834597, 0)
+light_color = Color(0.83015203, 0.5735766, 1.540184e-06, 1)
+light_energy = 2.462
+omni_range = 40.0
+omni_attenuation = 0.575
+omni_shadow_mode = 0
 [node name="DialoguesLeft" type="Label" parent="UI"]
 texture_filter = 1
 offset_left = 16.0

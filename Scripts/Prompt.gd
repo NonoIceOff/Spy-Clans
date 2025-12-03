@@ -24,11 +24,11 @@ Le message utilisateur te fournit un unique objet JSON appelé "interrogation_in
 {
   "day_index": 2,
   "target_person": {
-    "full_name": "Alex Martin",
-    "age": 24,
-    "personality": "sarcastique mais loyal",
-    "relation_to_player": "meilleur ami",
-    "is_killer": false
+	"full_name": "Alex Martin",
+	"age": 24,
+	"personality": "sarcastique mais loyal",
+	"relation_to_player": "meilleur ami",
+	"is_killer": false
   },
   "day_story": "Texte décrivant ce qui s'est passé durant la journée.",
   "campfire_dialogue_for_person": {
@@ -140,24 +140,24 @@ Tu dois TOUJOURS répondre avec un JSON STRICTEMENT VALIDE de cette forme :
 
 {
   "interrogation": {
-    "day_index": <number>,
-    "full_name": "<nom complet de la personne interrogée>",
-    "is_killer": true or false,
-    "emotional_state": "<état émotionnel au début de l'interrogatoire>",
-    "opening_reaction": "<1 à 2 phrases de réaction au fait d'être interrogé>",
-    "alibi_answers": [
-      "<réponse possible sur l'alibi (1 à 3 phrases)>",
+	"day_index": <number>,
+	"full_name": "<nom complet de la personne interrogée>",
+	"is_killer": true or false,
+	"emotional_state": "<état émotionnel au début de l'interrogatoire>",
+	"opening_reaction": "<1 à 2 phrases de réaction au fait d'être interrogé>",
+	"alibi_answers": [
+	  "<réponse possible sur l'alibi (1 à 3 phrases)>",
       "<autre variante d'alibi (facultatif)>"
-    ],
-    "suspicion_answers": [
-      "<réponse possible sur qui elle soupçonne et pourquoi>",
+	],
+	"suspicion_answers": [
+	  "<réponse possible sur qui elle soupçonne et pourquoi>",
       "<autre réponse possible de suspicion>"
-    ],
-    "extra_answers": [
-      "<réplique supplémentaire (peur, colère, défense...)>",
-      "<autre réplique possible>",
+	],
+	"extra_answers": [
+	  "<réplique supplémentaire (peur, colère, défense...)>",
+	  "<autre réplique possible>",
       "<encore une si utile>"
-    ]
+	]
   }
 }
 
@@ -214,8 +214,8 @@ Le message utilisateur fournira un objet JSON appelé "game_state" contenant au 
     {
       "full_name": "Thomas Leroy",
       "day_index": 2,
-      "was_killer": false                // true si c'était le meurtrier, false sinon
-    }
+	  "was_killer": false                // true si c'était le meurtrier, false sinon
+	}
   ],
   "player_notes_summary": "Texte court résumant le journal du joueur (facultatif)",
   "camp_location": "forêt de montagne près d'un lac (facultatif)"
@@ -236,7 +236,7 @@ TA MISSION POUR CE JOUR
      - Choisir une personne dans "people" avec alive == true.
      - Ce sera le même meurtrier pour toute la partie.
    - Si "killer_full_name" n'est pas null :
-     - Tu le respectes, tu ne le changes jamais.
+	 - Tu le respectes, tu ne le changes jamais.
 	- Si la liste "victims" est VIDE :
 		  - Tu NE parles PAS de meurtre ou de corps découverts les jours précédents.
 		  - Le meurtre du jour est le PREMIER meurtre de l'histoire.
@@ -254,10 +254,10 @@ TA MISSION POUR CE JOUR
    - "day_story" : un paragraphe court (5 à 8 phrases maximum) expliquant :
      - ce que le groupe a fait dans la journée (activités, incidents, disputes, rapprochements),
      - où et comment la victime a pu se retrouver isolée ou vulnérable,
-     - des éléments qui peuvent servir d'indice, mais sans révéler clairement le meurtrier.
+	 - des éléments qui peuvent servir d'indice, mais sans révéler clairement le meurtrier.
    - Cette histoire doit :
-     - être cohérente avec les personnalités, les liens avec le joueur et le lieu du camp,
-     - être réutilisable pour justifier les dialogues du soir.
+	 - être cohérente avec les personnalités, les liens avec le joueur et le lieu du camp,
+	 - être réutilisable pour justifier les dialogues du soir.
 
 4) Corps et lieu de la mort :
    - "body_location" : une phrase courte décrivant où le corps a été retrouvé (ex : "près du lac, à moitié caché derrière un rocher").
@@ -268,7 +268,7 @@ TA MISSION POUR CE JOUR
      - deuil, peur, colère, culpabilité, tensions envers le joueur.
    - Si une personne innocente a été éliminée (was_killer == false) :
      - Certains peuvent en vouloir au joueur.
-     - D'autres peuvent être d'accord avec cette élimination.
+	 - D'autres peuvent être d'accord avec cette élimination.
    - Si le vrai meurtrier a déjà été éliminé (was_killer == true) :
      - IMPORTANT : tu continues quand même à jouer son rôle comme si les autres ne savaient pas.
      - Les dialogues restent cohérents, mais la tension peut évoluer.
@@ -321,7 +321,7 @@ Tu dois TOUJOURS répondre avec un JSON strictement valide de cette forme :
   "day_story": "<texte (5 à 8 phrases). Résumé de ce qui s'est passé dans la journée.>",
   "campfire_dialogues": [
     {
-      "full_name": "<nom complet d'une personne vivante>",
+	  "full_name": "<nom complet d'une personne vivante>",
       "is_killer": true or false,
       "is_new_victim": false,
       "emotional_state": "<état émotionnel court>",

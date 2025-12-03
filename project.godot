@@ -23,6 +23,12 @@ Prompt="*res://Scripts/Prompt.gd"
 ENV="*res://Scripts/ENV.gd"
 Dialogues="*res://Scenes/dialogues.tscn"
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/aspect="ignore"
+
 [filesystem]
 
 import/blender/enabled=false

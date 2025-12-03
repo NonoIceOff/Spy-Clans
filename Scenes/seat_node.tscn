@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dxvisy516q6f6"]
+
+[ext_resource type="PackedScene" uid="uid://bhjhwrulh6vxf" path="res://Textures/seat/chinese_stool_1k.fbx" id="1_akesh"]
+
+[node name="seatNode" type="Node3D"]
+transform = Transform3D(1.46, 0, 0, 0, 1.46, 0, 0, 0, 1.46, 0, 0, 0)
+
+[node name="seat" parent="." instance=ExtResource("1_akesh")]
