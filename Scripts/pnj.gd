@@ -4,6 +4,7 @@ extends Node3D
 var hover = false
 var highlighted = false
 var name_pnj = ""
+var person_index: int = -1
 var alive = true
 
 var dialogue_lines: Array[Dictionary] = []
@@ -37,16 +38,32 @@ func show_name_label() -> void:
 func hide_name_label() -> void:
 	hover = false
 
-# détecter clic droit, ouvrir dialogue
 func _input(event) -> void:
 	if event is InputEventMouseButton and hover:
 		var mouse_event := event as InputEventMouseButton
 		if mouse_event.button_index == MOUSE_BUTTON_RIGHT and mouse_event.pressed:
-			if Global.dialogues_left <= 0:
-				print("Aucun dialogue restant pour aujourd'hui.")
-				return
-			var dialogue := get_tree().get_root().get_node("Dialogues") as Node
 			var player := get_tree().get_root().get_node("Map/Player/CharacterBody3D") as Node
+
+			if Global.dialogues_left <= 0:
+				print("--- DEBUG INTERRO ---")
+				print("InterrogationUi global:", InterrogationUi)
+				if InterrogationUi:
+					print("  class:", InterrogationUi.get_class())
+					print("  script:", InterrogationUi.get_script())
+					print("  has_method start_interrogation_confirm:", InterrogationUi.has_method("start_interrogation_confirm"))
+				
+				if InterrogationUi and InterrogationUi.has_method("start_interrogation_confirm"):
+					print("Appel de start_interrogation_confirm avec index", person_index, "et nom", name_pnj)
+					InterrogationUi.start_interrogation_confirm(person_index, name_pnj)
+					player.in_cinematic = true
+				else:
+					print("InterrogationUi introuvable ou méthode 'start_interrogation_confirm' manquante.")
+				return
+
+
+
+			# Dialogues normaux tant qu'il en reste
+			var dialogue := get_tree().get_root().get_node("Dialogues") as Node
 			if dialogue.has_method("start_dialogue"):
 				print("Starting dialogue with ", name_pnj)
 				print("Dialogue lines: ", dialogue_lines)

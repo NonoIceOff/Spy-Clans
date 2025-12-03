@@ -40,6 +40,13 @@ func _rebuild_person_index() -> void:
 		if name != "":
 			person_index_by_name[name] = i
 
+var player_journal_text: String = ""
+
+func add_journal_line(line: String) -> void:
+	player_journal_text += line + "\n"
+
+func get_player_journal_text() -> String:
+	return player_journal_text
 
 # ---------------------------------------------------------
 # DEBUG : Voir les données d'un personnage
@@ -284,3 +291,4 @@ func _handle_interrogation_response(interro_json: Dictionary) -> void:
 	current["last_interrogation"] = interrogation
 
 	print("[Interrogatoire] reçu pour :", interrogation.get("full_name"))
+	print ("voici le text", interrogation)

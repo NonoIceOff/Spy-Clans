@@ -22,6 +22,7 @@ Variable="*res://Scripts/Variable.gd"
 Prompt="*res://Scripts/Prompt.gd"
 ENV="*res://Scripts/ENV.gd"
 Dialogues="*res://Scenes/dialogues.tscn"
+InterrogationUi="*res://Scenes/InterrogationUI.tscn"
 
 [display]
 

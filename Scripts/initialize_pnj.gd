@@ -1,8 +1,5 @@
 extends Node3D
 
-
-
-
 func _ready() -> void:
 	# récupérer les infos des personnages depuis Global
 	var peoples = Global.current.get("people", [])
@@ -42,6 +39,10 @@ func _ready() -> void:
 					{"name": name_pnj, "text": "Bonjour."},
 					{"name": name_pnj, "text": "Que puis-je faire pour vous ?"}
 				]
+
+			pnj.person_index = index
+
+
 			
 			pnj.initialize_pnj(name_pnj, dialogue_lines, peoples[index].get("alive", true))
 
@@ -53,7 +54,5 @@ func _ready() -> void:
 				get_node("../seatNode0"+str(index+1)+"/Sign/Label3D").text += "\n☠️"
 				get_node("../seatNode0"+str(index+1)+"/Sign/Label3D").modulate = Color(1, 0, 0, 1.0)
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
