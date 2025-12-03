@@ -144,6 +144,7 @@ func _on_history_button_pressed() -> void:
 func quit_journal() -> void:
 	save_notes_to_global(character_index_selected, get_node("CharacterInfos/TextEdit").text)
 	visible = false
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func show_character_notes(index) -> void:
 	# on récupère les notes du personnage sélectionné via global
