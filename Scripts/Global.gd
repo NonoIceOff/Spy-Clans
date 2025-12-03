@@ -61,6 +61,7 @@ func debug_person_data(person_index: int) -> void:
 	print("Personnalité :", p.get("personality"))
 	print("Relation :", p.get("relation_to_player"))
 	print("Alive :", p.get("alive"))
+	print("Notes :", p.get("notes", "Aucune note"))
 
 	if current.has("campfire_dialogues"):
 		for entry in current["campfire_dialogues"]:

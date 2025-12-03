@@ -16,13 +16,16 @@ var characters: Array[Dictionary] = [
 @onready var character_list := $CharacterList
 
 
+var character_index_selected: int = -1
+
+
 func _ready() -> void:
 	visible = false
+	_on_character_button_pressed(0)
 	
 	var peoples = Global.current.get("people", [])
 	if peoples.is_empty():
 		peoples = [{ "full_name": "Nina Garnier", "age": 19, "personality": "perfectionniste et controle freak", "relation_to_player": "ami de longue date", "alive": true }, { "full_name": "Alex Leroy", "age": 19, "personality": "introverti mais attentif aux autres", "relation_to_player": "amie d enfance", "alive": true }, { "full_name": "Emma Martin", "age": 28, "personality": "empathique mais anxieux", "relation_to_player": "partenaire de sport", "alive": true }, { "full_name": "Leo Garnier", "age": 29, "personality": "suspicieux mais protecteur", "relation_to_player": "meilleur ami", "alive": true }, { "full_name": "Yanis Laurent", "age": 25, "personality": "introverti mais attentif aux autres", "relation_to_player": "ami de soiree", "alive": false }, { "full_name": "Sarah Durand", "age": 24, "personality": "sarcastique mais loyal", "relation_to_player": "ami proche", "alive": true }, { "full_name": "Sarah Laurent", "age": 32, "personality": "suspicieux mais protecteur", "relation_to_player": "ami de longue date", "alive": true }, { "full_name": "Sarah Dupont", "age": 29, "personality": "tres optimiste, parfois naive", "relation_to_player": "ami de soiree", "alive": true }, { "full_name": "Sarah Blanc", "age": 19, "personality": "direct et parfois blessant", "relation_to_player": "amie d enfance", "alive": true }]
-	print("PEOPLES :", peoples)
 	# on reconstruit le tableau des personnages
 	characters = []
 	if typeof(peoples) == TYPE_ARRAY:
@@ -34,7 +37,7 @@ func _ready() -> void:
 					name = str(p.get("full_name"))
 				if p.has("personality"):
 					personality = str(p.get("personality"))
-			characters.append({"name": name, "personality": personality})
+			characters.append({"name": name, "personality": personality, "alive": p.get("alive", true), "notes": ""})
 	_initialize_list()
 	show_history_dialogues()
 
@@ -53,18 +56,32 @@ func _initialize_list() -> void:
 
 func _on_character_button_pressed(index: int) -> void:
 	# afficher les notes du personnage sélectionné
-	print("Personnage sélectionné :", characters[index]["name"])
+	save_notes_to_global(character_index_selected, get_node("CharacterInfos/TextEdit").text)
+	character_index_selected = index
+	show_character_notes(index)
 	var button := character_list.get_child(index)
 	get_node("CharacterInfos").visible = true
 	get_node("HistoryInfos").visible = false
-	print("PANEL :", button)
 	if button:
+		print("Affichage infos pour :", characters[index])
 		var text_name := get_node("CharacterInfos/Name") as Label
 		text_name.text = characters[index]["name"]
+
 		var text_personality := get_node("CharacterInfos/Personality") as Label
 		text_personality.text = "Personnalité : %s" % characters[index]["personality"]
+
+		var rich_text_status := get_node("CharacterInfos/Status") as RichTextLabel
+		var alive = characters[index]["alive"]
+
+		if alive:
+			rich_text_status.text = "[rainbow freq=0.25]EN VIE[/rainbow]"
+		else:
+			rich_text_status.text = "[color=red]MORT[/color]"
+
 		var text_edit := get_node("CharacterInfos/TextEdit") as TextEdit
+		text_edit.text = ""
 		if text_edit:
+			text_edit.text = characters[index].get("notes", "")
 			text_edit.grab_focus()
 
 
@@ -95,6 +112,7 @@ func print_notes() -> void:
 		print("Nom: ", note["name"])
 		print("Personnalité: ", note["personality"])
 		print("Note: ", note["note"] if note["note"] != "" else "[Aucune note]")
+		print("Status: ", "Vivant" if Global.current["people"][Global.person_index_by_name[note["name"]]].get("alive", true) else "Décédé")
 	print("========================")
 
 func show_history_dialogues() -> void:
@@ -118,5 +136,39 @@ func show_history_dialogues() -> void:
 
 func _on_history_button_pressed() -> void:
 	show_history_dialogues()
+	save_notes_to_global(character_index_selected, get_node("CharacterInfos/TextEdit").text)
 	get_node("CharacterInfos").visible = !get_node("CharacterInfos").visible
 	get_node("HistoryInfos").visible = !get_node("HistoryInfos").visible
+
+func show_character_notes(index) -> void:
+	# on récupère les notes du personnage sélectionné via global
+	if index >= 0 and index < characters.size():
+		var person_name = characters[index]["name"]
+		if Global.person_index_by_name.has(person_name):
+			var person_index = Global.person_index_by_name[person_name]
+			if person_index < Global.current["people"].size():
+				var person = Global.current["people"][person_index]
+				var notes = person.get("notes", "")
+				print("Notes récupérées pour ", person_name, " :", notes)
+
+
+
+func _on_text_edit_text_changed() -> void:
+	# on applique la note modifiée dans le personnage stocké dans Global
+	if character_index_selected >= 0 and character_index_selected < characters.size():
+		var text_edit := get_node("CharacterInfos/TextEdit") as TextEdit
+		if text_edit:
+			var notes = text_edit.text
+			save_notes_to_global(character_index_selected, notes)
+
+func save_notes_to_global(index: int, notes: String) -> void:
+	# sauvegarde les notes dans Global
+	if index >= 0 and index < characters.size():
+		var person_name = characters[index]["name"]
+		if Global.person_index_by_name.has(person_name):
+			var person_index = Global.person_index_by_name[person_name]
+			if person_index < Global.current["people"].size():
+				var person = Global.current["people"][person_index]
+				person["notes"] = notes
+				characters[index]["notes"] = notes
+				print("Notes sauvegardées pour ", person_name, " :", notes)

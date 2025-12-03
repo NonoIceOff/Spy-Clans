@@ -68,16 +68,38 @@ theme_override_fonts/font = ExtResource("3_okafp")
 theme_override_font_sizes/font_size = 24
 text = "Personnalité : "
 
+[node name="Status" type="RichTextLabel" parent="CharacterInfos"]
+layout_mode = 0
+offset_left = 384.0
+offset_top = 200.0
+offset_right = 551.0
+offset_bottom = 239.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 0.39215687)
+theme_override_constants/outline_size = 2
+theme_override_fonts/normal_font = ExtResource("3_okafp")
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[rainbow freq=0.25]EN VIE[/rainbow]"
+
 [node name="TextEdit" type="TextEdit" parent="CharacterInfos"]
 layout_mode = 0
 offset_left = 384.0
-offset_top = 224.0
+offset_top = 240.0
 offset_right = 984.0
-offset_bottom = 504.0
+offset_bottom = 488.0
 theme_override_fonts/font = ExtResource("3_okafp")
 placeholder_text = "Vos notes ici :"
 wrap_mode = 1
 caret_blink = true
+
+[node name="LaunchDialogue" type="Button" parent="CharacterInfos"]
+layout_mode = 0
+offset_left = 384.0
+offset_top = 496.0
+offset_right = 544.0
+offset_bottom = 524.0
+theme_override_fonts/font = ExtResource("3_okafp")
+text = "Relancer le dialogue"
 
 [node name="HistoryInfos" type="Control" parent="."]
 visible = false
@@ -95,3 +117,4 @@ theme_override_colors/default_color = Color(0, 0, 0, 1)
 bbcode_enabled = true
 
 [connection signal="pressed" from="HistoryButton" to="." method="_on_history_button_pressed"]
+[connection signal="text_changed" from="CharacterInfos/TextEdit" to="." method="_on_text_edit_text_changed"]
