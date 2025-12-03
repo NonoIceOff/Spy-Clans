@@ -1,6 +1,48 @@
-[gd_scene load_steps=2 format=3 uid="uid://cmbgcmiyo06wo"]
+[gd_scene load_steps=12 format=3 uid="uid://cmbgcmiyo06wo"]
 
 [ext_resource type="Script" uid="uid://bml7epvolv4jl" path="res://Scripts/menu.gd" id="1_1rerr"]
+[ext_resource type="FontFile" uid="uid://dm472n6vwgn6h" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="2_xhh6f"]
+[ext_resource type="Texture2D" uid="uid://c43wpnx4ohjw7" path="res://Textures/Ground003_1K-PNG/ground.png" id="3_wwsa2"]
+[ext_resource type="Texture2D" uid="uid://pqm5i1ud2tp4" path="res://Textures/Ground003_1K-PNG/ground_n.png" id="4_jsrd8"]
+[ext_resource type="PackedScene" uid="uid://30vj554jixit" path="res://Scenes/fire.tscn" id="5_jsrd8"]
+[ext_resource type="Texture2D" uid="uid://dbi01n57xyi04" path="res://Textures/NightSkyHDRI003_1K/NightSkyHDRI003.png" id="5_wbdvm"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_riaky"]
+albedo_texture = ExtResource("3_wwsa2")
+normal_enabled = true
+normal_texture = ExtResource("4_jsrd8")
+uv1_scale = Vector3(50, 50, 50)
+texture_filter = 0
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_q3rjx"]
+material = SubResource("StandardMaterial3D_riaky")
+size = Vector2(100, 100)
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_6swd7"]
+panorama = ExtResource("5_wbdvm")
+energy_multiplier = 86.8
+
+[sub_resource type="Sky" id="Sky_w7jjh"]
+sky_material = SubResource("PanoramaSkyMaterial_6swd7")
+
+[sub_resource type="Environment" id="Environment_7qvly"]
+background_mode = 2
+background_energy_multiplier = 2.5
+sky = SubResource("Sky_w7jjh")
+ambient_light_source = 1
+ambient_light_color = Color(1, 1, 1, 1)
+fog_light_color = Color(0.46930748, 0.504759, 0.5579392, 1)
+fog_light_energy = 0.95
+fog_sun_scatter = 0.08
+fog_density = 0.001
+fog_sky_affect = 0.72
+fog_height_density = -1.9131
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.068
+volumetric_fog_albedo = Color(0.40069774, 0.40069774, 0.40069768, 1)
+volumetric_fog_emission_energy = 2.15
+volumetric_fog_length = 88.2
+volumetric_fog_sky_affect = 0.75
 
 [node name="Menu" type="Control"]
 layout_mode = 3
@@ -11,32 +53,57 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_1rerr")
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 1
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="Ground" type="MeshInstance3D" parent="Node3D"]
+mesh = SubResource("PlaneMesh_q3rjx")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Node3D"]
+environment = SubResource("Environment_7qvly")
+
+[node name="Camera3D" type="Camera3D" parent="Node3D"]
+transform = Transform3D(-0.07041801, 0.48316452, -0.8726933, 0, 0.8748652, 0.48436698, 0.9975177, 0.03410816, -0.061606262, -2.1537974, 2.147338, 0)
+
+[node name="dead_tree_trunk_4k" parent="Node3D" instance=ExtResource("5_jsrd8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.026, -0.01987809, 0.142)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Node3D/dead_tree_trunk_4k"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62834597, 0)
+light_color = Color(0.83015203, 0.5735766, 1.540184e-06, 1)
+light_energy = 2.462
+omni_range = 40.0
+omni_attenuation = 0.575
+omni_shadow_mode = 0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Title" type="Label" parent="CanvasLayer"]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -167.0
+offset_left = -312.0
 offset_top = 104.0
-offset_right = 165.0
-offset_bottom = 192.0
+offset_right = 310.0
+offset_bottom = 258.0
 grow_horizontal = 2
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("2_xhh6f")
+theme_override_font_sizes/font_size = 128
 text = "SPY CLANS"
 
-[node name="Play_Button" type="Button" parent="."]
-layout_mode = 1
+[node name="Play_Button" type="Button" parent="CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -58.0
-offset_top = -24.0
-offset_right = 58.0
-offset_bottom = 24.0
+offset_left = -192.0
+offset_top = 24.0
+offset_right = 192.0
+offset_bottom = 109.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_xhh6f")
+theme_override_font_sizes/font_size = 64
 text = "Jouer"
 
-[connection signal="pressed" from="Play_Button" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Play_Button" to="." method="_on_play_button_pressed"]

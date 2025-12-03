@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://vw60otvfw2xt"]
+[gd_scene load_steps=14 format=3 uid="uid://vw60otvfw2xt"]
 
 [ext_resource type="Script" uid="uid://i7hqjevxmda0" path="res://Scripts/pnj.gd" id="1_0pnw5"]
 [ext_resource type="Texture2D" uid="uid://cpl8cs8mo1iea" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Color.jpg" id="2_gidp2"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://boose573pkfvl" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Metalness.jpg" id="5_18w6c"]
 [ext_resource type="Texture2D" uid="uid://dwa2oimbfr3h5" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_NormalDX.jpg" id="6_d6rf6"]
 [ext_resource type="Texture2D" uid="uid://d33ot8rhh7dss" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Roughness.jpg" id="7_aft3c"]
+[ext_resource type="FontFile" uid="uid://dm472n6vwgn6h" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="8_gidp2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4c2oa"]
 
@@ -28,6 +29,20 @@ refraction_texture = ExtResource("4_haco6")
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_olcgw"]
 material = SubResource("StandardMaterial3D_k63oc")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0pnw5"]
+albedo_color = Color(1, 0, 0, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 2.0
+normal_texture = ExtResource("6_d6rf6")
+bent_normal_texture = ExtResource("3_gmu5b")
+heightmap_texture = ExtResource("4_haco6")
+refraction_texture = ExtResource("4_haco6")
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_gidp2"]
+material = SubResource("StandardMaterial3D_0pnw5")
+flip_faces = true
+
 [node name="PNJ" type="Node3D"]
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." groups=["PNJ"]]
@@ -38,10 +53,19 @@ script = ExtResource("1_0pnw5")
 shape = SubResource("CapsuleShape3D_4c2oa")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+layers = 524288
 mesh = SubResource("CapsuleMesh_olcgw")
+
+[node name="Outline" type="MeshInstance3D" parent="CharacterBody3D"]
+transform = Transform3D(1.03, 0, 0, 0, 1.03, 0, 0, 0, 1.03, 0, 0, 0)
+layers = 524288
+gi_lightmap_texel_scale = 10.0
+mesh = SubResource("CapsuleMesh_gidp2")
 
 [node name="Name" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7132773, 0)
 visible = false
 billboard = 1
+texture_filter = 0
 text = "Jean-Michel"
+font = ExtResource("8_gidp2")
