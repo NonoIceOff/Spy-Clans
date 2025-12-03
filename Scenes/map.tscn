@@ -208,35 +208,35 @@ text = "Ignorer"
 
 [node name="Journal" parent="UI" instance=ExtResource("17_rg57b")]
 
-[node name="seatNode" parent="." instance=ExtResource("18_j4oe2")]
-transform = Transform3D(1.46, 0, 0, 0, 1.46, 0, 0, 0, 1.46, 1.545, 0, 4.755)
+[node name="seatNode01" parent="." groups=["Seat_PNJ"] instance=ExtResource("18_j4oe2")]
+transform = Transform3D(-6.3818625e-08, 0, 1.4599999, 0, 1.4599999, 0, -1.4599999, 0, -6.3818625e-08, -5, 0.05, 0)
 
-[node name="seatNode2" parent="." instance=ExtResource("18_j4oe2")]
-transform = Transform3D(1.1582803, 0, 0.8888118, 0, 1.4599999, 0, -0.8888118, 0, 1.1582803, -1.545, 0.05, 4.755)
+[node name="seatNode02" parent="." groups=["Seat_PNJ"] instance=ExtResource("18_j4oe2")]
+transform = Transform3D(1.032376, 0, 1.032376, 0, 1.4599999, 0, -1.032376, 0, 1.032376, -4.045, 0.05, -2.939)
 
-[node name="seatNode3" parent="." instance=ExtResource("18_j4oe2")]
-transform = Transform3D(0.30215505, 0, 1.4283915, 0, 1.4599999, 0, -1.4283915, 0, 0.30215505, 4.045, 0.05, 2.939)
+[node name="seatNode03" parent="." groups=["Seat_PNJ"] instance=ExtResource("18_j4oe2")]
+transform = Transform3D(1.4599999, 0, 0, 0, 1.4599999, 0, 0, 0, 1.4599999, -1.545, 0.05, -4.755)
 
-[node name="seatNode4" parent="." instance=ExtResource("18_j4oe2")]
-transform = Transform3D(0.86222255, 0, -1.178207, 0, 1.4599998, 0, 1.178207, 0, 0.86222255, 1.545, 0.05, -4.755)
+[node name="seatNode04" parent="." groups=["Seat_PNJ"] instance=ExtResource("18_j4oe2")]
+transform = Transform3D(1.3232093, 0, -0.61702263, 0, 1.4599997, 0, 0.61702263, 0, 1.3232093, 1.545, 0.05, -4.755)
 
-[node name="seatNode5" parent="." instance=ExtResource("18_j4oe2")]
-transform = Transform3D(1.3394152, 0, -0.581005, 0, 1.4599999, 0, 0.581005, 0, 1.3394152, -1.545, 0.05, -4.755)
+[node name="seatNode05" parent="." groups=["Seat_PNJ"] instance=ExtResource("18_j4oe2")]
+transform = Transform3D(0.72999996, 0, -1.2643971, 0, 1.4599999, 0, 1.2643971, 0, 0.72999996, 4.045, 0, -2.939)
 
-[node name="seatNode6" parent="." instance=ExtResource("18_j4oe2")]
-transform = Transform3D(1.3742633, 0, 0.49295065, 0, 1.4599999, 0, -0.49295065, 0, 1.3742633, 4.045, 0, -2.939)
-
-[node name="seatNode7" parent="." instance=ExtResource("18_j4oe2")]
-transform = Transform3D(0.43842286, 0, 1.3926182, 0, 1.4599999, 0, -1.3926182, 0, 0.43842286, -4.045, 0.05, -2.939)
-
-[node name="seatNode8" parent="." instance=ExtResource("18_j4oe2")]
-transform = Transform3D(0.1614024, 0, -1.451051, 0, 1.4599999, 0, 1.451051, 0, 0.1614024, -5, 0.05, 0)
-
-[node name="seatNode9" parent="." instance=ExtResource("18_j4oe2")]
-transform = Transform3D(0.7327787, 0, -1.2627885, 0, 1.4599999, 0, 1.2627885, 0, 0.7327787, -4.045, 0.05, 2.939)
-
-[node name="seatNode10" parent="." instance=ExtResource("18_j4oe2")]
+[node name="seatNodePlayer6" parent="." groups=["Seat_PNJ"] instance=ExtResource("18_j4oe2")]
 transform = Transform3D(-0.039033532, 0, -1.459478, 0, 1.4599999, 0, 1.459478, 0, -0.039033532, 5, 0, 0)
+
+[node name="seatNode06" parent="." groups=["Seat_PNJ"] instance=ExtResource("18_j4oe2")]
+transform = Transform3D(-0.72999996, 0, -1.2643969, 0, 1.4599998, 0, 1.2643969, 0, -0.72999996, 4.045, 0.05, 2.939)
+
+[node name="seatNode07" parent="." groups=["Seat_PNJ"] instance=ExtResource("18_j4oe2")]
+transform = Transform3D(-1.3719511, 0, -0.49934947, 0, 1.4599998, 0, 0.49934947, 0, -1.3719511, 1.545, 0, 4.755)
+
+[node name="seatNode08" parent="." groups=["Seat_PNJ"] instance=ExtResource("18_j4oe2")]
+transform = Transform3D(-1.3719509, 0, 0.49934942, 0, 1.4599998, 0, -0.49934942, 0, -1.3719509, -1.545, 0.05, 4.755)
+
+[node name="seatNode09" parent="." groups=["Seat_Player"] instance=ExtResource("18_j4oe2")]
+transform = Transform3D(-0.7299999, 0, 1.2643968, 0, 1.4599998, 0, -1.2643968, 0, -0.7299999, -4.045, 0.05, 2.939)
 
 [node name="trees" type="GridMap" parent="."]
 mesh_library = ExtResource("17_k63oc")

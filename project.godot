@@ -37,6 +37,8 @@ import/blender/enabled=false
 
 Player=""
 PNJ=""
+Seat_Player=""
+Seat_PNJ=""
 
 [input]
 
