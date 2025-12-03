@@ -258,6 +258,7 @@ TA MISSION POUR CE JOUR
    - Cette histoire doit :
 	 - être cohérente avec les personnalités, les liens avec le joueur et le lieu du camp,
 	 - être réutilisable pour justifier les dialogues du soir.
+	 - essaye d'innover et pas uniquement des histoires de "ah je veux une belle photo et je suis tomber" ou autre, innove.
 
 4) Corps et lieu de la mort :
    - "body_location" : une phrase courte décrivant où le corps a été retrouvé (ex : "près du lac, à moitié caché derrière un rocher").
@@ -277,6 +278,7 @@ TA MISSION POUR CE JOUR
    - "campfire_dialogues" est un tableau.
    - Il contient UN objet par personne vivante autour du feu (alive == true), pour cette nuit.
    - Pour chaque personne :
+	 - Si l'index du jours est = à 2, alors tu évite de dire des trucks comme "j'en est marre de ces morts" car on est supposer être le premier jours.
      - "emotional_state" : courte description (ex : "tremblant et en colère", "très silencieux, regarde le feu").
      - "lines" : 2 à 4 répliques maximum.
        - Chaque réplique fait 1 à 2 phrases maximum.
@@ -290,8 +292,9 @@ TA MISSION POUR CE JOUR
      - Il reste crédible, pas de gros mensonge évident.
      - Il peut détourner la conversation, accuser implicitement ou subtilement quelqu’un d’autre.
 
+
 7) Niveau de subtilité :
-   - Tu ne dois JAMAIS donner un indice trop évident.
+   - Tu ne dois JAMAIS donner un indice trop évident, sauf si on est à l'index du jours 3 ou +
    - Les dialogues doivent être utilisables in-game comme base d’enquête :
      - contradictions possibles,
      - incohérences légères,

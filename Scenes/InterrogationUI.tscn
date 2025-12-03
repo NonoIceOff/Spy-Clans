@@ -1,0 +1,87 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmv0vwnum004c"]
+
+[ext_resource type="Script" uid="uid://crrk0jdt2g7v2" path="res://Scripts/interrogation_ui.gd" id="1_glcoq"]
+
+[node name="InterrogationUI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_glcoq")
+
+[node name="ConfirmPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 189.0
+offset_top = 156.0
+offset_right = 735.0
+offset_bottom = 423.0
+
+[node name="Label" type="Label" parent="ConfirmPanel"]
+layout_mode = 0
+offset_right = 545.0
+offset_bottom = 265.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ConfirmYes" type="Button" parent="ConfirmPanel"]
+layout_mode = 0
+offset_left = 7.0
+offset_top = 267.0
+offset_right = 175.0
+offset_bottom = 387.0
+text = "Oui"
+
+[node name="ConfirmNo" type="Button" parent="ConfirmPanel"]
+layout_mode = 0
+offset_left = 379.0
+offset_top = 267.0
+offset_right = 549.0
+offset_bottom = 391.0
+text = "Non"
+
+[node name="QuestionPanel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 190.0
+offset_top = 108.0
+offset_right = 733.0
+offset_bottom = 371.0
+
+[node name="Label" type="Label" parent="QuestionPanel"]
+layout_mode = 0
+offset_left = -2.0
+offset_top = -1.0
+offset_right = 543.0
+offset_bottom = 315.0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonAlibi" type="Button" parent="QuestionPanel"]
+layout_mode = 0
+offset_left = 294.0
+offset_top = 206.0
+offset_right = 540.0
+offset_bottom = 339.0
+text = "Que faisait-tu an moment du drame ?"
+
+[node name="ButtonSuspicion" type="Button" parent="QuestionPanel"]
+layout_mode = 0
+offset_left = -30.0
+offset_top = 203.0
+offset_right = 215.0
+offset_bottom = 339.0
+text = "Qui soupçonne tu et pourquoi? "
+
+[node name="ButtonCancel" type="Button" parent="QuestionPanel"]
+layout_mode = 0
+offset_left = 145.0
+offset_top = 306.0
+offset_right = 387.0
+offset_bottom = 441.0
+
+[connection signal="pressed" from="ConfirmPanel/ConfirmYes" to="." method="_on_ConfirmYes_pressed"]
+[connection signal="pressed" from="ConfirmPanel/ConfirmNo" to="." method="_on_ConfirmNo_pressed"]
+[connection signal="pressed" from="QuestionPanel/ButtonAlibi" to="." method="_on_ButtonAlibi_pressed"]
+[connection signal="pressed" from="QuestionPanel/ButtonSuspicion" to="." method="_on_ButtonSuspicion_pressed"]
+[connection signal="pressed" from="QuestionPanel/ButtonCancel" to="." method="_on_ButtonCancel_pressed"]

@@ -1,8 +1,5 @@
 extends Node3D
 
-
-
-
 func _ready() -> void:
 	# récupérer les infos des personnages depuis Global
 	var peoples = Global.current.get("people", [])
@@ -39,7 +36,9 @@ func _ready() -> void:
 					{"name": name_pnj, "text": "Bonjour."},
 					{"name": name_pnj, "text": "Que puis-je faire pour vous ?"}
 				]
-			
+
+			pnj.person_index = index
+
 			pnj.initialize_pnj(name_pnj, dialogue_lines)
 
 			if Global.current["victims"][0]["full_name"] == name_pnj:
@@ -47,7 +46,5 @@ func _ready() -> void:
 				pnj.get_node("../").rotation.x = -80.0
 				pnj.get_node("../").position = Vector3(0, 0.5, 0)
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
