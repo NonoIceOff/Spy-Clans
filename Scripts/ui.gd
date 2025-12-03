@@ -8,6 +8,7 @@ var typing_speed := 0.02  # secondes entre chaque caractère
 @onready var dialogues_left_label := $DialoguesLeft
 
 
+
 func _ready() -> void:
 	_update_time_display()
 	show_history_day()

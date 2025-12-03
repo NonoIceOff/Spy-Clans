@@ -1,35 +1,19 @@
-[gd_scene load_steps=28 format=3 uid="uid://db8yeocanp3on"]
+[gd_scene load_steps=21 format=3 uid="uid://db8yeocanp3on"]
 
 [ext_resource type="Script" uid="uid://d1ak3yy7w4840" path="res://Scripts/map.gd" id="1_fls3e"]
 [ext_resource type="Texture2D" uid="uid://c43wpnx4ohjw7" path="res://Textures/Ground003_1K-PNG/ground.png" id="2_j4oe2"]
 [ext_resource type="MeshLibrary" uid="uid://b6s28sscqgft8" path="res://folliage_mesh.tres" id="2_riaky"]
 [ext_resource type="Texture2D" uid="uid://pqm5i1ud2tp4" path="res://Textures/Ground003_1K-PNG/ground_n.png" id="3_k63oc"]
 [ext_resource type="Texture2D" uid="uid://dbi01n57xyi04" path="res://Textures/NightSkyHDRI003_1K/NightSkyHDRI003.png" id="5_j4oe2"]
-[ext_resource type="Script" path="res://Scripts/player.gd" id="6_w7jjh"]
-[ext_resource type="Script" path="res://Scripts/character_body_3d.gd" id="7_w7jjh"]
-[ext_resource type="Texture2D" uid="uid://cpl8cs8mo1iea" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Color.jpg" id="8_q6lx1"]
-[ext_resource type="Texture2D" uid="uid://boose573pkfvl" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Metalness.jpg" id="9_5qtum"]
-[ext_resource type="Texture2D" uid="uid://bgmwmkvpvdro6" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_NormalGL.jpg" id="9_ie368"]
-[ext_resource type="Texture2D" uid="uid://dwa2oimbfr3h5" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_NormalDX.jpg" id="10_ie368"]
-[ext_resource type="Texture2D" uid="uid://bissj563bfkcp" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Displacement.jpg" id="11_x5dfk"]
-[ext_resource type="Texture2D" uid="uid://d33ot8rhh7dss" path="res://Textures/Metal003_1K-JPG/Metal003_1K-JPG_Roughness.jpg" id="12_fls3e"]
-[ext_resource type="PackedScene" path="res://Scenes/pnj.tscn" id="14_ie368"]
-[ext_resource type="Script" path="res://Scripts/ui.gd" id="15_x5dfk"]
-[ext_resource type="MeshLibrary" uid="uid://cge05mtfk8c1h" path="res://treess_mesh.tres" id="17_k63oc"]
-[ext_resource type="PackedScene" uid="uid://dxvisy516q6f6" path="res://Scenes/seat_node.tscn" id="18_j4oe2"]
-[ext_resource type="PackedScene" uid="uid://30vj554jixit" path="res://Scenes/fire.tscn" id="18_riaky"]
-[gd_scene load_steps=16 format=3 uid="uid://db8yeocanp3on"]
-
-[ext_resource type="Script" uid="uid://d1ak3yy7w4840" path="res://Scripts/map.gd" id="1_fls3e"]
-[ext_resource type="Material" uid="uid://b88rucr6qcnhg" path="res://Materials/grass.tres" id="2_4c2oa"]
-[ext_resource type="PackedScene" uid="uid://dlgnwojhaerho" path="res://Scenes/player.tscn" id="5_6q3n4"]
-[ext_resource type="Texture2D" uid="uid://dsc068o5fdawe" path="res://Textures/citrus_orchard_road_puresky.jpg" id="5_q0mm3"]
-[ext_resource type="PackedScene" uid="uid://c6yfxpna2baxr" path="res://Scenes/Components/camp_fire.tscn" id="7_k63oc"]
-[ext_resource type="PackedScene" uid="uid://1oa26n5tdp2s" path="res://Scenes/journal.tscn" id="9_4c2oa"]
-[ext_resource type="Script" uid="uid://rw33bmqa2c7u" path="res://Scripts/initialize_pnj.gd" id="10_dlo4w"]
-[ext_resource type="FontFile" uid="uid://dm472n6vwgn6h" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="10_olcgw"]
+[ext_resource type="PackedScene" uid="uid://dlgnwojhaerho" path="res://Scenes/player.tscn" id="6_ie368"]
 [ext_resource type="PackedScene" uid="uid://vw60otvfw2xt" path="res://Scenes/pnj.tscn" id="14_ie368"]
 [ext_resource type="Script" uid="uid://b1e5oskre1y64" path="res://Scripts/ui.gd" id="15_x5dfk"]
+[ext_resource type="FontFile" uid="uid://dm472n6vwgn6h" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="16_riaky"]
+[ext_resource type="MeshLibrary" uid="uid://cge05mtfk8c1h" path="res://treess_mesh.tres" id="17_k63oc"]
+[ext_resource type="PackedScene" uid="uid://1oa26n5tdp2s" path="res://Scenes/journal.tscn" id="17_rg57b"]
+[ext_resource type="PackedScene" uid="uid://dxvisy516q6f6" path="res://Scenes/seat_node.tscn" id="18_j4oe2"]
+[ext_resource type="PackedScene" uid="uid://30vj554jixit" path="res://Scenes/fire.tscn" id="18_riaky"]
+[ext_resource type="Script" uid="uid://rw33bmqa2c7u" path="res://Scripts/initialize_pnj.gd" id="21_macow"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_k63oc"]
 size = Vector3(1000, 0.1, 1000)
@@ -43,8 +27,6 @@ texture_filter = 0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_vtkp8"]
 material = SubResource("StandardMaterial3D_riaky")
-[sub_resource type="PlaneMesh" id="PlaneMesh_ci6au"]
-material = ExtResource("2_4c2oa")
 size = Vector2(100, 100)
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_np2xp"]
@@ -97,27 +79,8 @@ mesh = SubResource("PlaneMesh_vtkp8")
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_6q3n4")
 
-[node name="Player" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.7784185, 0, -0.07489896)
-script = ExtResource("6_w7jjh")
-
-[node name="CharacterBody3D" type="CharacterBody3D" parent="Player"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3703325, 0)
-script = ExtResource("7_w7jjh")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Player/CharacterBody3D"]
-shape = SubResource("CapsuleShape3D_4c2oa")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Player/CharacterBody3D"]
-mesh = SubResource("CapsuleMesh_olcgw")
-
-[node name="Pivot" type="Node3D" parent="Player/CharacterBody3D"]
-
-[node name="Camera3D" type="Camera3D" parent="Player/CharacterBody3D/Pivot"]
-[node name="CampFire" parent="." instance=ExtResource("7_k63oc")]
-
-[node name="Player" parent="." instance=ExtResource("5_6q3n4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.009779692, 0, 4.8501263)
+[node name="Player" parent="." instance=ExtResource("6_ie368")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.923, 0, 0)
 
 [node name="PNJ" parent="." instance=ExtResource("14_ie368")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.1238375, 0, 0)
@@ -131,11 +94,7 @@ offset_left = 16.0
 offset_top = 16.0
 offset_right = 96.0
 offset_bottom = 39.0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/font = ExtResource("10_olcgw")
-theme_override_font_sizes/font_size = 22
+theme_override_fonts/font = ExtResource("16_riaky")
 text = "Semaine 1"
 
 [node name="Lives" type="Label" parent="UI"]
@@ -144,11 +103,7 @@ offset_left = 16.0
 offset_top = 39.0
 offset_right = 96.0
 offset_bottom = 62.0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/font = ExtResource("10_olcgw")
-theme_override_font_sizes/font_size = 22
+theme_override_fonts/font = ExtResource("16_riaky")
 text = "2 vies"
 
 [node name="TimeLeft" type="Label" parent="UI"]
@@ -157,12 +112,77 @@ offset_left = 16.0
 offset_top = 62.0
 offset_right = 96.0
 offset_bottom = 85.0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/font = ExtResource("10_olcgw")
-theme_override_font_sizes/font_size = 22
+theme_override_fonts/font = ExtResource("16_riaky")
 text = "10:00 restantes"
+
+[node name="DialoguesLeft" type="Label" parent="UI"]
+texture_filter = 1
+offset_left = 16.0
+offset_top = 88.0
+offset_right = 135.0
+offset_bottom = 111.0
+theme_override_fonts/font = ExtResource("16_riaky")
+text = "Dialogues restants : 3"
+
+[node name="FadeBlack" type="ColorRect" parent="UI"]
+visible = false
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 1)
+
+[node name="DeadText" type="Label" parent="UI/FadeBlack"]
+texture_filter = 1
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+theme_override_fonts/font = ExtResource("16_riaky")
+theme_override_font_sizes/font_size = 64
+text = "Temps écoulé
+Le maire est mort"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ReplayButton" type="Button" parent="UI/FadeBlack"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 480.0
+offset_top = 496.0
+offset_right = 800.0
+offset_bottom = 568.0
+theme_override_fonts/font = ExtResource("16_riaky")
+theme_override_font_sizes/font_size = 32
+text = "Rejouer"
+
+[node name="HistoryDayBack" type="ColorRect" parent="UI"]
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 0.6862745)
+
+[node name="StartHistoryDay" type="Label" parent="UI"]
+texture_filter = 1
+offset_right = 1280.0
+offset_bottom = 720.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("16_riaky")
+theme_override_font_sizes/font_size = 32
+text = "Voici l'histoire du jour"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="HistorySkipButton" type="Button" parent="UI"]
+texture_filter = 1
+offset_left = 1088.0
+offset_top = 648.0
+offset_right = 1248.0
+offset_bottom = 695.0
+theme_override_fonts/font = ExtResource("16_riaky")
+theme_override_font_sizes/font_size = 32
+text = "Ignorer"
+
+[node name="Journal" parent="UI" instance=ExtResource("17_rg57b")]
 
 [node name="seatNode" parent="." instance=ExtResource("18_j4oe2")]
 transform = Transform3D(1.46, 0, 0, 0, 1.46, 0, 0, 0, 1.46, 1.545, 0, 4.755)
@@ -211,103 +231,9 @@ light_energy = 2.462
 omni_range = 40.0
 omni_attenuation = 0.575
 omni_shadow_mode = 0
-[node name="DialoguesLeft" type="Label" parent="UI"]
-texture_filter = 1
-offset_left = 16.0
-offset_top = 96.0
-offset_right = 280.0
-offset_bottom = 124.0
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
-theme_override_constants/shadow_offset_x = 1
-theme_override_constants/shadow_offset_y = 1
-theme_override_fonts/font = ExtResource("10_olcgw")
-theme_override_font_sizes/font_size = 22
-text = "3 discussions restantes"
-
-[node name="FadeBlack" type="ColorRect" parent="UI"]
-visible = false
-offset_right = 1152.0
-offset_bottom = 648.0
-color = Color(0, 0, 0, 1)
-
-[node name="DeadText" type="Label" parent="UI/FadeBlack"]
-texture_filter = 1
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -274.5
-offset_top = -89.5
-offset_right = 274.5
-offset_bottom = 89.5
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-theme_override_fonts/font = ExtResource("10_olcgw")
-theme_override_font_sizes/font_size = 64
-text = "Temps écoulé
-Le maire est mort"
-horizontal_alignment = 1
-
-[node name="ReplayButton" type="Button" parent="UI/FadeBlack"]
-texture_filter = 1
-layout_mode = 0
-offset_left = 384.0
-offset_top = 448.0
-offset_right = 768.0
-offset_bottom = 533.0
-theme_override_fonts/font = ExtResource("10_olcgw")
-theme_override_font_sizes/font_size = 32
-text = "Rejouer"
-
-[node name="HistoryDayBack" type="ColorRect" parent="UI"]
-offset_right = 1152.0
-offset_bottom = 648.0
-color = Color(0, 0, 0, 0.39215687)
-
-[node name="StartHistoryDay" type="Label" parent="UI"]
-texture_filter = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -512.0
-offset_top = -128.0
-offset_right = 512.0
-offset_bottom = 128.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
-theme_override_constants/shadow_offset_x = 2
-theme_override_constants/shadow_offset_y = 2
-theme_override_fonts/font = ExtResource("10_olcgw")
-theme_override_font_sizes/font_size = 32
-text = "Voici l'histoire du jour"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="HistorySkipButton" type="Button" parent="UI"]
-texture_filter = 1
-offset_left = 1000.0
-offset_top = 584.0
-offset_right = 1132.0
-offset_bottom = 631.0
-theme_override_fonts/font = ExtResource("10_olcgw")
-theme_override_font_sizes/font_size = 32
-text = "Ignorer"
-
-[node name="Journal" parent="UI" instance=ExtResource("9_4c2oa")]
 
 [node name="CinematicCamera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 3.6592622, 0)
-current = true
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 4, 0)
 
 [node name="InitializePNJ" type="Node3D" parent="."]
-script = ExtResource("10_dlo4w")
-
-[connection signal="pressed" from="UI/FadeBlack/ReplayButton" to="UI" method="_on_replay_pressed"]
-[connection signal="pressed" from="UI/HistorySkipButton" to="UI" method="_on_history_skip_button_pressed"]
+script = ExtResource("21_macow")
