@@ -43,14 +43,14 @@ func _ready() -> void:
 					{"name": name_pnj, "text": "Que puis-je faire pour vous ?"}
 				]
 			
-			pnj.initialize_pnj(name_pnj, dialogue_lines)
+			pnj.initialize_pnj(name_pnj, dialogue_lines, peoples[index].get("alive", true))
 
 			if Global.current["victims"][0]["full_name"] == name_pnj:
 				print("PNJ ", name_pnj, " est une victime, il se transforme en cadavre.")
 				pnj.get_node("../").rotation.x = -80.0
 				pnj.get_node("../").position = Vector3(0, 0.5, 0)
 				
-				get_node("../seatNode0"+str(index+1)+"/Sign/Label3D").text += " ☠️"
+				get_node("../seatNode0"+str(index+1)+"/Sign/Label3D").text += "\n☠️"
 				get_node("../seatNode0"+str(index+1)+"/Sign/Label3D").modulate = Color(1, 0, 0, 1.0)
 
 

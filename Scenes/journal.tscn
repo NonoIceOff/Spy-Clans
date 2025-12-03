@@ -24,7 +24,7 @@ texture = ExtResource("2_d4r5f")
 [node name="CharacterList" type="VBoxContainer" parent="."]
 layout_mode = 0
 offset_left = 136.0
-offset_top = 128.0
+offset_top = 192.0
 offset_right = 336.0
 offset_bottom = 528.0
 theme_override_constants/separation = 8
@@ -33,9 +33,9 @@ alignment = 1
 [node name="HistoryButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 136.0
-offset_top = 160.0
+offset_top = 136.0
 offset_right = 336.0
-offset_bottom = 188.0
+offset_bottom = 164.0
 theme_override_fonts/font = ExtResource("3_okafp")
 text = "Historique des dialogues"
 
@@ -101,6 +101,26 @@ offset_bottom = 524.0
 theme_override_fonts/font = ExtResource("3_okafp")
 text = "Relancer le dialogue"
 
+[node name="PinInnocentButton" type="Button" parent="CharacterInfos"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 840.0
+offset_top = 144.0
+offset_right = 917.0
+offset_bottom = 176.0
+theme_override_fonts/font = ExtResource("3_okafp")
+text = "Innocent"
+
+[node name="PinEnnemyButton" type="Button" parent="CharacterInfos"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 928.0
+offset_top = 144.0
+offset_right = 1008.0
+offset_bottom = 176.0
+theme_override_fonts/font = ExtResource("3_okafp")
+text = "Ennemi"
+
 [node name="HistoryInfos" type="Control" parent="."]
 visible = false
 anchors_preset = 0
@@ -118,3 +138,6 @@ bbcode_enabled = true
 
 [connection signal="pressed" from="HistoryButton" to="." method="_on_history_button_pressed"]
 [connection signal="text_changed" from="CharacterInfos/TextEdit" to="." method="_on_text_edit_text_changed"]
+[connection signal="pressed" from="CharacterInfos/LaunchDialogue" to="." method="_on_launch_dialogue_pressed"]
+[connection signal="pressed" from="CharacterInfos/PinInnocentButton" to="." method="_on_pin_innocent_button_pressed"]
+[connection signal="pressed" from="CharacterInfos/PinEnnemyButton" to="." method="_on_pin_ennemy_button_pressed"]

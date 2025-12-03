@@ -6,6 +6,7 @@ signal dialogue_ended
 var dialogue_lines: Array[Dictionary] = []
 var current_line: int = 0
 var is_active: bool = false
+var consumme_dpoints = true
 
 @onready var text_label := $Text
 @onready var name_label := $Name
@@ -24,9 +25,10 @@ func _ready() -> void:
 	#])
 
 
-func start_dialogue(lines: Array[Dictionary]) -> void:
+func start_dialogue(lines: Array[Dictionary], consumme_dpoints_val = true) -> void:
 	dialogue_lines = lines.duplicate()
 	current_line = 0
+	consumme_dpoints = consumme_dpoints_val
 	is_active = true
 	visible = true
 	_show_current_line()
@@ -54,7 +56,12 @@ func end_dialogue() -> void:
 	dialogue_lines = []
 	current_line = 0
 	dialogue_ended.emit()
-	Global.dialogues_left -= 1
+	if consumme_dpoints:
+		Global.dialogues_left -= 1
+	var cinematic_camera = get_tree().get_root().get_node("Map/CinematicCamera")
+	cinematic_camera.current = false
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	consumme_dpoints = true
 
 
 func _show_current_line() -> void:

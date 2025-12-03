@@ -21,7 +21,6 @@ var character_index_selected: int = -1
 
 func _ready() -> void:
 	visible = false
-	_on_character_button_pressed(0)
 	
 	var peoples = Global.current.get("people", [])
 	if peoples.is_empty():
@@ -40,10 +39,12 @@ func _ready() -> void:
 			characters.append({"name": name, "personality": personality, "alive": p.get("alive", true), "notes": ""})
 	_initialize_list()
 	show_history_dialogues()
+	_on_character_button_pressed(0)
 
 func _initialize_list() -> void:
 	# créer les boutons sur la liste pour chaque perso
 	for i in range(min(characters.size(), 9)):
+		characters[i]["status"] = "Non défini"
 		print("Création entrée journal pour :", characters[i]["name"])
 		var panel := get_node("CharacterList")
 		var button = Button.new()
@@ -140,6 +141,10 @@ func _on_history_button_pressed() -> void:
 	get_node("CharacterInfos").visible = !get_node("CharacterInfos").visible
 	get_node("HistoryInfos").visible = !get_node("HistoryInfos").visible
 
+func quit_journal() -> void:
+	save_notes_to_global(character_index_selected, get_node("CharacterInfos/TextEdit").text)
+	visible = false
+
 func show_character_notes(index) -> void:
 	# on récupère les notes du personnage sélectionné via global
 	if index >= 0 and index < characters.size():
@@ -172,3 +177,42 @@ func save_notes_to_global(index: int, notes: String) -> void:
 				person["notes"] = notes
 				characters[index]["notes"] = notes
 				print("Notes sauvegardées pour ", person_name, " :", notes)
+
+
+func _on_launch_dialogue_pressed() -> void:
+	_on_history_button_pressed()
+	
+	# récupérer les dialogues depuis Global.dialogue_history
+	var person_name = characters[character_index_selected]["name"]
+	var dialogue_lines: Array[Dictionary] = []
+	
+	for entry in Global.current["campfire_dialogues"]:
+		if entry.get("full_name", "") == person_name:
+			print("Correspondance trouvée pour le dialogue de ", person_name)
+			print("Lignes brutes : ", entry.get("lines", []))
+			var lines_raw = entry.get("lines", [])
+			# on mets dialogue_lines au bon format (un dictionnaire avec name et text)
+			for line in lines_raw:
+				if typeof(line) == TYPE_STRING:
+					dialogue_lines.append({"name": person_name, "text": line})
+				elif typeof(line) == TYPE_DICTIONARY:
+					dialogue_lines.append(line)
+			break
+	
+	Dialogues.start_dialogue(dialogue_lines,false)
+	quit_journal()
+	var cinematic_camera = get_tree().get_root().get_node("Map/CinematicCamera")
+	cinematic_camera.current = true
+	cinematic_camera.position = Vector3(0, 5, 0)
+	cinematic_camera.rotation = Vector3(0, 0, 0)
+	cinematic_camera.look_at(get_tree().get_root().get_node("Map/PNJ"+str(character_index_selected)).global_transform.origin, Vector3.UP)
+
+
+func _on_pin_innocent_button_pressed() -> void:
+	if character_index_selected >= 0 and character_index_selected < characters.size():
+		characters[character_index_selected]["status"] = "Innocent"
+
+
+func _on_pin_ennemy_button_pressed() -> void:
+	if character_index_selected >= 0 and character_index_selected < characters.size():
+		characters[character_index_selected]["status"] = "Ennemy"

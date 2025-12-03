@@ -3,15 +3,17 @@ extends Node3D
 @onready var name_text = get_node("../Name") as Label3D
 var hover = false
 var name_pnj = ""
+var alive = true
 
 var dialogue_lines: Array[Dictionary] = []
 
 @onready var dialogue = get_tree().get_root().get_node("Dialogues") as Node
 
-func initialize_pnj(name: String, lines: Array[Dictionary]) -> void:
+func initialize_pnj(name: String, lines: Array[Dictionary], is_alive: bool = true) -> void:
 	name_pnj = name
 	get_node("../Name").text = name_pnj
 	dialogue_lines = lines
+	alive = is_alive
 
 func _ready() -> void:
 	dialogue.dialogue_ended.connect(_on_dialogue_ended)
@@ -19,6 +21,9 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	name_text.visible = hover
+	var player = get_tree().get_first_node_in_group("Player")
+	if player and alive:
+		look_at(player.global_transform.origin, Vector3.UP)
 
 
 func show_name_label() -> void:

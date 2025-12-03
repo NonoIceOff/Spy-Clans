@@ -120,6 +120,7 @@ func _process(delta: float) -> void:
 			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		else:
 			Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			journal.quit_journal()
 
 
 func _update_time_display() -> void:
