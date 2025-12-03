@@ -130,12 +130,6 @@ func _update_time_display() -> void:
 	dialogues_left_label.text = "Dialogues restants : %d" % Global.dialogues_left
 
 
-
-
-func _on_replay_pressed() -> void:
-	get_tree().change_scene_to_file("res://Scenes/menu.tscn")
-
-
 func _on_history_skip_button_pressed() -> void:
 	var history_day := get_node("StartHistoryDay")
 	var history_day_back := get_node("HistoryDayBack")
@@ -148,3 +142,7 @@ func _on_history_skip_button_pressed() -> void:
 	history_day_skip_button.visible = false
 	cinematic_camera.current = false
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+
+
+func _on_replay_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://Scenes/menu.tscn")

@@ -237,3 +237,6 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 4
 
 [node name="InitializePNJ" type="Node3D" parent="."]
 script = ExtResource("21_macow")
+
+[connection signal="pressed" from="UI/FadeBlack/ReplayButton" to="UI" method="_on_replay_button_pressed"]
+[connection signal="pressed" from="UI/HistorySkipButton" to="UI" method="_on_history_skip_button_pressed"]
