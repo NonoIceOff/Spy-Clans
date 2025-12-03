@@ -1,13 +1,15 @@
-[gd_scene load_steps=22 format=3 uid="uid://db8yeocanp3on"]
+[gd_scene load_steps=25 format=3 uid="uid://db8yeocanp3on"]
 
 [ext_resource type="Script" uid="uid://d1ak3yy7w4840" path="res://Scripts/map.gd" id="1_fls3e"]
 [ext_resource type="Texture2D" uid="uid://c43wpnx4ohjw7" path="res://Textures/Ground003_1K-PNG/ground.png" id="2_j4oe2"]
+[ext_resource type="AudioStream" uid="uid://ch7vdt8jlicon" path="res://Sounds/bbc_wind-atmos_nhu1021772.mp3" id="2_k63oc"]
 [ext_resource type="MeshLibrary" uid="uid://b6s28sscqgft8" path="res://folliage_mesh.tres" id="2_riaky"]
 [ext_resource type="Texture2D" uid="uid://pqm5i1ud2tp4" path="res://Textures/Ground003_1K-PNG/ground_n.png" id="3_k63oc"]
 [ext_resource type="Texture2D" uid="uid://dbi01n57xyi04" path="res://Textures/NightSkyHDRI003_1K/NightSkyHDRI003.png" id="5_j4oe2"]
 [ext_resource type="PackedScene" uid="uid://dlgnwojhaerho" path="res://Scenes/player.tscn" id="6_ie368"]
 [ext_resource type="PackedScene" uid="uid://cudpxak7ruepq" path="res://Textures/street_lamp_01_1k/street_lamp_01_1k.fbx" id="13_x5dfk"]
 [ext_resource type="PackedScene" uid="uid://vw60otvfw2xt" path="res://Scenes/pnj.tscn" id="14_ie368"]
+[ext_resource type="AudioStream" uid="uid://cnbegmfen1a60" path="res://Sounds/bbc_fire---clo_nhu0500808.mp3" id="15_fls3e"]
 [ext_resource type="Script" uid="uid://b1e5oskre1y64" path="res://Scripts/ui.gd" id="15_x5dfk"]
 [ext_resource type="FontFile" uid="uid://dm472n6vwgn6h" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="16_riaky"]
 [ext_resource type="MeshLibrary" uid="uid://cge05mtfk8c1h" path="res://treess_mesh.tres" id="17_k63oc"]
@@ -56,8 +58,20 @@ volumetric_fog_emission_energy = 2.15
 volumetric_fog_length = 88.2
 volumetric_fog_sky_affect = 0.75
 
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_fls3e"]
+height = 3.303955
+radius = 1.3520508
+
 [node name="Map" type="Node3D"]
 script = ExtResource("1_fls3e")
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.029435135, 7.1224074, -0.103872105)
+stream = ExtResource("2_k63oc")
+volume_db = -10.0
+autoplay = true
+max_distance = 2005.33
+parameters/looping = true
 
 [node name="folliage" type="GridMap" parent="."]
 mesh_library = ExtResource("2_riaky")
@@ -294,6 +308,13 @@ omni_shadow_mode = 0
 [node name="dead_tree_trunk_4k" parent="." instance=ExtResource("18_riaky")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.026, -0.01987809, 0.142)
 
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="dead_tree_trunk_4k"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.029435135, 0.05183381, -0.103872105)
+stream = ExtResource("15_fls3e")
+volume_db = -30.0
+autoplay = true
+parameters/looping = true
+
 [node name="OmniLight3D" type="OmniLight3D" parent="dead_tree_trunk_4k"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.62834597, 0)
 light_color = Color(0.83015203, 0.5735766, 1.540184e-06, 1)
@@ -301,6 +322,13 @@ light_energy = 2.462
 omni_range = 40.0
 omni_attenuation = 0.575
 omni_shadow_mode = 0
+
+[node name="StaticBody3D" type="StaticBody3D" parent="dead_tree_trunk_4k"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.10719206, 0.91145295, 0.20856686)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="dead_tree_trunk_4k/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.48156738, 0)
+shape = SubResource("CylinderShape3D_fls3e")
 
 [node name="CinematicCamera" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 4, 0)
