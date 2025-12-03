@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://b0ylwstew72i1"]
+
+[ext_resource type="Material" uid="uid://b88rucr6qcnhg" path="res://Materials/grass.tres" id="1_wm11n"]
+[ext_resource type="PackedScene" uid="uid://dlgnwojhaerho" path="res://Scenes/player.tscn" id="2_w0evw"]
+[ext_resource type="PackedScene" uid="uid://vw60otvfw2xt" path="res://Scenes/pnj.tscn" id="3_44blw"]
+[ext_resource type="Script" uid="uid://rw33bmqa2c7u" path="res://Scripts/initialize_pnj.gd" id="4_w0evw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dkm5l"]
+size = Vector3(100, 0.1, 100)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_xbt07"]
+material = ExtResource("1_wm11n")
+size = Vector2(100, 100)
+
+[node name="SelectionTest" type="Node3D"]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4.8999023)
+shape = SubResource("BoxShape3D_dkm5l")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("PlaneMesh_xbt07")
+skeleton = NodePath("../..")
+
+[node name="Player" parent="." instance=ExtResource("2_w0evw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.24643683, 0.049999952, 0.20294666)
+
+[node name="PNJ" parent="." instance=ExtResource("3_44blw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5810523, 0.050000668, -4.067502)
+
+[node name="PNJ2" parent="." instance=ExtResource("3_44blw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.613036, 0.05000019, -0.7777834)
+
+[node name="PNJ3" parent="." instance=ExtResource("3_44blw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.5666227, 0.05000019, 1.5777578)
+
+[node name="PNJ4" parent="." instance=ExtResource("3_44blw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.25924, 0.050000668, 3.5237465)
+
+[node name="PNJ5" parent="." instance=ExtResource("3_44blw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.5397897, 0.049999714, 5.29825)
+
+[node name="PNJ6" parent="." instance=ExtResource("3_44blw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.4454393, 0.050000668, 6.782304)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.8148649, 0.57965094, 0, -0.57965094, -0.8148649, 0, 11.044427, 0)
+light_energy = 2.509
+
+[node name="InitializePNJ" type="Node3D" parent="."]
+script = ExtResource("4_w0evw")

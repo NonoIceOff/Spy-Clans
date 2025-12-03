@@ -1,5 +1,8 @@
 extends Control
 
+signal dialogue_started
+signal dialogue_ended
+
 var dialogue_lines: Array[Dictionary] = []
 var current_line: int = 0
 var is_active: bool = false
@@ -10,23 +13,29 @@ var is_active: bool = false
 
 func _ready() -> void:
 	visible = false
-	await get_tree().create_timer(1.0).timeout
+	#await get_tree().create_timer(1.0).timeout
 
 	# petit exemple pour pouvoir ensuite intégrer
-	start_dialogue([
-		{"name": "Chef", "text": "Bienvenue, agent."},
-		{"name": "Chef", "text": "Votre mission : infiltrer la base ennemie."},
-		{"name": "Chef", "text": "Vous avez 10 minutes pour récupérer les documents."},
-		{"name": "Chef", "text": "Restez discret et bonne chance !"}
-	])
+	#start_dialogue([
+	#	{"name": "Chef", "text": "Bienvenue, agent."},
+	#	{"name": "Chef", "text": "Votre mission : infiltrer la base ennemie."},
+	#	{"name": "Chef", "text": "Vous avez 10 minutes pour récupérer les documents."},
+	#	{"name": "Chef", "text": "Restez discret et bonne chance !"}
+	#])
 
 
 func start_dialogue(lines: Array[Dictionary]) -> void:
-	dialogue_lines = lines
+	dialogue_lines = lines.duplicate()
 	current_line = 0
 	is_active = true
 	visible = true
 	_show_current_line()
+	dialogue_started.emit()
+	# sauvegarde le dialogue pour pouvoir le relire dans le journal
+	Global.dialogue_history.append({
+		"name": lines[0].get("name", "Inconnu") if lines.size() > 0 else "Inconnu",
+		"lines": dialogue_lines
+	})
 
 
 func next_line() -> void:
@@ -39,12 +48,13 @@ func next_line() -> void:
 	else:
 		_show_current_line()
 
-
 func end_dialogue() -> void:
 	is_active = false
 	visible = false
-	dialogue_lines.clear()
+	dialogue_lines = []
 	current_line = 0
+	dialogue_ended.emit()
+	Global.dialogues_left -= 1
 
 
 func _show_current_line() -> void:

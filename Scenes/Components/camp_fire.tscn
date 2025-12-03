@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6yfxpna2baxr"]
+
+[ext_resource type="PackedScene" uid="uid://p8ypaoumr3nn" path="res://Textures/tree/dead_tree_trunk_4k.fbx" id="1_wgd2f"]
+[ext_resource type="Material" uid="uid://cm4x65mbd8cja" path="res://Materials/fire.tres" id="2_ray5l"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rk85b"]
+material = ExtResource("2_ray5l")
+size = Vector3(0.2, 0.2, 0.2)
+
+[node name="CampFire" type="Node3D"]
+
+[node name="dead_tree_trunk_4k" parent="." instance=ExtResource("1_wgd2f")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.46461403, 0, 0.053523064)
+
+[node name="dead_tree_trunk_4k2" parent="." instance=ExtResource("1_wgd2f")]
+transform = Transform3D(0.81823003, 0, -0.574891, 0, 1, 0, 0.574891, 0, 0.81823003, -0.30844736, 0, 0.1684761)
+
+[node name="dead_tree_trunk_4k3" parent="." instance=ExtResource("1_wgd2f")]
+transform = Transform3D(0.7581799, 0, 0.6520454, 0, 1, 0, -0.6520454, 0, 0.7581799, -0.30821943, -4.7683716e-07, 0.37161875)
+
+[node name="dead_tree_trunk_4k4" parent="." instance=ExtResource("1_wgd2f")]
+transform = Transform3D(0.34397113, 0, -0.9389802, 0, 1, 0, 0.9389802, 0, 0.34397113, -0.07659459, 0, 0.16326046)
+
+[node name="dead_tree_trunk_4k5" parent="." instance=ExtResource("1_wgd2f")]
+transform = Transform3D(0.16320537, 0, 0.9865921, 0, 1, 0, -0.9865921, 0, 0.16320537, -0.20513439, 0, 0.15642357)
+
+[node name="LavaParticules" type="CPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.15879679, -0.06480807, -0.04033637)
+amount = 50
+lifetime = 1.5
+explosiveness = 0.1
+randomness = 1.0
+lifetime_randomness = 1.0
+mesh = SubResource("BoxMesh_rk85b")
+emission_shape = 4
+emission_points = PackedVector3Array(0, 0, 0, 0.5, 0.5, 0.5, 0.5, 0.5, 0, 0, 0.5, 0.5, -0.5, 0.5, 0, 0, 0.5, -0.5, -0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5)
+particle_flag_align_y = true
+gravity = Vector3(0, 2, 0)
+initial_velocity_max = 1.0
+tangential_accel_max = 1.0
+damping_max = 0.5
+angle_min = -720.0
+angle_max = 720.0
+scale_amount_min = 0.5
+scale_amount_max = 1.2
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]

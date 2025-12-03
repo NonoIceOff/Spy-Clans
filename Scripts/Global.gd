@@ -6,6 +6,16 @@ var current
 var last_round_json = {}
 var person_index_by_name: Dictionary = {}
 var request_mode: String = "round"   # "round" ou "interrogatoire"
+var game_alive = false
+var dialogue_history: Array[Dictionary] = []
+var dialogues_left = 3
+
+# Système de retry
+var max_retries := 3
+var current_retry := 0
+var retry_delay := 2.0
+var pending_request: Dictionary = {}
+var use_fallback_model := false
 
 signal round_generated
 
@@ -65,8 +75,11 @@ func debug_person_data(person_index: int) -> void:
 # ---------------------------------------------------------
 func generate_round():
 	request_mode = "round"
+	current_retry = 0
+	use_fallback_model = false
 	
-	var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key="+ENV.APIKEY
+	var model = "gemini-2.5-flash-lite" if not use_fallback_model else "gemini-2.5-flash"
+	var url = "https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent?key=%s" % [model, ENV.APIKEY]
 	var headers = ["Content-Type: application/json"]
 
 	print("Génération du jour...")
@@ -85,6 +98,12 @@ func generate_round():
 				]
 			}
 		]
+	}
+
+	pending_request = {
+		"url": url,
+		"headers": headers,
+		"body": body
 	}
 
 	http.request(url, headers, HTTPClient.METHOD_POST, JSON.stringify(body))
@@ -162,16 +181,50 @@ func generate_interrogation_for_person(person_index: int, player_journal: String
 	http.request(url, headers, HTTPClient.METHOD_POST, JSON.stringify(body))
 
 
-func generate_interrogation_for_second(player_journal: String) -> void:
-	generate_interrogation_for_person(1, player_journal)
-
-
 # ---------------------------------------------------------
 # REPONSE HTTP
 # ---------------------------------------------------------
 func _on_request_completed(result, response_code, headers, body):
 	if response_code != 200:
-		print("Erreur HTTP :", body.get_string_from_utf8())
+		var error_msg = body.get_string_from_utf8()
+		print("Erreur HTTP :", error_msg)
+		
+		# Retry en cas d'erreur 503 (overload)
+		if response_code == 503 and current_retry < max_retries:
+			current_retry += 1
+			var wait_time = retry_delay * current_retry
+			print("Réessai %d/%d dans %.1f secondes..." % [current_retry, max_retries, wait_time])
+			await get_tree().create_timer(wait_time).timeout
+			
+			if pending_request.has("url"):
+				http.request(
+					pending_request["url"],
+					pending_request["headers"],
+					HTTPClient.METHOD_POST,
+					JSON.stringify(pending_request["body"])
+				)
+			return
+		
+		# Fallback vers gemini-2.5-flash après 3 échecs
+		if response_code == 503 and not use_fallback_model:
+			print("Échec après %d tentatives, basculement vers gemini-2.5-flash..." % max_retries)
+			use_fallback_model = true
+			current_retry = 0
+			
+			# Reconstruire l'URL avec le nouveau modèle
+			var model = "gemini-2.5-flash"
+			var new_url = "https://generativelanguage.googleapis.com/v1beta/models/%s:generateContent?key=%s" % [model, ENV.APIKEY]
+			pending_request["url"] = new_url
+			
+			http.request(
+				new_url,
+				pending_request["headers"],
+				HTTPClient.METHOD_POST,
+				JSON.stringify(pending_request["body"])
+			)
+			return
+		
+		print("Échec définitif après basculement vers le modèle de secours")
 		return
 
 	var data = JSON.parse_string(body.get_string_from_utf8())
