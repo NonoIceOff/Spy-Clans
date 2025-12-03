@@ -2,6 +2,7 @@ extends Node3D
 
 @onready var name_text = get_node("../Name") as Label3D
 var hover = false
+var highlighted = false
 var name_pnj = ""
 var alive = true
 
@@ -14,16 +15,20 @@ func initialize_pnj(name: String, lines: Array[Dictionary], is_alive: bool = tru
 	get_node("../Name").text = name_pnj
 	dialogue_lines = lines
 	alive = is_alive
+	get_node("Outline").visible = false
 
 func _ready() -> void:
 	dialogue.dialogue_ended.connect(_on_dialogue_ended)
 
 
 func _process(delta: float) -> void:
-	name_text.visible = hover
+	name_text.visible = hover or highlighted
 	var player = get_tree().get_first_node_in_group("Player")
 	if player and alive:
 		look_at(player.global_transform.origin, Vector3.UP)
+	var distance_to_player = (player.global_transform.origin - global_transform.origin).length()
+	get_node("Outline").scale = Vector3.ONE * clamp(distance_to_player / 50.0, 1.05, 1.5)
+	get_node("../Name").scale = Vector3.ONE * clamp(distance_to_player / 4, 0.5, 1.5)
 
 
 func show_name_label() -> void:

@@ -82,7 +82,7 @@ environment = SubResource("Environment_6q3n4")
 [node name="Player" parent="." instance=ExtResource("6_ie368")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.923, 0, 0)
 
-[node name="PNJ" parent="." instance=ExtResource("14_ie368")]
+[node name="PNJ1" parent="." instance=ExtResource("14_ie368")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.1238375, 0, 0)
 
 [node name="PNJ2" parent="." instance=ExtResource("14_ie368")]
