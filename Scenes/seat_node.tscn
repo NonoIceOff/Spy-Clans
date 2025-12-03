@@ -1,8 +1,31 @@
-[gd_scene load_steps=2 format=3 uid="uid://dxvisy516q6f6"]
+[gd_scene load_steps=4 format=3 uid="uid://dxvisy516q6f6"]
 
 [ext_resource type="PackedScene" uid="uid://bhjhwrulh6vxf" path="res://Textures/seat/chinese_stool_1k.fbx" id="1_akesh"]
+[ext_resource type="FontFile" uid="uid://dm472n6vwgn6h" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="2_71oqq"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_fgjtw"]
+size = Vector3(0.7, 0.2, 0.1)
 
 [node name="seatNode" type="Node3D"]
 transform = Transform3D(1.46, 0, 0, 0, 1.46, 0, 0, 0, 1.46, 0, 0, 0)
 
 [node name="seat" parent="." instance=ExtResource("1_akesh")]
+
+[node name="Sign" type="Node3D" parent="."]
+visible = false
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Sign"]
+transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0.26691216, 0.22907497)
+mesh = SubResource("BoxMesh_fgjtw")
+skeleton = NodePath("../..")
+
+[node name="Label3D" type="Label3D" parent="Sign"]
+transform = Transform3D(0.9999999, 0, 0, 0, 0.9999999, 0, 0, 0, 0.9999999, 0, 0.27184004, 0.28028062)
+gi_lightmap_texel_scale = 10.0
+gi_lightmap_scale = 3
+text = "Name"
+font = ExtResource("2_71oqq")
+font_size = 16
+outline_size = 8
+uppercase = true
+autowrap_mode = 3
