@@ -85,6 +85,30 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.923, 0, 0)
 [node name="PNJ" parent="." instance=ExtResource("14_ie368")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.1238375, 0, 0)
 
+[node name="PNJ2" parent="." instance=ExtResource("14_ie368")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.1238375, 0, -3.0696833)
+
+[node name="PNJ3" parent="." instance=ExtResource("14_ie368")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.608839, 0, -4.9411526)
+
+[node name="PNJ4" parent="." instance=ExtResource("14_ie368")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6393037, 0, -4.9158683)
+
+[node name="PNJ5" parent="." instance=ExtResource("14_ie368")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0664635, -0.026843071, -2.9624572)
+
+[node name="PNJ6" parent="." instance=ExtResource("14_ie368")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.0915413, 0, 2.927822)
+
+[node name="PNJ7" parent="." instance=ExtResource("14_ie368")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5891066, 0, 4.761803)
+
+[node name="PNJ8" parent="." instance=ExtResource("14_ie368")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.486301, 0, 4.8153763)
+
+[node name="PNJ9" parent="." instance=ExtResource("14_ie368")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.975385, 0, 2.831035)
+
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("15_x5dfk")
 
