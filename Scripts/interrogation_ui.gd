@@ -15,6 +15,10 @@ var current_person_name: String = ""
 signal pnj_in_jail(person_index: int)
 signal pnj_released(person_index: int)
 
+@onready var sfx_player := $SfxPlayer
+
+
+
 func _ready() -> void:
 	print("InterrogationUi _ready, node name:", name)
 	print("Has method start_interrogation_confirm:", has_method("start_interrogation_confirm"))
@@ -36,23 +40,30 @@ func start_interrogation_confirm(person_index: int, person_name: String) -> void
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 func _on_ConfirmYes_pressed() -> void:
+
+	sfx_player.play()
 	confirm_panel.visible = false
 	question_panel.visible = true
 	question_label.text = "Que voulez-vous demander à %s ?" % current_person_name
+
 	
 	
 	
 func _on_ConfirmNo_pressed() -> void:
 	_close_and_release_player()
+	sfx_player.play()
 
 func _on_ButtonAlibi_pressed() -> void:
 	_send_interrogation_request("alibi")
+	sfx_player.play()
 
 func _on_ButtonSuspicion_pressed() -> void:
 	_send_interrogation_request("suspicion")
+	sfx_player.play()
 
 func _on_ButtonCancel_pressed() -> void:
 	_close_and_release_player()
+	sfx_player.play()
 
 func _send_interrogation_request(kind: String) -> void:
 	# Exemple simple de "journal"
@@ -61,6 +72,7 @@ func _send_interrogation_request(kind: String) -> void:
 		question_text = "Que faisais-tu au moment du drame ?"
 	elif kind == "suspicion":
 		question_text = "Qui soupçonnes-tu ?"
+	sfx_player.play()
 
 	# On log dans le "journal" global (à adapter à ton système réel)
 	if Global.has_method("add_journal_line"):

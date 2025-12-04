@@ -266,21 +266,21 @@ TA MISSION POUR CE JOUR
 
 5) Prise en compte des morts et des éliminations précédentes :
    - Les victimes dans "victims" et les personnes dans "eliminations" influencent l'ambiance :
-     - deuil, peur, colère, culpabilité, tensions envers le joueur.
+	 - deuil, peur, colère, culpabilité, tensions envers le joueur.
    - Si une personne innocente a été éliminée (was_killer == false) :
-     - Certains peuvent en vouloir au joueur.
+	 - Certains peuvent en vouloir au joueur.
 	 - D'autres peuvent être d'accord avec cette élimination.
    - Si le vrai meurtrier a déjà été éliminé (was_killer == true) :
-     - IMPORTANT : tu continues quand même à jouer son rôle comme si les autres ne savaient pas.
-     - Les dialogues restent cohérents, mais la tension peut évoluer.
+	 - IMPORTANT : tu continues quand même à jouer son rôle comme si les autres ne savaient pas.
+	 - Les dialogues restent cohérents, mais la tension peut évoluer.
 
 6) Dialogues du soir autour du feu :
    - "campfire_dialogues" est un tableau.
    - Il contient UN objet par personne vivante autour du feu (alive == true), pour cette nuit.
    - Pour chaque personne :
 	 - Si l'index du jours est = à 2, alors tu évite de dire des trucks comme "j'en est marre de ces morts" car on est supposer être le premier jours.
-     - "emotional_state" : courte description (ex : "tremblant et en colère", "très silencieux, regarde le feu").
-     - "lines" : 2 à 4 répliques maximum.
+	 - "emotional_state" : courte description (ex : "tremblant et en colère", "très silencieux, regarde le feu").
+	 - "lines" : 2 à 4 répliques maximum.
        - Chaque réplique fait 1 à 2 phrases maximum.
        - Ils parlent de :
          - la journée,
@@ -313,24 +313,24 @@ Tu dois TOUJOURS répondre avec un JSON strictement valide de cette forme :
 
 {
   "meta": {
-    "day_index": <number>,
-    "killer_full_name": "<nom complet du meurtrier>",
-    "new_victim": {
-      "full_name": "<nom complet de la nouvelle victime>",
-      "day_index": <number>,
-      "body_location": "<où le corps a été trouvé>"
+	"day_index": <number>,
+	"killer_full_name": "<nom complet du meurtrier>",
+	"new_victim": {
+	  "full_name": "<nom complet de la nouvelle victime>",
+	  "day_index": <number>,
+	  "body_location": "<où le corps a été trouvé>"
     }
   },
   "day_story": "<texte (5 à 8 phrases). Résumé de ce qui s'est passé dans la journée.>",
   "campfire_dialogues": [
     {
 	  "full_name": "<nom complet d'une personne vivante>",
-      "is_killer": true or false,
-      "is_new_victim": false,
-      "emotional_state": "<état émotionnel court>",
-      "lines": [
-        "<réplique 1 (1 à 2 phrases)>",
-        "<réplique 2 (1 à 2 phrases)>"
+	  "is_killer": true or false,
+	  "is_new_victim": false,
+	  "emotional_state": "<état émotionnel court>",
+	  "lines": [
+		"<réplique 1 (1 à 2 phrases)>",
+		"<réplique 2 (1 à 2 phrases)>"
       ]
     }
     // une entrée par personne vivante autour du feu

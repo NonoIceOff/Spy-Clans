@@ -174,6 +174,7 @@ func generate_interrogation_for_person(person_index: int, player_journal: String
 	# Émettre le signal pour préparer la cinématique
 	interrogation_in_generation.emit({"full_name": name})
 
+
 	var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key="+ENV.APIKEY
 	var headers = ["Content-Type: application/json"]
 
@@ -304,3 +305,4 @@ func _handle_interrogation_response(interro_json: Dictionary) -> void:
 
 func start_new_day() -> void:
 	current = Variable.write_game_state(2)
+
