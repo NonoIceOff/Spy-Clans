@@ -9,6 +9,7 @@ var request_mode: String = "round"   # "round" ou "interrogatoire"
 var game_alive = false
 var dialogue_history: Array[Dictionary] = []
 var dialogues_left = 3
+var day_index = 1
 
 var interrogatoire_state = false
 
@@ -117,6 +118,7 @@ func generate_round():
 		"headers": headers,
 		"body": body
 	}
+	print("current : ", JSON.stringify(current))
 
 	http.request(url, headers, HTTPClient.METHOD_POST, JSON.stringify(body))
 
@@ -259,6 +261,24 @@ func _on_request_completed(result, response_code, headers, body):
 	var parsed = JSON.parse_string(text)
 	if parsed == null:
 		print("JSON renvoyé incorrect :", text)
+		
+		# Retry si JSON invalide
+		if current_retry < max_retries:
+			current_retry += 1
+			var wait_time = retry_delay * current_retry
+			print("JSON invalide, réessai %d/%d dans %.1f secondes..." % [current_retry, max_retries, wait_time])
+			await get_tree().create_timer(wait_time).timeout
+			
+			if pending_request.has("url"):
+				http.request(
+					pending_request["url"],
+					pending_request["headers"],
+					HTTPClient.METHOD_POST,
+					JSON.stringify(pending_request["body"])
+				)
+			return
+		
+		print("Échec définitif : JSON invalide après %d tentatives" % max_retries)
 		return
 
 	if request_mode == "round":
@@ -285,9 +305,31 @@ func _handle_round_response(game_json: Dictionary) -> void:
 		var vname = victim.get("full_name", "")
 		if person_index_by_name.has(vname):
 			current["people"][ person_index_by_name[vname] ]["alive"] = false
+		
+		print("[ROUND] Nouvelle victime : ", vname, " | Total morts : ", current["victims"].size())
+	else:
+		var day = current.get("day_index", 1)
+		if day >= 2:
+			push_error("[ROUND] ERREUR CRITIQUE : Aucune nouvelle victime générée pour le jour ", day, " ! Le jeu nécessite 1 mort par jour à partir du jour 2.")
+		else:
+			print("[ROUND] Jour 1 : Aucune victime (normal)")
 
+	# Mettre à jour UNIQUEMENT les dialogues et l'histoire du jour
+	# NE JAMAIS toucher aux noms, personnalités, âges, relations
 	current["day_story"] = game_json.get("day_story", "")
-	current["campfire_dialogues"] = game_json.get("campfire_dialogues", [])
+	
+	# Mettre à jour les dialogues EN PRÉSERVANT les infos existantes des personnages
+	var new_dialogues = game_json.get("campfire_dialogues", [])
+	for new_dialogue in new_dialogues:
+		var name = new_dialogue.get("full_name", "")
+		# Vérifier que ce personnage existe dans notre liste
+		if person_index_by_name.has(name):
+			var person_index = person_index_by_name[name]
+			# On ne met à jour QUE les dialogues, pas les infos du personnage
+			# Les infos (age, personality, relation) restent intactes dans current["people"]
+			pass
+	
+	current["campfire_dialogues"] = new_dialogues
 
 	print("[ROUND] Journée générée.")
 
@@ -304,4 +346,14 @@ func _handle_interrogation_response(interro_json: Dictionary) -> void:
 	interrogation_generated.emit(interrogation)
 
 func start_new_day() -> void:
-	current = Variable.write_game_state(2)
+	# Incrémenter le jour SANS régénérer les personnages
+	current["day_index"] += 1
+	
+	# Réinitialiser uniquement les variables de gameplay
+	Global.game_alive = true
+	Global.dialogues_left = 3
+	Global.dialogue_history.clear()
+	
+	# Générer UNIQUEMENT la nouvelle histoire et les nouveaux dialogues
+	# Les noms, personnalités, âges et relations restent intacts
+	Global.generate_round()

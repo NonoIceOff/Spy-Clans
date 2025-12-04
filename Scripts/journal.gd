@@ -21,6 +21,8 @@ var character_index_selected: int = -1
 
 func _ready() -> void:
 	visible = false
+
+	Global.round_generated.connect(_on_round_generated)
 	
 	var peoples = Global.current.get("people", [])
 	if peoples.is_empty():
@@ -49,11 +51,22 @@ func _initialize_list() -> void:
 		var panel := get_node("CharacterList")
 		var button = Button.new()
 		button.text = characters[i]["name"]
+		if characters[i]["alive"] == false:
+			button.self_modulate = Color(1, 0, 0, 1.0)
 		button.add_theme_font_override("font", load("res://Fonts/PixelifySans-VariableFont_wght.ttf"))
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.connect("pressed", Callable(self, "_on_character_button_pressed").bind(i))
 		panel.add_child(button)
 
+func _on_round_generated() -> void:
+	_refresh_character_list()
+
+func _refresh_character_list() -> void:
+	# rafraîchir l'affichage des boutons
+	for child in character_list.get_children():
+		child.queue_free()
+
+	_initialize_list()
 
 func _on_character_button_pressed(index: int) -> void:
 	# afficher les notes du personnage sélectionné

@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://db8yeocanp3on"]
+[gd_scene load_steps=29 format=3 uid="uid://db8yeocanp3on"]
 
 [ext_resource type="Script" uid="uid://d1ak3yy7w4840" path="res://Scripts/map.gd" id="1_fls3e"]
 [ext_resource type="Texture2D" uid="uid://c43wpnx4ohjw7" path="res://Textures/Ground003_1K-PNG/ground.png" id="2_j4oe2"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://pqm5i1ud2tp4" path="res://Textures/Ground003_1K-PNG/ground_n.png" id="3_k63oc"]
 [ext_resource type="PackedScene" uid="uid://dlgnwojhaerho" path="res://Scenes/player.tscn" id="6_ie368"]
 [ext_resource type="Texture2D" uid="uid://bt7uo47meto18" path="res://Textures/cross.png" id="9_k63oc"]
+[ext_resource type="Script" uid="uid://ic5g60wckm47" path="res://Scripts/loading_back.gd" id="13_macow"]
 [ext_resource type="PackedScene" uid="uid://cudpxak7ruepq" path="res://Textures/street_lamp_01_1k/street_lamp_01_1k.fbx" id="13_x5dfk"]
 [ext_resource type="PackedScene" uid="uid://vw60otvfw2xt" path="res://Scenes/pnj.tscn" id="14_ie368"]
 [ext_resource type="AudioStream" uid="uid://cnbegmfen1a60" path="res://Sounds/bbc_fire---clo_nhu0500808.mp3" id="15_fls3e"]
@@ -138,7 +139,7 @@ offset_top = 16.0
 offset_right = 96.0
 offset_bottom = 39.0
 theme_override_fonts/font = ExtResource("16_riaky")
-text = "Semaine 1"
+text = "Jour 1"
 
 [node name="Lives" type="Label" parent="UI"]
 texture_filter = 1
@@ -246,6 +247,59 @@ theme_override_font_sizes/font_size = 32
 text = "Résultat du jour :"
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="LoadingBack" type="ColorRect" parent="UI"]
+visible = false
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 1)
+script = ExtResource("13_macow")
+
+[node name="Text" type="Label" parent="UI/LoadingBack"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -512.0
+offset_top = -128.0
+offset_right = 512.0
+offset_bottom = 128.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("16_riaky")
+theme_override_font_sizes/font_size = 32
+text = "Chargement en cours..."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Hints" type="Label" parent="UI/LoadingBack"]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -608.0
+offset_top = 104.0
+offset_right = 608.0
+offset_bottom = 336.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("16_riaky")
+theme_override_font_sizes/font_size = 24
+text = "Astuces"
+vertical_alignment = 2
 autowrap_mode = 3
 
 [node name="seatNode01" parent="." groups=["Seat_PNJ"] instance=ExtResource("18_j4oe2")]

@@ -14,14 +14,22 @@ func _ready() -> void:
 		if pnj.has_method("initialize_pnj"):
 			var name_pnj := "PNJ Inconnu"
 			var dialogue_lines: Array[Dictionary] = []
+			var is_alive := true
 			
-			# on récupère le nom
+			# on récupère le nom et le statut
 			if index < peoples.size():
 				name_pnj = peoples[index].get("full_name", "PNJ Inconnu")
-				## on affiche le prénom sur la pencarte
+				is_alive = peoples[index].get("alive", true)
+				
+				# Afficher le prénom sur la pancarte
 				get_node("../seatNode0"+str(index+1)+"/Sign").visible = true
-				get_node("../seatNode0"+str(index+1)+"/Sign/Label3D").text = name_pnj
-				get_node("../seatNode0"+str(index+1)+"/Sign/Label3D").text = name_pnj
+				var sign_label = get_node("../seatNode0"+str(index+1)+"/Sign/Label3D")
+				sign_label.text = name_pnj
+				
+				# Si mort, ajouter le crâne et changer la couleur
+				if not is_alive:
+					sign_label.text += "\n☠️"
+					sign_label.modulate = Color(1, 0, 0, 1.0)
 			# on recherche le dialogue correspondant
 			for dialogue_entry in campfire_dialogues:
 				if dialogue_entry.get("full_name", "") == name_pnj:
@@ -41,19 +49,41 @@ func _ready() -> void:
 				]
 
 			pnj.person_index = index
-
-
+			pnj.initialize_pnj(name_pnj, dialogue_lines, is_alive)
 			
-			pnj.initialize_pnj(name_pnj, dialogue_lines, peoples[index].get("alive", true))
-			Global.current["people"][index]["initial_position"] = pnj.get_node("../").position
+			# Sauvegarder la position initiale
+			if not Global.current["people"][index].has("initial_position"):
+				Global.current["people"][index]["initial_position"] = pnj.get_node("../").position
 
-			if Global.current["victims"][0]["full_name"] == name_pnj:
-				print("PNJ ", name_pnj, " est une victime, il se transforme en cadavre.")
+			# Si le PNJ est mort, le transformer en cadavre
+			if not is_alive:
+				print("PNJ ", name_pnj, " est mort, transformation en cadavre.")
 				pnj.get_node("../").rotation.x = -80.0
-				pnj.get_node("../").position = Vector3(0, 0.5, 0)
-				
-				get_node("../seatNode0"+str(index+1)+"/Sign/Label3D").text += "\n☠️"
-				get_node("../seatNode0"+str(index+1)+"/Sign/Label3D").modulate = Color(1, 0, 0, 1.0)
+				pnj.get_node("../").position.y = 0.5
+
+func update_signs() -> void:
+	# Fonction pour mettre à jour toutes les pancartes
+	var peoples = Global.current.get("people", [])
+	var pnjs := get_tree().get_nodes_in_group("PNJ")
+	
+	for index in range(min(pnjs.size(), peoples.size())):
+		var name_pnj = peoples[index].get("full_name", "PNJ Inconnu")
+		var is_alive = peoples[index].get("alive", true)
+		var pnj = pnjs[index]
+		
+		var sign_label = get_node("../seatNode0"+str(index+1)+"/Sign/Label3D")
+		sign_label.text = name_pnj
+		
+		if not is_alive:
+			sign_label.text += "\n☠️"
+			sign_label.modulate = Color(1, 0, 0, 1.0)
+			
+			# Transformer en cadavre si pas déjà fait
+			if pnj.get_node("../").rotation.x > -70.0:
+				pnj.get_node("../").rotation.x = -80.0
+				pnj.get_node("../").position.y = 0.5
+		else:
+			sign_label.modulate = Color(1, 1, 1, 1.0)
 
 func _process(delta: float) -> void:
 	pass
