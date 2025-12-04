@@ -9,8 +9,6 @@ var alive = true
 
 var dialogue_lines: Array[Dictionary] = []
 
-@onready var dialogue = get_tree().get_root().get_node("Dialogues") as Node
-
 func initialize_pnj(name: String, lines: Array[Dictionary], is_alive: bool = true) -> void:
 	name_pnj = name
 	get_node("../Name").text = name_pnj
@@ -19,7 +17,8 @@ func initialize_pnj(name: String, lines: Array[Dictionary], is_alive: bool = tru
 	get_node("Outline").visible = false
 
 func _ready() -> void:
-	dialogue.dialogue_ended.connect(_on_dialogue_ended)
+	if Dialogues.has_signal("dialogue_ended"):
+		Dialogues.dialogue_ended.connect(_on_dialogue_ended)
 
 
 func _process(delta: float) -> void:
@@ -63,15 +62,11 @@ func _input(event) -> void:
 				else:
 					print("InterrogationUi introuvable ou méthode 'start_interrogation_confirm' manquante.")
 				return
-
-
-
 			# Dialogues normaux tant qu'il en reste
-			var dialogue := get_tree().get_root().get_node("Dialogues") as Node
-			if dialogue.has_method("start_dialogue"):
+			if Dialogues.has_method("start_dialogue"):
 				print("Starting dialogue with ", name_pnj)
 				print("Dialogue lines: ", dialogue_lines)
-				dialogue.call("start_dialogue", dialogue_lines)
+				Dialogues.start_dialogue(dialogue_lines)
 				player.in_cinematic = true
 				var player_camera := player.get_node("Pivot/Camera3D") as Camera3D
 				player_camera.fov = 20

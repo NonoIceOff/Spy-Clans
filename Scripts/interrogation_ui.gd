@@ -156,9 +156,6 @@ func _close_and_release_player() -> void:
 		if player_camera:
 			player_camera.fov = 75 # FOV par défaut
 
-	# On rend la souris au mode jeu
-	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-			player_camera.fov = 75 # mets ici ton FOV par défaut
 
 
 func show_final_choice() -> void:

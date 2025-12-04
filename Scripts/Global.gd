@@ -305,4 +305,3 @@ func _handle_interrogation_response(interro_json: Dictionary) -> void:
 
 func start_new_day() -> void:
 	current = Variable.write_game_state(2)
-

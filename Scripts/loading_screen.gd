@@ -41,6 +41,7 @@ func _on_round_generated() -> void:
 	#Global.generate_interrogation_for_second(journal_test)
 
 	Global.game_alive = true
+	print("on passe à la map")
 	get_tree().change_scene_to_file("res://Scenes/map.tscn")
 
 func change_hint_fade() -> void:

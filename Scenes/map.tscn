@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://db8yeocanp3on"]
+[gd_scene load_steps=28 format=3 uid="uid://db8yeocanp3on"]
 
 [ext_resource type="Script" uid="uid://d1ak3yy7w4840" path="res://Scripts/map.gd" id="1_fls3e"]
 [ext_resource type="Texture2D" uid="uid://c43wpnx4ohjw7" path="res://Textures/Ground003_1K-PNG/ground.png" id="2_j4oe2"]
@@ -18,9 +18,9 @@
 [ext_resource type="PackedScene" uid="uid://1oa26n5tdp2s" path="res://Scenes/journal.tscn" id="17_rg57b"]
 [ext_resource type="PackedScene" uid="uid://dxvisy516q6f6" path="res://Scenes/seat_node.tscn" id="18_j4oe2"]
 [ext_resource type="PackedScene" uid="uid://30vj554jixit" path="res://Scenes/fire.tscn" id="18_riaky"]
-[ext_resource type="PackedScene" uid="uid://lprt4mjejt63" path="res://Scenes/Components/jail.tscn" id="18_vtkp8"]
 [ext_resource type="Material" uid="uid://m80rmki4fbox" path="res://sky/night_sky.tres" id="18_vtkp8"]
 [ext_resource type="Script" uid="uid://rw33bmqa2c7u" path="res://Scripts/initialize_pnj.gd" id="21_macow"]
+[ext_resource type="PackedScene" uid="uid://lprt4mjejt63" path="res://Scenes/Components/jail.tscn" id="21_rg57b"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_k63oc"]
 size = Vector3(1000, 0.1, 1000)
@@ -357,16 +357,14 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 4
 [node name="InitializePNJ" type="Node3D" parent="."]
 script = ExtResource("21_macow")
 
-
 [node name="InterrogatoireGestion" type="Node3D" parent="."]
 script = ExtResource("16_fls3e")
-
-[node name="Jail" parent="." instance=ExtResource("18_vtkp8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.00551, -0.21541429, 5.8788443)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_rg57b")
 
+[node name="Jail" parent="." instance=ExtResource("21_rg57b")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, 6)
 
 [connection signal="pressed" from="UI/FadeBlack/ReplayButton" to="UI" method="_on_replay_button_pressed"]
 [connection signal="pressed" from="UI/HistorySkipButton" to="UI" method="_on_history_skip_button_pressed"]
