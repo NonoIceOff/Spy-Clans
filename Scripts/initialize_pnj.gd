@@ -45,6 +45,7 @@ func _ready() -> void:
 
 			
 			pnj.initialize_pnj(name_pnj, dialogue_lines, peoples[index].get("alive", true))
+			Global.current["people"][index]["initial_position"] = pnj.get_node("../").position
 
 			if Global.current["victims"][0]["full_name"] == name_pnj:
 				print("PNJ ", name_pnj, " est une victime, il se transforme en cadavre.")

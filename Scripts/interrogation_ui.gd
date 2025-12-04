@@ -13,6 +13,10 @@ var current_person_name: String = ""
 @onready var button_alibi := $QuestionPanel/ButtonAlibi
 @onready var button_suspicion := $QuestionPanel/ButtonSuspicion
 @onready var button_cancel := $QuestionPanel/ButtonCancel
+@onready var question_final := $FinalPanel
+
+signal pnj_in_jail(person_index: int)
+signal pnj_released(person_index: int)
 
 @onready var sfx_player := $SfxPlayer
 
@@ -20,6 +24,7 @@ var current_person_name: String = ""
 var hover_scale: Vector2 = Vector2(1.1, 1.1)
 var normal_scale: Vector2 = Vector2.ONE
 var button_tweens: Dictionary = {} # bouton -> Tween
+
 
 
 func _ready() -> void:
@@ -139,9 +144,11 @@ func _send_interrogation_request(kind: String) -> void:
 
 
 func _close_and_release_player() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	confirm_panel.visible = false
 	question_panel.visible = false
-	
+	question_final.visible = false
+
 	var player := get_tree().get_root().get_node("Map/Player/CharacterBody3D") as Node
 	if player:
 		player.in_cinematic = false
@@ -151,3 +158,24 @@ func _close_and_release_player() -> void:
 
 	# On rend la souris au mode jeu
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+			player_camera.fov = 75 # mets ici ton FOV par défaut
+
+
+func show_final_choice() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	question_final.visible = true
+
+func _on_button_jail_pressed() -> void:
+	print(current_person_index)
+	print(current_person_name)
+	print("Le joueur a choisi d'envoyer en prison")
+	_close_and_release_player()
+	emit_signal("pnj_in_jail", current_person_index)
+
+
+func _on_button_release_pressed() -> void:
+	print(current_person_index)
+	print(current_person_name)
+	print("Le joueur a choisi de relâcher")
+	_close_and_release_player()
+	emit_signal("pnj_released", current_person_index)

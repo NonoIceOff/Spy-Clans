@@ -88,6 +88,12 @@ func show_history_day() -> void:
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _process(delta: float) -> void:
+
+	if Input.mouse_mode == Input.MOUSE_MODE_CAPTURED:
+		get_node("Cross").visible = true
+	else:
+		get_node("Cross").visible = false
+
 	time_left -= delta
 	if time_left < 0 and Global.game_alive:
 		time_left = 0

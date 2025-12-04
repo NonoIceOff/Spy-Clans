@@ -1,0 +1,130 @@
+extends Node3D
+
+var target_pnj_node: Node3D = null
+var player_node: Node3D = null
+var current_interrogation: Dictionary = {}
+var cinematic_camera: Camera3D = null
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	player_node = get_tree().get_root().get_node("Map/Player") 
+	Global.interrogation_generated.connect(start_interrogatoire)
+	Global.interrogation_in_generation.connect(init_pnj_interrogatoire)
+	Dialogues.dialogue_ended.connect(_on_dialogue_ended)
+	InterrogationUi.connect("pnj_in_jail", _on_pnj_in_jail)
+	InterrogationUi.connect("pnj_released", _on_pnj_released)
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+
+func init_pnj_interrogatoire(interrogation_data: Dictionary) -> void:
+	Global.interrogatoire_state = true
+	# trouver le PNJ dans la scène
+	var pnjs = get_tree().get_nodes_in_group("PNJ")
+	for pnj in pnjs:
+		if pnj.name_pnj == interrogation_data.get("full_name", ""):
+			target_pnj_node = pnj.get_parent()
+			break
+
+	if target_pnj_node:
+		Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+		target_pnj_node.position = Vector3(-38, 0, -25)
+		player_node.position = Vector3(-40, 0, -25)
+		start_interrogatoire_cinematic()
+	else:
+		print("[Interrogatoire] ERREUR: PNJ non trouvé pour ", interrogation_data.get("full_name", ""))
+
+
+
+
+func start_interrogatoire_cinematic() -> void:
+	if target_pnj_node == null or player_node == null:
+		print("[Interrogatoire] ERREUR: target_pnj_node ou player_node est null.")
+		return
+	
+	cinematic_camera = get_tree().get_root().get_node("Map/CinematicCamera") as Camera3D
+	cinematic_camera.current = true
+	cinematic_camera.position = Vector3(-39, 4, -30)
+	cinematic_camera.look_at(Vector3(-39, 0, -25), Vector3.UP)
+	
+	var tween = get_tree().create_tween()
+	tween.set_parallel(true)
+	tween.set_trans(Tween.TRANS_SINE)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	
+	var pnj_target_position = Vector3(-38, 0, -25)
+	var player_target_position = Vector3(-40, 0, -25)
+	
+	tween.tween_property(target_pnj_node, "position", pnj_target_position, 2.0)
+	tween.tween_property(player_node, "position", player_target_position, 2.0)
+
+func start_interrogatoire(interrogation_data: Dictionary) -> void:
+	cinematic_camera.current = false
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	current_interrogation = interrogation_data
+	
+	# récupérer le nom du PNJ à interroger
+	var pnj_name = interrogation_data.get("full_name", "")
+	print("[Interrogatoire] Début pour: ", pnj_name)
+	print("[Interrogatoire] Questions: ", interrogation_data.get("questions", []))
+	
+	# convertir les questions en Array[Dictionary] (car on a décidé comme ça)
+	var questions_array: Array[Dictionary] = []
+	var raw_questions = interrogation_data.get("suspicion_answers", [])
+	for q in raw_questions:
+		if q is Dictionary:
+			questions_array.append({"name": pnj_name, "text": q})
+	
+	Dialogues.start_dialogue(questions_array, false)
+
+func _on_dialogue_ended() -> void:
+	if Global.interrogatoire_state == true:
+		Global.interrogatoire_state = false
+		print("Affichage du choix final")
+		InterrogationUi.show_final_choice()
+
+func _on_pnj_in_jail(person_index: int) -> void:
+	print("PNJ envoyé en prison, index:", person_index)
+	Global.current["people"][person_index]["in_jail"] = true
+	get_tree().get_root().get_node("Map/PNJ"+str(person_index+1)).position = Vector3(-5, 0, 6.5) # position éloignée pour simuler la prison
+	end_interrogatoire_scene()
+
+func _on_pnj_released(person_index: int) -> void:
+	print("PNJ relâché, index:", person_index)
+	Global.current["people"][person_index]["in_jail"] = false
+	get_tree().get_root().get_node("Map/PNJ"+str(person_index+1)).position = Global.current["people"][person_index].get("initial_position", Vector3(0,0,0))
+	print("Position initiale rétablie à :", Global.current["people"][person_index]["initial_position"], "à la position :", Global.current["people"][person_index]["initial_position"])
+	end_interrogatoire_scene()
+
+func detect_if_killer(person_index: int) -> bool:
+	var people = Global.current.get("people", [])
+	if person_index >= 0 and person_index < people.size():
+		return people[person_index].get("is_killer", false)
+	return false
+
+func end_interrogatoire_scene() -> void:
+	# Fondu au noir
+	var fade_black = get_tree().get_root().get_node("Map/UI/FadeBlackTransi") as ColorRect
+	fade_black.visible = true
+	fade_black.modulate.a = 0.0
+	fade_black.get_node("ResultDay").text = "☠️ Le coupable a été arrêté !" if detect_if_killer(current_interrogation.get("person_index", -1)) else "Le coupable est toujours en liberté..."
+
+	var tween := create_tween()
+	tween.tween_property(fade_black, "modulate:a", 1.0, 1.0)
+	await tween.finished
+	
+	if cinematic_camera:
+		cinematic_camera.current = false
+	
+	get_tree().get_root().get_node("Map/Player").position = Vector3(4.923, 0, 0)
+	
+	var tween2 := create_tween()
+	tween2.tween_property(fade_black, "modulate:a", 0.0, 1.0)
+	await tween2.finished
+	
+	fade_black.visible = false
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	Global.start_new_day()
+	
