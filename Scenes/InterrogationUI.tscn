@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dmv0vwnum004c"]
+[gd_scene load_steps=3 format=3 uid="uid://dmv0vwnum004c"]
 
 [ext_resource type="Script" uid="uid://crrk0jdt2g7v2" path="res://Scripts/interrogation_ui.gd" id="1_glcoq"]
+[ext_resource type="AudioStream" uid="uid://xwdbjpc7rp2b" path="res://Sounds/445719__lilmati__evil-presence-01.wav" id="2_ly7hl"]
 
 [node name="InterrogationUI" type="Control"]
 layout_mode = 3
@@ -79,6 +80,9 @@ offset_left = 145.0
 offset_top = 306.0
 offset_right = 387.0
 offset_bottom = 441.0
+
+[node name="SfxPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_ly7hl")
 
 [connection signal="pressed" from="ConfirmPanel/ConfirmYes" to="." method="_on_ConfirmYes_pressed"]
 [connection signal="pressed" from="ConfirmPanel/ConfirmNo" to="." method="_on_ConfirmNo_pressed"]

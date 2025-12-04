@@ -161,11 +161,13 @@ func generate_interrogation_for_person(person_index: int, player_journal: String
 		"campfire_dialogue_for_person": campfire_for_person,
 		"victims": current.get("victims", []),
 		"eliminations": current.get("eliminations", []),
-		"player_journal": player_journal
+		"player_journal": target.get("notes")
 	}
 
 	# 🔍 DEBUG COURT
 	print("[Interrogatoire] Envoi pour :", name)
+	print("note : ", target.get("notes"))
+	print(interrogation_input)
 
 	var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key="+ENV.APIKEY
 	var headers = ["Content-Type: application/json"]
@@ -292,3 +294,4 @@ func _handle_interrogation_response(interro_json: Dictionary) -> void:
 
 	print("[Interrogatoire] reçu pour :", interrogation.get("full_name"))
 	print ("voici le text", interrogation)
+	
