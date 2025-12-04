@@ -1,60 +1,89 @@
-[gd_scene load_steps=3 format=3 uid="uid://dmv0vwnum004c"]
+[gd_scene load_steps=8 format=3 uid="uid://dmv0vwnum004c"]
 
 [ext_resource type="Script" uid="uid://crrk0jdt2g7v2" path="res://Scripts/interrogation_ui.gd" id="1_glcoq"]
 [ext_resource type="AudioStream" uid="uid://xwdbjpc7rp2b" path="res://Sounds/445719__lilmati__evil-presence-01.wav" id="2_ly7hl"]
+[ext_resource type="Theme" uid="uid://ct8rtr080w4nx" path="res://Textures/text/panel.tres" id="2_t3y64"]
+[ext_resource type="Texture2D" uid="uid://c8i5pcxjti8c2" path="res://Textures/text/blue-watercolour-banner-white-border.png" id="3_1n7fx"]
+[ext_resource type="Texture2D" uid="uid://vta8h028mp15" path="res://Textures/text/bubble.png" id="3_kpgn8"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t3y64"]
+texture = ExtResource("3_1n7fx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kpgn8"]
+texture = ExtResource("3_1n7fx")
 
 [node name="InterrogationUI" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 1.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_glcoq")
 
 [node name="ConfirmPanel" type="Panel" parent="."]
 layout_mode = 0
-offset_left = 189.0
-offset_top = 156.0
-offset_right = 735.0
-offset_bottom = 423.0
+offset_left = 376.0
+offset_top = 146.0
+offset_right = 922.0
+offset_bottom = 413.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_t3y64")
 
 [node name="Label" type="Label" parent="ConfirmPanel"]
 layout_mode = 0
-offset_right = 545.0
-offset_bottom = 265.0
+offset_left = 131.0
+offset_top = 68.0
+offset_right = 416.0
+offset_bottom = 197.0
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ConfirmYes" type="Button" parent="ConfirmPanel"]
 layout_mode = 0
-offset_left = 7.0
-offset_top = 267.0
-offset_right = 175.0
-offset_bottom = 387.0
+offset_left = -63.0
+offset_top = 206.0
+offset_right = 337.0
+offset_bottom = 373.0
 text = "Oui"
+icon = ExtResource("3_kpgn8")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="ConfirmNo" type="Button" parent="ConfirmPanel"]
 layout_mode = 0
-offset_left = 379.0
-offset_top = 267.0
-offset_right = 549.0
-offset_bottom = 391.0
+offset_left = 255.0
+offset_top = 203.0
+offset_right = 597.0
+offset_bottom = 378.0
 text = "Non"
+icon = ExtResource("3_kpgn8")
+flat = true
+autowrap_trim_flags = 0
+clip_text = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="QuestionPanel" type="Panel" parent="."]
+visible = false
 layout_mode = 0
-offset_left = 190.0
-offset_top = 108.0
-offset_right = 733.0
-offset_bottom = 371.0
+offset_left = 374.0
+offset_top = 147.0
+offset_right = 923.0
+offset_bottom = 410.0
+theme = ExtResource("2_t3y64")
+theme_override_styles/panel = SubResource("StyleBoxTexture_kpgn8")
 
 [node name="Label" type="Label" parent="QuestionPanel"]
 layout_mode = 0
-offset_left = -2.0
-offset_top = -1.0
-offset_right = 543.0
-offset_bottom = 315.0
+offset_left = 131.0
+offset_top = 66.0
+offset_right = 421.0
+offset_bottom = 195.0
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -64,6 +93,7 @@ offset_left = 294.0
 offset_top = 206.0
 offset_right = 540.0
 offset_bottom = 339.0
+theme = ExtResource("2_t3y64")
 text = "Que faisait-tu an moment du drame ?"
 
 [node name="ButtonSuspicion" type="Button" parent="QuestionPanel"]
@@ -76,10 +106,11 @@ text = "Qui soupçonne tu et pourquoi? "
 
 [node name="ButtonCancel" type="Button" parent="QuestionPanel"]
 layout_mode = 0
-offset_left = 145.0
-offset_top = 306.0
-offset_right = 387.0
+offset_left = 148.0
+offset_top = 386.0
+offset_right = 390.0
 offset_bottom = 441.0
+text = "Choisir une autre personne"
 
 [node name="SfxPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_ly7hl")
