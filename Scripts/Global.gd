@@ -10,6 +10,8 @@ var game_alive = false
 var dialogue_history: Array[Dictionary] = []
 var dialogues_left = 3
 
+var interrogatoire_state = false
+
 # Système de retry
 var max_retries := 3
 var current_retry := 0
@@ -18,6 +20,8 @@ var pending_request: Dictionary = {}
 var use_fallback_model := false
 
 signal round_generated
+signal interrogation_generated
+signal interrogation_in_generation
 
 
 func _ready():
@@ -161,11 +165,14 @@ func generate_interrogation_for_person(person_index: int, player_journal: String
 		"campfire_dialogue_for_person": campfire_for_person,
 		"victims": current.get("victims", []),
 		"eliminations": current.get("eliminations", []),
-		"player_journal": player_journal
+		"player_journal": target.get("notes")
 	}
 
 	# 🔍 DEBUG COURT
 	print("[Interrogatoire] Envoi pour :", name)
+	
+	# Émettre le signal pour préparer la cinématique
+	interrogation_in_generation.emit({"full_name": name})
 
 	var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key="+ENV.APIKEY
 	var headers = ["Content-Type: application/json"]
@@ -257,6 +264,7 @@ func _on_request_completed(result, response_code, headers, body):
 		_handle_round_response(parsed)
 		emit_signal("round_generated")
 	else:
+		emit_signal("interrogation_in_generation", parsed)
 		_handle_interrogation_response(parsed)
 
 
@@ -292,3 +300,7 @@ func _handle_interrogation_response(interro_json: Dictionary) -> void:
 
 	print("[Interrogatoire] reçu pour :", interrogation.get("full_name"))
 	print ("voici le text", interrogation)
+	interrogation_generated.emit(interrogation)
+
+func start_new_day() -> void:
+	current = Variable.write_game_state(2)

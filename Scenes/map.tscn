@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://db8yeocanp3on"]
+[gd_scene load_steps=25 format=3 uid="uid://db8yeocanp3on"]
 
 [ext_resource type="Script" uid="uid://d1ak3yy7w4840" path="res://Scripts/map.gd" id="1_fls3e"]
 [ext_resource type="Texture2D" uid="uid://c43wpnx4ohjw7" path="res://Textures/Ground003_1K-PNG/ground.png" id="2_j4oe2"]
@@ -6,14 +6,17 @@
 [ext_resource type="Texture2D" uid="uid://pqm5i1ud2tp4" path="res://Textures/Ground003_1K-PNG/ground_n.png" id="3_k63oc"]
 [ext_resource type="Texture2D" uid="uid://dbi01n57xyi04" path="res://Textures/NightSkyHDRI003_1K/NightSkyHDRI003.png" id="5_j4oe2"]
 [ext_resource type="PackedScene" uid="uid://dlgnwojhaerho" path="res://Scenes/player.tscn" id="6_ie368"]
+[ext_resource type="Texture2D" uid="uid://bt7uo47meto18" path="res://Textures/cross.png" id="9_k63oc"]
 [ext_resource type="PackedScene" uid="uid://cudpxak7ruepq" path="res://Textures/street_lamp_01_1k/street_lamp_01_1k.fbx" id="13_x5dfk"]
 [ext_resource type="PackedScene" uid="uid://vw60otvfw2xt" path="res://Scenes/pnj.tscn" id="14_ie368"]
 [ext_resource type="Script" uid="uid://b1e5oskre1y64" path="res://Scripts/ui.gd" id="15_x5dfk"]
+[ext_resource type="Script" uid="uid://dtev1837v18ts" path="res://Scripts/interrogatoire_gestion.gd" id="16_fls3e"]
 [ext_resource type="FontFile" uid="uid://dm472n6vwgn6h" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="16_riaky"]
 [ext_resource type="MeshLibrary" uid="uid://cge05mtfk8c1h" path="res://treess_mesh.tres" id="17_k63oc"]
 [ext_resource type="PackedScene" uid="uid://1oa26n5tdp2s" path="res://Scenes/journal.tscn" id="17_rg57b"]
 [ext_resource type="PackedScene" uid="uid://dxvisy516q6f6" path="res://Scenes/seat_node.tscn" id="18_j4oe2"]
 [ext_resource type="PackedScene" uid="uid://30vj554jixit" path="res://Scenes/fire.tscn" id="18_riaky"]
+[ext_resource type="PackedScene" uid="uid://lprt4mjejt63" path="res://Scenes/Components/jail.tscn" id="18_vtkp8"]
 [ext_resource type="Script" uid="uid://rw33bmqa2c7u" path="res://Scripts/initialize_pnj.gd" id="21_macow"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_k63oc"]
@@ -114,6 +117,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.975385, 0, 2.831035)
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource("15_x5dfk")
 
+[node name="Cross" type="Sprite2D" parent="UI"]
+texture = ExtResource("9_k63oc")
+offset = Vector2(640, 360)
+
 [node name="CurrentWeek" type="Label" parent="UI"]
 texture_filter = 1
 offset_left = 16.0
@@ -210,6 +217,27 @@ text = "Ignorer"
 
 [node name="Journal" parent="UI" instance=ExtResource("17_rg57b")]
 
+[node name="FadeBlackTransi" type="ColorRect" parent="UI"]
+visible = false
+offset_right = 1280.0
+offset_bottom = 720.0
+color = Color(0, 0, 0, 1)
+
+[node name="ResultDay" type="Label" parent="UI/FadeBlackTransi"]
+texture_filter = 1
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.6862745)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_fonts/font = ExtResource("16_riaky")
+theme_override_font_sizes/font_size = 32
+text = "Résultat du jour :"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
 [node name="seatNode01" parent="." groups=["Seat_PNJ"] instance=ExtResource("18_j4oe2")]
 transform = Transform3D(-6.3818625e-08, 0, 1.4599999, 0, 1.4599999, 0, -1.4599999, 0, -6.3818625e-08, -5, 0.05, 0)
 
@@ -265,8 +293,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.4753838, -0.21541524, -0.13
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4202003, 0)
 light_color = Color(0.83015203, 0.5735766, 1.540184e-06, 1)
 light_energy = 2.462
-omni_range = 40.0
-omni_attenuation = 0.575
+omni_range = 1.345
 omni_shadow_mode = 0
 
 [node name="street_lamp_01_1k2" parent="street_lamp_01_1k" instance=ExtResource("13_x5dfk")]
@@ -276,8 +303,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.21407318, -0.21541524, 11.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4202003, 0)
 light_color = Color(0.83015203, 0.5735766, 1.540184e-06, 1)
 light_energy = 2.462
-omni_range = 40.0
-omni_attenuation = 0.575
+omni_range = 1.345
 omni_shadow_mode = 0
 
 [node name="street_lamp_01_1k" parent="street_lamp_01_1k/street_lamp_01_1k2" instance=ExtResource("13_x5dfk")]
@@ -287,8 +313,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.4753838, -0.21541524, -0.13
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4202003, 0)
 light_color = Color(0.83015203, 0.5735766, 1.540184e-06, 1)
 light_energy = 2.462
-omni_range = 40.0
-omni_attenuation = 0.575
+omni_range = 1.345
 omni_shadow_mode = 0
 
 [node name="dead_tree_trunk_4k" parent="." instance=ExtResource("18_riaky")]
@@ -307,6 +332,12 @@ transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 4
 
 [node name="InitializePNJ" type="Node3D" parent="."]
 script = ExtResource("21_macow")
+
+[node name="InterrogatoireGestion" type="Node3D" parent="."]
+script = ExtResource("16_fls3e")
+
+[node name="Jail" parent="." instance=ExtResource("18_vtkp8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.00551, -0.21541429, 5.8788443)
 
 [connection signal="pressed" from="UI/FadeBlack/ReplayButton" to="UI" method="_on_replay_button_pressed"]
 [connection signal="pressed" from="UI/HistorySkipButton" to="UI" method="_on_history_skip_button_pressed"]
