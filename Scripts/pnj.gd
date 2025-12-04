@@ -19,7 +19,12 @@ func initialize_pnj(name: String, lines: Array[Dictionary], is_alive: bool = tru
 func _ready() -> void:
 	if Dialogues.has_signal("dialogue_ended"):
 		Dialogues.dialogue_ended.connect(_on_dialogue_ended)
+	Global.round_generated.connect(_on_round_generated)
 
+
+func _on_round_generated() -> void:
+	# Mettre à jour le statut de vie du PNJ
+	initialize_pnj(name_pnj, dialogue_lines, Global.current["people"][person_index].get("alive", true))
 
 func _process(delta: float) -> void:
 	name_text.visible = hover or highlighted

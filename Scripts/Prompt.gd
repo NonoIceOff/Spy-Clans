@@ -169,8 +169,6 @@ Contraintes :
 """
 
 
-
-
 const Generate := """
 Tu es le moteur narratif d'un jeu d'enquête en vue à la première personne.
 
@@ -245,10 +243,12 @@ TA MISSION POUR CE JOUR
 		  - Ne jamais mentionner une découverte de corps qui n'est pas dans "victims".
 
 2) Choisir la nouvelle victime du jour :
+   - OBLIGATOIRE : Tu DOIS absolument choisir une nouvelle victime à chaque jour.
    - Choisir une personne avec alive == true, différente du joueur et du meurtrier.
    - Elle ne doit pas déjà être dans "victims".
    - Tu la déclares dans "new_victim" (voir format de sortie).
    - Le jeu se chargera ensuite de mettre alive = false.
+   - IMPORTANT : Sans nouvelle victime, le jeu ne peut pas continuer.
 
 3) Générer l'histoire de la journée :
    - "day_story" : un paragraphe court (5 à 8 phrases maximum) expliquant :
@@ -265,6 +265,7 @@ TA MISSION POUR CE JOUR
    - Cohérent avec "day_story".
 
 5) Prise en compte des morts et des éliminations précédentes :
+	- Une autre personne doit être morte chaque jour.
    - Les victimes dans "victims" et les personnes dans "eliminations" influencent l'ambiance :
 	 - deuil, peur, colère, culpabilité, tensions envers le joueur.
    - Si une personne innocente a été éliminée (was_killer == false) :

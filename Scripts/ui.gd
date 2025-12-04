@@ -3,6 +3,7 @@ extends CanvasLayer
 var time_left := 600.0  # 10 minutes en secondes
 var is_typing := false
 var typing_speed := 0.02  # secondes entre chaque caractère
+var current_history_tweens: Array[Tween] = []
 
 @onready var time_label := $TimeLeft
 @onready var dialogues_left_label := $DialoguesLeft
@@ -12,8 +13,16 @@ var typing_speed := 0.02  # secondes entre chaque caractère
 func _ready() -> void:
 	_update_time_display()
 	show_history_day()
+	Global.round_generated.connect(_on_new_round_generated)
 
 func show_history_day() -> void:
+	
+	# Arrêter toutes les animations en cours
+	is_typing = false
+	for tween in current_history_tweens:
+		if tween and tween.is_valid():
+			tween.kill()
+	current_history_tweens.clear()
 	
 	# on regarde si on a des infos à afficher
 	if Global.current == null:
@@ -56,12 +65,13 @@ func show_history_day() -> void:
 	# la caméra va en haut
 	var tween = get_tree().create_tween()
 	tween.tween_property(cinematic_camera, "position:y", 10.0, total_duration)
-	
+	current_history_tweens.append(tween)
 	
 	# on affiche le bouton après un moment
 	var tweenbut = get_tree().create_tween()
 	tweenbut.tween_property(history_day_skip_button, "modulate:a", 0, 1)
 	tweenbut.tween_property(history_day_skip_button, "modulate:a", 1, 2)
+	current_history_tweens.append(tweenbut)
 	
 	# on affiche les lettres une par une
 	is_typing = true
@@ -75,10 +85,13 @@ func show_history_day() -> void:
 	
 	# on attend un peu puis fondu
 	await get_tree().create_timer(wait_before_fade).timeout
-	var tween2 = get_tree().create_tween()
-	tween2.tween_property(history_day, "modulate:a", 0.0, fade_duration)
-	tween2.tween_property(history_day_back, "modulate:a", 0.0, fade_duration)
-	tween2.tween_property(history_day_skip_button, "modulate:a", 0.0, fade_duration)
+	
+	if not is_typing:  # Vérifier qu'on n'a pas été interrompu
+		var tween2 = get_tree().create_tween()
+		tween2.tween_property(history_day, "modulate:a", 0.0, fade_duration)
+		tween2.tween_property(history_day_back, "modulate:a", 0.0, fade_duration)
+		tween2.tween_property(history_day_skip_button, "modulate:a", 0.0, fade_duration)
+		current_history_tweens.append(tween2)
 	
 	await tween.finished
 	history_day.visible = false
@@ -135,9 +148,17 @@ func _update_time_display() -> void:
 	time_label.text = "%02d:%02d" % [minutes, seconds] + " restantes"
 
 	dialogues_left_label.text = "Dialogues restants : %d" % Global.dialogues_left
+	get_node("CurrentWeek").text = "Jour %d" % Global.current.get("day_index", 1)
 
 
 func _on_history_skip_button_pressed() -> void:
+	# on tue toutes les animations
+	is_typing = false
+	for tween in current_history_tweens:
+		if tween and tween.is_valid():
+			tween.kill()
+	current_history_tweens.clear()
+	
 	var history_day := get_node("StartHistoryDay")
 	var history_day_back := get_node("HistoryDayBack")
 	var history_day_skip_button := get_node("HistorySkipButton")
@@ -153,3 +174,13 @@ func _on_history_skip_button_pressed() -> void:
 
 func _on_replay_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/menu.tscn")
+
+func _on_new_round_generated() -> void:
+	get_node("LoadingBack").visible = false
+	
+	# on mets à jour les pancartes des PNJ
+	var initializer = get_tree().get_root().get_node("Map/InitializePNJ")
+	if initializer and initializer.has_method("update_signs"):
+		initializer.update_signs()
+	
+	show_history_day()

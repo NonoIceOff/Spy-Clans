@@ -67,6 +67,7 @@ func start_interrogatoire(interrogation_data: Dictionary) -> void:
 	
 	# récupérer le nom du PNJ à interroger
 	var pnj_name = interrogation_data.get("full_name", "")
+	print("Nom du PNJ interrogé :", pnj_name)
 	print("[Interrogatoire] Début pour: ", pnj_name)
 	print("[Interrogatoire] Questions: ", interrogation_data.get("questions", []))
 	
@@ -105,26 +106,44 @@ func detect_if_killer(person_index: int) -> bool:
 	return false
 
 func end_interrogatoire_scene() -> void:
-	# Fondu au noir
+	# Fondu au noir avec résultat
 	var fade_black = get_tree().get_root().get_node("Map/UI/FadeBlackTransi") as ColorRect
 	fade_black.visible = true
 	fade_black.modulate.a = 0.0
+	print("Détecter si le coupable a été arrêté pour l'affichage du résultat...",detect_if_killer(current_interrogation.get("person_index", -1)))
 	fade_black.get_node("ResultDay").text = "☠️ Le coupable a été arrêté !" if detect_if_killer(current_interrogation.get("person_index", -1)) else "Le coupable est toujours en liberté..."
 
 	var tween := create_tween()
 	tween.tween_property(fade_black, "modulate:a", 1.0, 1.0)
 	await tween.finished
 	
+	# Afficher le résultat pendant 3 secondes
+	await get_tree().create_timer(3.0).timeout
+	
+	# Repositionner pendant le noir
 	if cinematic_camera:
 		cinematic_camera.current = false
 	
 	get_tree().get_root().get_node("Map/Player").position = Vector3(4.923, 0, 0)
+	
+	# Afficher l'écran de chargement
+	fade_black.get_node("ResultDay").visible = false
+	get_tree().get_root().get_node("Map/UI/LoadingBack").visible = true
+	
+	# Générer le nouveau jour (pendant le chargement)
+	Global.start_new_day()
+	
+	# Attendre que la génération soit complète (le signal round_generated sera émis)
+	await Global.round_generated
+	
+	# Cacher le chargement et faire le fondu retour
+	get_tree().get_root().get_node("Map/UI/LoadingBack").visible = false
 	
 	var tween2 := create_tween()
 	tween2.tween_property(fade_black, "modulate:a", 0.0, 1.0)
 	await tween2.finished
 	
 	fade_black.visible = false
+	fade_black.get_node("ResultDay").visible = true
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	Global.start_new_day()
 	
