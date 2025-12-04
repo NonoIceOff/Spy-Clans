@@ -1,9 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://dmv0vwnum004c"]
+[gd_scene load_steps=8 format=3 uid="uid://dmv0vwnum004c"]
+
 
 [ext_resource type="Script" uid="uid://crrk0jdt2g7v2" path="res://Scripts/interrogation_ui.gd" id="1_glcoq"]
 [ext_resource type="Texture2D" uid="uid://cscky5u37acqe" path="res://Textures/logbook.png" id="2_h2t8j"]
 [ext_resource type="FontFile" uid="uid://dm472n6vwgn6h" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="3_t3y64"]
 [ext_resource type="AudioStream" uid="uid://xwdbjpc7rp2b" path="res://Sounds/445719__lilmati__evil-presence-01.wav" id="2_ly7hl"]
+[ext_resource type="Theme" uid="uid://ct8rtr080w4nx" path="res://Textures/text/panel.tres" id="2_t3y64"]
+[ext_resource type="Texture2D" uid="uid://c8i5pcxjti8c2" path="res://Textures/text/blue-watercolour-banner-white-border.png" id="3_1n7fx"]
+[ext_resource type="Texture2D" uid="uid://vta8h028mp15" path="res://Textures/text/bubble.png" id="3_kpgn8"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t3y64"]
+texture = ExtResource("3_1n7fx")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kpgn8"]
+texture = ExtResource("3_1n7fx")
 
 [node name="InterrogationUI" type="Control"]
 texture_filter = 1
@@ -11,6 +21,10 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 1.0
+offset_top = 1.0
+offset_right = 1.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_glcoq")
@@ -29,6 +43,7 @@ offset_right = 273.0
 offset_bottom = 133.5
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_t3y64")
 
 [node name="Background" type="Sprite2D" parent="ConfirmPanel"]
 texture_filter = 1
@@ -50,66 +65,57 @@ autowrap_mode = 3
 
 [node name="ConfirmYes" type="Button" parent="ConfirmPanel"]
 layout_mode = 0
-offset_left = 41.0
-offset_top = 101.5
-offset_right = 504.0
-offset_bottom = 157.5
-theme_override_fonts/font = ExtResource("3_t3y64")
-theme_override_font_sizes/font_size = 32
+offset_left = -63.0
+offset_top = 206.0
+offset_right = 337.0
+offset_bottom = 373.0
 text = "Oui"
+icon = ExtResource("3_kpgn8")
+flat = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="ConfirmNo" type="Button" parent="ConfirmPanel"]
 layout_mode = 0
-offset_left = 41.0
-offset_top = 173.5
-offset_right = 504.0
-offset_bottom = 229.5
-theme_override_fonts/font = ExtResource("3_t3y64")
-theme_override_font_sizes/font_size = 32
+offset_left = 255.0
+offset_top = 203.0
+offset_right = 597.0
+offset_bottom = 378.0
 text = "Non"
+icon = ExtResource("3_kpgn8")
+flat = true
+autowrap_trim_flags = 0
+clip_text = true
+icon_alignment = 1
+expand_icon = true
 
 [node name="QuestionPanel" type="Panel" parent="."]
 visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -271.5
-offset_top = -131.5
-offset_right = 271.5
-offset_bottom = 136.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Background" type="Sprite2D" parent="QuestionPanel"]
-texture_filter = 1
-position = Vector2(271.5, 131.5)
-scale = Vector2(5, 5)
-texture = ExtResource("2_h2t8j")
+layout_mode = 0
+offset_left = 374.0
+offset_top = 147.0
+offset_right = 923.0
+offset_bottom = 410.0
+theme = ExtResource("2_t3y64")
+theme_override_styles/panel = SubResource("StyleBoxTexture_kpgn8")
 
 [node name="Label" type="Label" parent="QuestionPanel"]
 layout_mode = 0
-offset_left = -2.0
-offset_top = -1.0
-offset_right = 543.0
-offset_bottom = 99.5
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_t3y64")
-theme_override_font_sizes/font_size = 32
-text = "Texte de question de soupçon"
+offset_left = 131.0
+offset_top = 66.0
+offset_right = 421.0
+offset_bottom = 195.0
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
 [node name="ButtonAlibi" type="Button" parent="QuestionPanel"]
 layout_mode = 0
-offset_left = 16.5
-offset_top = 99.5
-offset_right = 527.5
-offset_bottom = 155.5
-theme_override_fonts/font = ExtResource("3_t3y64")
+offset_left = 294.0
+offset_top = 206.0
+offset_right = 540.0
+offset_bottom = 339.0
+theme = ExtResource("2_t3y64")
 text = "Que faisait-tu an moment du drame ?"
 text_overrun_behavior = 2
 autowrap_mode = 3
@@ -127,73 +133,11 @@ autowrap_mode = 3
 
 [node name="ButtonCancel" type="Button" parent="QuestionPanel"]
 layout_mode = 0
-offset_left = 17.5
-offset_top = 227.5
-offset_right = 529.5
-offset_bottom = 255.5
-theme_override_fonts/font = ExtResource("3_t3y64")
-text = "Annuler"
-text_overrun_behavior = 2
-autowrap_mode = 3
-
-[node name="FinalPanel" type="Panel" parent="."]
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -271.5
-offset_top = -131.5
-offset_right = 271.5
-offset_bottom = 136.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Background" type="Sprite2D" parent="FinalPanel"]
-texture_filter = 1
-position = Vector2(271.5, 131.5)
-scale = Vector2(5, 5)
-texture = ExtResource("2_h2t8j")
-
-[node name="Label" type="Label" parent="FinalPanel"]
-layout_mode = 0
-offset_left = -2.0
-offset_top = -1.0
-offset_right = 543.0
-offset_bottom = 99.5
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_fonts/font = ExtResource("3_t3y64")
-theme_override_font_sizes/font_size = 32
-text = "Que vouez-vous faire ?"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 3
-
-[node name="ButtonJail" type="Button" parent="FinalPanel"]
-layout_mode = 0
-offset_left = 16.5
-offset_top = 99.5
-offset_right = 527.5
-offset_bottom = 155.5
-theme_override_fonts/font = ExtResource("3_t3y64")
-theme_override_font_sizes/font_size = 32
-text = "Mettre en prison"
-text_overrun_behavior = 2
-autowrap_mode = 3
-
-[node name="ButtonRelease" type="Button" parent="FinalPanel"]
-layout_mode = 0
-offset_left = 17.5
-offset_top = 163.5
-offset_right = 529.5
-offset_bottom = 219.5
-theme_override_fonts/font = ExtResource("3_t3y64")
-theme_override_font_sizes/font_size = 32
-text = "Libérer"
-text_overrun_behavior = 2
-autowrap_mode = 3
+offset_left = 148.0
+offset_top = 386.0
+offset_right = 390.0
+offset_bottom = 441.0
+text = "Choisir une autre personne"
 
 [node name="SfxPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_ly7hl")
