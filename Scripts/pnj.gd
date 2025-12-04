@@ -43,6 +43,10 @@ func _input(event) -> void:
 		var mouse_event := event as InputEventMouseButton
 		if mouse_event.button_index == MOUSE_BUTTON_RIGHT and mouse_event.pressed:
 			var player := get_tree().get_root().get_node("Map/Player/CharacterBody3D") as Node
+			
+			if Global.interrogatoire_state or not alive:
+				print("Interrogatoire en cours...")
+				return
 
 			if Global.dialogues_left <= 0:
 				print("--- DEBUG INTERRO ---")
