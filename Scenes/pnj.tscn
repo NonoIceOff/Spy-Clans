@@ -46,6 +46,7 @@ refraction_texture = ExtResource("4_haco6")
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_gidp2"]
 material = SubResource("StandardMaterial3D_0pnw5")
 flip_faces = true
+height = 1.2
 
 [node name="PNJ" type="Node3D"]
 
@@ -66,7 +67,7 @@ layers = 524288
 mesh = SubResource("CapsuleMesh_olcgw")
 
 [node name="Outline" type="MeshInstance3D" parent="CharacterBody3D"]
-transform = Transform3D(1.03, 0, 0, 0, 1.03, 0, 0, 0, 1.03, 0, 0, 0)
+transform = Transform3D(1.03, 0, 0, 0, 1.03, 0, 0, 0, 1.03, 0, 0.41848993, 0)
 layers = 524288
 gi_lightmap_texel_scale = 10.0
 mesh = SubResource("CapsuleMesh_gidp2")
