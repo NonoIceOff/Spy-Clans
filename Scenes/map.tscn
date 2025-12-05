@@ -9,7 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://b2yq2oa8lqnsc" path="res://Sounds/perte-de-vie-dans-un-44tabk6i.wav" id="4_ltf6m"]
 [ext_resource type="PackedScene" uid="uid://dlgnwojhaerho" path="res://Scenes/player.tscn" id="6_ie368"]
 [ext_resource type="Texture2D" uid="uid://bt7uo47meto18" path="res://Textures/cross.png" id="9_k63oc"]
-[ext_resource type="Script" uid="uid://ic5g60wckm47" path="res://Scripts/loading_back.gd" id="13_macow"]
+[ext_resource type="Script" path="res://Scripts/loading_back.gd" id="13_macow"]
 [ext_resource type="PackedScene" uid="uid://cudpxak7ruepq" path="res://Textures/street_lamp_01_1k/street_lamp_01_1k.fbx" id="13_x5dfk"]
 [ext_resource type="PackedScene" uid="uid://vw60otvfw2xt" path="res://Scenes/pnj.tscn" id="14_ie368"]
 [ext_resource type="AudioStream" uid="uid://cnbegmfen1a60" path="res://Sounds/bbc_fire---clo_nhu0500808.mp3" id="15_fls3e"]
@@ -22,7 +22,7 @@
 [ext_resource type="PackedScene" uid="uid://30vj554jixit" path="res://Scenes/fire.tscn" id="18_riaky"]
 [ext_resource type="Material" uid="uid://m80rmki4fbox" path="res://sky/night_sky.tres" id="18_vtkp8"]
 [ext_resource type="Script" uid="uid://rw33bmqa2c7u" path="res://Scripts/initialize_pnj.gd" id="21_macow"]
-[ext_resource type="PackedScene" uid="uid://lprt4mjejt63" path="res://Scenes/Components/jail.tscn" id="21_rg57b"]
+[ext_resource type="PackedScene" path="res://Scenes/Components/jail.tscn" id="21_rg57b"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_k63oc"]
 size = Vector3(1000, 0.1, 1000)
@@ -54,9 +54,16 @@ ambient_light_energy = 0.5
 tonemap_mode = 2
 glow_enabled = true
 glow_bloom = 0.2
+fog_enabled = true
+fog_light_color = Color(0, 0, 0, 1)
+fog_light_energy = 0.0
+fog_density = 0.1705
+fog_sky_affect = 0.82
+fog_height = 10.0
+fog_height_density = 0.2245
 volumetric_fog_enabled = true
-volumetric_fog_density = 0.1
-volumetric_fog_albedo = Color(0.38928655, 0.38928664, 0.38928658, 1)
+volumetric_fog_density = 0.19
+volumetric_fog_albedo = Color(0.65012825, 0.6501283, 0.65012825, 1)
 volumetric_fog_sky_affect = 0.785
 
 [node name="Map" type="Node3D"]

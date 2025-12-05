@@ -23,10 +23,20 @@ func _process(delta: float) -> void:
 
 func init_pnj_interrogatoire(interrogation_data: Dictionary) -> void:
 	Global.interrogatoire_state = true
-	# trouver le PNJ dans la scène
+
+	# On récupère l'index de la personne interrogée depuis les données
+	var index = interrogation_data.get("person_index", -1)
+	if index == -1:
+		push_error("[Interrogatoire] ERREUR : person_index manquant dans interrogation_data")
+		return
+
+	# trouver le bon PNJ dans la scène via son person_index
 	var pnjs = get_tree().get_nodes_in_group("PNJ")
+	target_pnj_node = null
 	for pnj in pnjs:
-		if pnj.name_pnj == interrogation_data.get("full_name", ""):
+		# On suppose que ton script pnj.gd a bien : var person_index: int
+		if pnj.person_index == index:
+			# Comme avant : on déplace le parent du node PNJ
 			target_pnj_node = pnj.get_parent()
 			break
 
@@ -36,8 +46,7 @@ func init_pnj_interrogatoire(interrogation_data: Dictionary) -> void:
 		player_node.position = Vector3(-40, 0, -25)
 		start_interrogatoire_cinematic()
 	else:
-		print("[Interrogatoire] ERREUR: PNJ non trouvé pour ", interrogation_data.get("full_name", ""))
-
+		print("[Interrogatoire] ERREUR: PNJ non trouvé pour index ", index)
 
 
 
@@ -63,30 +72,55 @@ func start_interrogatoire_cinematic() -> void:
 	tween.tween_property(player_node, "position", player_target_position, 2.0)
 
 func start_interrogatoire(interrogation_data: Dictionary) -> void:
-	cinematic_camera.current = false
+	# On coupe la caméra cinématique, on repasse sur la vue normale
+	if cinematic_camera:
+		cinematic_camera.current = false
+
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 	current_interrogation = interrogation_data
 	
-	# récupérer le nom du PNJ à interroger
 	var pnj_name = interrogation_data.get("full_name", "")
 	print("Nom du PNJ interrogé :", pnj_name)
 	print("[Interrogatoire] Début pour: ", pnj_name)
-	print("[Interrogatoire] Questions: ", interrogation_data.get("questions", []))
-	
-	# convertir les questions en Array[Dictionary] (car on a décidé comme ça)
-	var questions_array: Array[Dictionary] = []
-	var raw_questions = interrogation_data.get("suspicion_answers", [])
-	for q in raw_questions:
-		if q is Dictionary:
-			questions_array.append({"name": pnj_name, "text": q})
-	
-	Dialogues.start_dialogue(questions_array, false)
+	print("[Interrogatoire] Données complètes: ", interrogation_data)
+
+	var lines: Array[Dictionary] = []
+
+	# 1) Réaction d'ouverture
+	var opening = interrogation_data.get("opening_reaction", "")
+	if typeof(opening) == TYPE_STRING and not opening.is_empty():
+		lines.append({ "name": pnj_name, "text": opening })
+
+	# 2) Réponses de suspicion
+	var susp_array = interrogation_data.get("suspicion_answers", [])
+	for s in susp_array:
+		if typeof(s) == TYPE_STRING and not s.is_empty():
+			lines.append({ "name": pnj_name, "text": s })
+
+	# 3) Répliques supplémentaires (extra)
+	var extra_array = interrogation_data.get("extra_answers", [])
+	for e in extra_array:
+		if typeof(e) == TYPE_STRING and not e.is_empty():
+			lines.append({ "name": pnj_name, "text": e })
+
+	# Si jamais l'IA renvoie autre chose que prévu
+	if lines.is_empty():
+		print("[Interrogatoire] ⚠ Aucune ligne générée, fallback message.")
+		lines.append({
+			"name": pnj_name,
+			"text": "Je n'ai rien de plus à dire."
+		})
+
+	print("[Interrogatoire] Lignes utilisées pour le dialogue :", lines)
+	Dialogues.start_dialogue(lines, false)
+
 
 func _on_dialogue_ended() -> void:
 	if Global.interrogatoire_state == true:
 		Global.interrogatoire_state = false
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		print("Affichage du choix final")
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		InterrogationUi.show_final_choice()
 
 func _on_pnj_in_jail(person_index: int) -> void:

@@ -6,6 +6,8 @@ var highlighted: bool = false
 var name_pnj: String = ""
 var person_index: int = -1
 var alive: bool = true
+var last_interrogation_person_index: int = -1
+
 
 var dialogue_lines: Array[Dictionary] = []
 

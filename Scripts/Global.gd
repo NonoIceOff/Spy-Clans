@@ -12,6 +12,8 @@ var dialogues_left = 3
 var day_index = 1
 var lives = 2
 
+var last_interrogation_person_index: int = -1
+
 var interrogatoire_state = false
 
 # Système de retry
@@ -128,6 +130,9 @@ func generate_round():
 # GENERER INTERROGATOIRE POUR PERSO
 # ---------------------------------------------------------
 func generate_interrogation_for_person(person_index: int, player_journal: String) -> void:
+	# On garde l'index de la personne interrogée pour la suite
+	last_interrogation_person_index = person_index
+
 	if not current.has("people"):
 		push_error("No people in current")
 		return
@@ -142,7 +147,7 @@ func generate_interrogation_for_person(person_index: int, player_journal: String
 	var target = people[person_index]
 	var name = target["full_name"]
 
-	# Dialogue du feu
+	# Chercher le dialogue de campfire associé à ce PNJ
 	var campfire_for_person = {"emotional_state": "", "lines": []}
 	if current.has("campfire_dialogues"):
 		for entry in current["campfire_dialogues"]:
@@ -153,9 +158,12 @@ func generate_interrogation_for_person(person_index: int, player_journal: String
 				}
 				break
 
+	# Vérifier si c'est le tueur
 	var is_killer = (current.get("killer_full_name", "") == name)
 
+	# Construction de l'input pour l'IA (INTERROGATION_INPUT_JSON)
 	var interrogation_input = {
+		"person_index": person_index,   # <-- AJOUT ESSENTIEL !
 		"day_index": current.get("day_index"),
 		"target_person": {
 			"full_name": name,
@@ -171,17 +179,21 @@ func generate_interrogation_for_person(person_index: int, player_journal: String
 		"player_journal": target.get("notes")
 	}
 
-	# 🔍 DEBUG COURT
+	# DEBUG
 	print("[Interrogatoire] Envoi pour :", name)
-	
-	# Émettre le signal pour préparer la cinématique
-	interrogation_in_generation.emit({"full_name": name})
 
+	# On prévient la cinématique (interrogatoire_gestion.gd)
+	interrogation_in_generation.emit({
+		"full_name": name,
+		"person_index": person_index   # <-- encore pour plus de cohérence
+	})
 
-	var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key="+ENV.APIKEY
+	# Préparation requête IA
+	var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=" + ENV.APIKEY
 	var headers = ["Content-Type: application/json"]
 
-	var user_text = Prompt.SYSTEM_PROMPT_INTERROGATION + "\n\nINTERROGATION_INPUT_JSON:\n" + JSON.stringify(interrogation_input)
+	var user_text = Prompt.SYSTEM_PROMPT_INTERROGATION \
+		+ "\n\nINTERROGATION_INPUT_JSON:\n" + JSON.stringify(interrogation_input)
 
 	var body = {
 		"generationConfig": {
