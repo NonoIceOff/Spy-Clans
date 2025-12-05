@@ -89,10 +89,10 @@ func _on_character_button_pressed(index: int) -> void:
 		var rich_text_status := get_node("CharacterInfos/Status") as RichTextLabel
 		var alive = characters[index]["alive"]
 
-		if alive:
-			rich_text_status.text = "[rainbow freq=0.25]EN VIE[/rainbow]"
-		else:
+		if characters[index]["alive"] == false or Global.current["people"][Global.person_index_by_name.get(characters[index]["name"], 0)].get("alive", true) == false:
 			rich_text_status.text = "[color=red]MORT[/color]"
+		else:
+			rich_text_status.text = "[rainbow freq=0.25]EN VIE[/rainbow]"
 
 		var text_edit := get_node("CharacterInfos/TextEdit") as TextEdit
 		text_edit.text = ""
