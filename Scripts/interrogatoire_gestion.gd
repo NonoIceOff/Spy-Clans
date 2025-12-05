@@ -85,6 +85,7 @@ func start_interrogatoire(interrogation_data: Dictionary) -> void:
 func _on_dialogue_ended() -> void:
 	if Global.interrogatoire_state == true:
 		Global.interrogatoire_state = false
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		print("Affichage du choix final")
 		InterrogationUi.show_final_choice()
 
