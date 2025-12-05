@@ -130,6 +130,7 @@ func end_interrogatoire_scene() -> void:
 
 	if if_killer and end_state == "jail":
 		fade_black.get_node("ResultDay").text = "☠️ Le coupable a été arrêté !"
+		Global.end_game()
 	else: # not if_killer and end_state == "liberty"
 		fade_black.get_node("ResultDay").text = "Le coupable est toujours en liberté..."
 		Global.remove_life()
@@ -137,6 +138,9 @@ func end_interrogatoire_scene() -> void:
 	var tween := create_tween()
 	tween.tween_property(fade_black, "modulate:a", 1.0, 1.0)
 	await tween.finished
+
+	if if_killer and end_state == "jail":
+		return
 	
 	# Afficher le résultat pendant 3 secondes
 	await get_tree().create_timer(3.0).timeout

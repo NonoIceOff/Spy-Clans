@@ -365,4 +365,26 @@ func start_new_day() -> void:
 
 
 func remove_life() -> void:
+	get_tree().get_root().get_node("Map/Sounds").play()
 	lives -= 1
+
+
+func end_game() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	game_alive = false
+	# cinématique de fin de partie
+	var cinematic_camera := get_tree().get_root().get_node("Map/CinematicCamera")
+	cinematic_camera.position = Vector3(0, 4, 0)
+	cinematic_camera.current = true
+	# mettre sur la scène menu
+	reset_data()
+	get_tree().change_scene_to_file("res://Scenes/Menu.tscn")
+
+func reset_data() -> void:
+	current = Variable.write_game_state(2)
+	_rebuild_person_index()
+	dialogue_history.clear()
+	dialogues_left = 3
+	day_index = 1
+	lives = 2
+	game_alive = true
