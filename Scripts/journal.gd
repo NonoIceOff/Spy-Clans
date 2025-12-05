@@ -45,13 +45,15 @@ func _ready() -> void:
 
 func _initialize_list() -> void:
 	# créer les boutons sur la liste pour chaque perso
+	print("Initialisation de la liste des personnages dans le journal")
 	for i in range(min(characters.size(), 9)):
 		characters[i]["status"] = "Non défini"
-		print("Création entrée journal pour :", characters[i]["name"])
+		print("[JOURNAL] Création entrée journal pour :", characters[i]["name"])
 		var panel := get_node("CharacterList")
 		var button = Button.new()
 		button.text = characters[i]["name"]
-		if characters[i]["alive"] == false:
+		if characters[i]["alive"] == false or Global.current["people"][Global.person_index_by_name.get(characters[i]["name"], 0)].get("alive", true) == false:
+			print("[JOURNAL] Personnage décédé détecté :", characters[i]["name"])
 			button.self_modulate = Color(1, 0, 0, 1.0)
 		button.add_theme_font_override("font", load("res://Fonts/PixelifySans-VariableFont_wght.ttf"))
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL

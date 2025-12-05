@@ -7,6 +7,7 @@ var current_history_tweens: Array[Tween] = []
 
 @onready var time_label := $TimeLeft
 @onready var dialogues_left_label := $DialoguesLeft
+@onready var lives_label := $Lives
 
 
 
@@ -149,6 +150,8 @@ func _update_time_display() -> void:
 
 	dialogues_left_label.text = "Dialogues restants : %d" % Global.dialogues_left
 	get_node("CurrentWeek").text = "Jour %d" % Global.current.get("day_index", 1)
+
+	lives_label.text = "Vies restantes : %d" % Global.lives
 
 
 func _on_history_skip_button_pressed() -> void:
