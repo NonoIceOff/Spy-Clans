@@ -4,6 +4,8 @@ var target_pnj_node: Node3D = null
 var player_node: Node3D = null
 var current_interrogation: Dictionary = {}
 var cinematic_camera: Camera3D = null
+var end_state = "liberty"
+var pnj_index = -1
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -83,26 +85,39 @@ func start_interrogatoire(interrogation_data: Dictionary) -> void:
 func _on_dialogue_ended() -> void:
 	if Global.interrogatoire_state == true:
 		Global.interrogatoire_state = false
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		print("Affichage du choix final")
 		InterrogationUi.show_final_choice()
 
 func _on_pnj_in_jail(person_index: int) -> void:
 	print("PNJ envoyé en prison, index:", person_index)
+	pnj_index = person_index
+	end_state = "jail"
 	Global.current["people"][person_index]["in_jail"] = true
 	get_tree().get_root().get_node("Map/PNJ"+str(person_index+1)).position = Vector3(-5, 0, 6.5) # position éloignée pour simuler la prison
 	end_interrogatoire_scene()
+	
 
 func _on_pnj_released(person_index: int) -> void:
 	print("PNJ relâché, index:", person_index)
+	pnj_index = person_index
+	end_state = "liberty"
+	print(pnj_index)
 	Global.current["people"][person_index]["in_jail"] = false
 	get_tree().get_root().get_node("Map/PNJ"+str(person_index+1)).position = Global.current["people"][person_index].get("initial_position", Vector3(0,0,0))
 	print("Position initiale rétablie à :", Global.current["people"][person_index]["initial_position"], "à la position :", Global.current["people"][person_index]["initial_position"])
 	end_interrogatoire_scene()
 
 func detect_if_killer(person_index: int) -> bool:
+	print("[INTERRO] Détection du coupable pour l'index de la personne :", person_index)
 	var people = Global.current.get("people", [])
-	if person_index >= 0 and person_index < people.size():
-		return people[person_index].get("is_killer", false)
+	if Global.current.has("killer_full_name"):
+		var killer_name = Global.current["killer_full_name"]
+		print("[INTERRO] Coupable pour ce jour :", killer_name)
+		var person_name = people[person_index].get("full_name", "")
+		print("[INTERRO] Nom de la personne interrogée :", person_name)
+		print("[INTERRO] Correspondance des noms :", str(person_name) == str(killer_name))
+		return str(person_name) == str(killer_name)
 	return false
 
 func end_interrogatoire_scene() -> void:
@@ -110,12 +125,23 @@ func end_interrogatoire_scene() -> void:
 	var fade_black = get_tree().get_root().get_node("Map/UI/FadeBlackTransi") as ColorRect
 	fade_black.visible = true
 	fade_black.modulate.a = 0.0
-	print("Détecter si le coupable a été arrêté pour l'affichage du résultat...",detect_if_killer(current_interrogation.get("person_index", -1)))
-	fade_black.get_node("ResultDay").text = "☠️ Le coupable a été arrêté !" if detect_if_killer(current_interrogation.get("person_index", -1)) else "Le coupable est toujours en liberté..."
+	var if_killer = detect_if_killer(pnj_index)
+	print("Coupable ? ", if_killer)
+	print("État final :", end_state)
+
+	if if_killer and end_state == "jail":
+		fade_black.get_node("ResultDay").text = "☠️ Le coupable a été arrêté !"
+		Global.end_game()
+	else: # not if_killer and end_state == "liberty"
+		fade_black.get_node("ResultDay").text = "Le coupable est toujours en liberté..."
+		Global.remove_life()
 
 	var tween := create_tween()
 	tween.tween_property(fade_black, "modulate:a", 1.0, 1.0)
 	await tween.finished
+
+	if if_killer and end_state == "jail":
+		return
 	
 	# Afficher le résultat pendant 3 secondes
 	await get_tree().create_timer(3.0).timeout

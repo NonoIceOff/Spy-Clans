@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://db8yeocanp3on"]
+[gd_scene load_steps=30 format=3 uid="uid://db8yeocanp3on"]
 
 [ext_resource type="Script" uid="uid://d1ak3yy7w4840" path="res://Scripts/map.gd" id="1_fls3e"]
 [ext_resource type="Texture2D" uid="uid://c43wpnx4ohjw7" path="res://Textures/Ground003_1K-PNG/ground.png" id="2_j4oe2"]
@@ -6,6 +6,7 @@
 [ext_resource type="MeshLibrary" uid="uid://b6s28sscqgft8" path="res://folliage_mesh.tres" id="2_riaky"]
 [ext_resource type="AudioStream" uid="uid://b7w46tjueqldg" path="res://Sounds/804936__kvv_audio__dsgndron_atmosphere-drone-sci-fi-cmaj7-loop_kvv-audio_free.wav" id="2_vtkp8"]
 [ext_resource type="Texture2D" uid="uid://pqm5i1ud2tp4" path="res://Textures/Ground003_1K-PNG/ground_n.png" id="3_k63oc"]
+[ext_resource type="AudioStream" uid="uid://b2yq2oa8lqnsc" path="res://Sounds/perte-de-vie-dans-un-44tabk6i.wav" id="4_ltf6m"]
 [ext_resource type="PackedScene" uid="uid://dlgnwojhaerho" path="res://Scenes/player.tscn" id="6_ie368"]
 [ext_resource type="Texture2D" uid="uid://bt7uo47meto18" path="res://Textures/cross.png" id="9_k63oc"]
 [ext_resource type="Script" uid="uid://ic5g60wckm47" path="res://Scripts/loading_back.gd" id="13_macow"]
@@ -75,6 +76,10 @@ volume_db = -25.0
 autoplay = true
 max_distance = 2005.33
 parameters/looping = true
+
+[node name="Sounds" type="AudioStreamPlayer3D" parent="."]
+stream = ExtResource("4_ltf6m")
+volume_db = -15.0
 
 [node name="folliage" type="GridMap" parent="."]
 mesh_library = ExtResource("2_riaky")

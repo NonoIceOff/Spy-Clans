@@ -10,6 +10,7 @@ var game_alive = false
 var dialogue_history: Array[Dictionary] = []
 var dialogues_left = 3
 var day_index = 1
+var lives = 2
 
 var interrogatoire_state = false
 
@@ -259,6 +260,7 @@ func _on_request_completed(result, response_code, headers, body):
 		text = text.substr(first + 1, last - first - 1).strip_edges()
 
 	var parsed = JSON.parse_string(text)
+
 	if parsed == null:
 		print("JSON renvoyé incorrect :", text)
 		
@@ -294,9 +296,12 @@ func _on_request_completed(result, response_code, headers, body):
 # ---------------------------------------------------------
 func _handle_round_response(game_json: Dictionary) -> void:
 	var meta = game_json.get("meta", {})
+	print("Méta reçue :", meta)
 
 	if meta.has("killer_full_name"):
 		current["killer_full_name"] = meta["killer_full_name"]
+		print("[ROUND] Coupable pour ce jour :", current["killer_full_name"])
+		print("tests ",current)
 
 	if meta.has("new_victim"):
 		var victim = meta["new_victim"]
@@ -357,3 +362,29 @@ func start_new_day() -> void:
 	# Générer UNIQUEMENT la nouvelle histoire et les nouveaux dialogues
 	# Les noms, personnalités, âges et relations restent intacts
 	Global.generate_round()
+
+
+func remove_life() -> void:
+	get_tree().get_root().get_node("Map/Sounds").play()
+	lives -= 1
+
+
+func end_game() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	game_alive = false
+	# cinématique de fin de partie
+	var cinematic_camera := get_tree().get_root().get_node("Map/CinematicCamera")
+	cinematic_camera.position = Vector3(0, 4, 0)
+	cinematic_camera.current = true
+	# mettre sur la scène menu
+	reset_data()
+	get_tree().change_scene_to_file("res://Scenes/Menu.tscn")
+
+func reset_data() -> void:
+	current = Variable.write_game_state(2)
+	_rebuild_person_index()
+	dialogue_history.clear()
+	dialogues_left = 3
+	day_index = 1
+	lives = 2
+	game_alive = true

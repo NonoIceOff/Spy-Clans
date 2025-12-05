@@ -79,6 +79,7 @@ func _on_button_mouse_exit(button: Button) -> void:
 # --- Début d'interrogatoire ------------------------------
 
 func start_interrogation_confirm(person_index: int, person_name: String) -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	current_person_index = person_index
 	current_person_name = person_name
 

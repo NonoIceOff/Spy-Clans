@@ -33,11 +33,10 @@ func _on_round_generated() -> void:
 
 
 func _process(delta: float) -> void:
-	name_text.visible = hover or highlighted
-
 	var player = get_tree().get_first_node_in_group("Player") as Node3D
 	if player:
 		if alive:
+			get_node("../Name").visible = hover or highlighted
 			_update_look_at_player(player)
 		_update_scales_to_distance(player)
 
