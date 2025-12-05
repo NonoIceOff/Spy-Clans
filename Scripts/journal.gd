@@ -250,3 +250,13 @@ func _on_pin_ennemy_button_pressed() -> void:
 		outline.get_active_material(0).albedo_color = Color(1, 0, 0, 1)
 		outline.get_active_material(0).emission = Color(1, 0, 0, 1)
 		quit_journal()
+
+
+func _on_pin_reset_button_pressed() -> void:
+	if character_index_selected >= 0 and character_index_selected < characters.size():
+		print("Uninning ", characters[character_index_selected]["name"], " as Enemy")
+		characters[character_index_selected]["status"] = "Ennemy"
+		var outline = get_tree().get_root().get_node("Map/PNJ"+str(character_index_selected+1)+"/CharacterBody3D/Outline")
+		get_tree().get_root().get_node("Map/PNJ"+str(character_index_selected+1)+"/CharacterBody3D").highlighted = false
+		outline.visible = false
+		quit_journal()
