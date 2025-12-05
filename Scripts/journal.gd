@@ -14,6 +14,8 @@ var characters: Array[Dictionary] = [
 ]
 
 @onready var character_list := $CharacterList
+@onready var history_infos := $HistoryInfos
+@onready var history_label := $HistoryInfos/RichTextLabel
 
 
 var character_index_selected: int = -1
@@ -60,6 +62,39 @@ func _initialize_list() -> void:
 
 func _on_round_generated() -> void:
 	_refresh_character_list()
+	
+func _show_day_story() -> void:
+	var story = Global.current.get("day_story", "")
+	if story == "":
+		story = "Aucune histoire pour ce jour."
+
+	history_label.text = story
+
+	# On récupère le panneau d'infos perso pour se caler dessus
+	if has_node("CharacterInfos"):
+		var char_infos := $CharacterInfos as Control
+		var hist_infos := history_infos as Control
+
+		# Même position / taille que le panneau personnage
+		hist_infos.position = char_infos.position
+		hist_infos.size = char_infos.size
+
+		# Optionnel : même ancres si tu utilises l’anchor
+		hist_infos.anchor_left = char_infos.anchor_left
+		hist_infos.anchor_top = char_infos.anchor_top
+		hist_infos.anchor_right = char_infos.anchor_right
+		hist_infos.anchor_bottom = char_infos.anchor_bottom
+
+		# On cache les infos perso si tu veux un seul panneau à la fois
+		char_infos.visible = false
+
+	# On affiche le panneau d'historique
+	history_infos.visible = true
+
+
+func _on_DayStoryButton_pressed() -> void:
+	_show_day_story()
+
 
 func _refresh_character_list() -> void:
 	# rafraîchir l'affichage des boutons

@@ -5,7 +5,6 @@
 [ext_resource type="FontFile" uid="uid://dm472n6vwgn6h" path="res://Fonts/PixelifySans-VariableFont_wght.ttf" id="3_okafp"]
 
 [node name="Journal" type="Control"]
-visible = false
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
@@ -29,6 +28,15 @@ offset_right = 336.0
 offset_bottom = 528.0
 theme_override_constants/separation = 8
 alignment = 1
+
+[node name="DayStoryButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 136.0
+offset_top = 167.0
+offset_right = 336.0
+offset_bottom = 195.0
+theme_override_fonts/font = ExtResource("3_okafp")
+text = "Histoire du jours"
 
 [node name="HistoryButton" type="Button" parent="."]
 layout_mode = 0
@@ -136,6 +144,7 @@ offset_bottom = 504.0
 theme_override_colors/default_color = Color(0, 0, 0, 1)
 bbcode_enabled = true
 
+[connection signal="pressed" from="DayStoryButton" to="." method="_on_DayStoryButton_pressed"]
 [connection signal="pressed" from="HistoryButton" to="." method="_on_history_button_pressed"]
 [connection signal="text_changed" from="CharacterInfos/TextEdit" to="." method="_on_text_edit_text_changed"]
 [connection signal="pressed" from="CharacterInfos/LaunchDialogue" to="." method="_on_launch_dialogue_pressed"]
