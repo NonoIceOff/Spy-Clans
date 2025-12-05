@@ -10,6 +10,7 @@ var game_alive = false
 var dialogue_history: Array[Dictionary] = []
 var dialogues_left = 3
 var day_index = 1
+var lives = 2
 
 var interrogatoire_state = false
 
@@ -259,6 +260,7 @@ func _on_request_completed(result, response_code, headers, body):
 		text = text.substr(first + 1, last - first - 1).strip_edges()
 
 	var parsed = JSON.parse_string(text)
+
 	if parsed == null:
 		print("JSON renvoyé incorrect :", text)
 		
@@ -294,9 +296,12 @@ func _on_request_completed(result, response_code, headers, body):
 # ---------------------------------------------------------
 func _handle_round_response(game_json: Dictionary) -> void:
 	var meta = game_json.get("meta", {})
+	print("Méta reçue :", meta)
 
 	if meta.has("killer_full_name"):
 		current["killer_full_name"] = meta["killer_full_name"]
+		print("[ROUND] Coupable pour ce jour :", current["killer_full_name"])
+		print("tests ",current)
 
 	if meta.has("new_victim"):
 		var victim = meta["new_victim"]
@@ -357,3 +362,7 @@ func start_new_day() -> void:
 	# Générer UNIQUEMENT la nouvelle histoire et les nouveaux dialogues
 	# Les noms, personnalités, âges et relations restent intacts
 	Global.generate_round()
+
+
+func remove_life() -> void:
+	lives -= 1
